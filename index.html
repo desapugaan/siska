@@ -33,7 +33,7 @@
             </div>
             <form onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Username / NIP</label>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1.5">Username</label>
                     <input type="text" id="loginUser" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:outline-none text-sm bg-slate-50/50 transition font-medium" placeholder="Masukkan username...">
                 </div>
                 <div>
@@ -143,7 +143,7 @@
             </header>
 
             <div id="mainContentArea" class="p-4 md:p-8 space-y-6">
-                <!-- 1. PUGAAN SMART (RINGKASAN) -->
+                <!-- 1. PUGAAN SMART -->
                 <div id="view-ringkasan" class="space-y-6">
                     <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white p-6 md:p-8 rounded-3xl shadow-xl shadow-emerald-900/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
                         <div class="absolute right-0 bottom-0 opacity-10 transform translate-x-8 translate-y-8">
@@ -322,8 +322,8 @@
                             </div>
                         </div>
 
-                        <div id="tabelContainerScroll" class="overflow-x-auto scroll-smooth">
-                            <table class="w-full text-left text-xs border-collapse">
+                        <div id="tabelContainerScroll" class="overflow-x-auto scroll-smooth w-full">
+                            <table class="w-full text-left text-xs border-collapse min-w-[1250px]">
                                 <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[11px] tracking-wider">
                                     <tr>
                                         <th class="py-4 px-5 whitespace-nowrap">No. KK</th>
@@ -613,7 +613,7 @@
                             <table class="w-full text-left text-sm">
                                 <thead class="bg-slate-50 border-b border-slate-200 font-bold text-slate-600 uppercase text-xs">
                                     <tr>
-                                        <th class="p-4">Nama & NIP</th>
+                                        <th class="p-4">Nama</th>
                                         <th class="p-4">Jabatan</th>
                                         <th class="p-4">Kontak</th>
                                         <th class="p-4">Status</th>
@@ -669,6 +669,16 @@
         let isFullscreenMode = false;
         const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
 
+        // Cek status login saat halaman dimuat/di-refresh
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('siskapuga_logged_in') === 'true') {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('hidden');
+                document.getElementById('bottomNav').classList.remove('hidden');
+                tarikDataDariGoogleSheets();
+            }
+        });
+
         function toggleMobileSidebar() {
             const sidebar = document.getElementById('sidebarNav');
             const overlay = document.getElementById('sidebarOverlay');
@@ -691,12 +701,12 @@
 
             isFullscreenMode = !isFullscreenMode;
             if (isFullscreenMode) {
-                card.classList.add('fixed', 'inset-4', 'z-50', 'overflow-y-auto', 'my-0');
+                card.classList.add('fixed', 'inset-2', 'z-50', 'overflow-y-auto', 'my-0', 'max-w-none');
                 sidebar.classList.add('hidden');
                 btnText.innerText = "Keluar Layar Penuh";
                 icon.setAttribute('data-lucide', 'minimize');
             } else {
-                card.classList.remove('fixed', 'inset-4', 'z-50', 'overflow-y-auto', 'my-0');
+                card.classList.remove('fixed', 'inset-2', 'z-50', 'overflow-y-auto', 'my-0', 'max-w-none');
                 sidebar.classList.remove('hidden');
                 btnText.innerText = "Layar Penuh";
                 icon.setAttribute('data-lucide', 'maximize');
@@ -709,17 +719,19 @@
             const u = document.getElementById('loginUser').value.trim();
             const p = document.getElementById('loginPass').value.trim();
             
-            if(u.toLowerCase() === "hamid" && p.length > 0) {
+            if(u.toLowerCase() === "hamid" && p === "Pugaandesa123@") {
+                localStorage.setItem('siskapuga_logged_in', 'true');
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('appContainer').classList.remove('hidden');
                 document.getElementById('bottomNav').classList.remove('hidden');
                 tarikDataDariGoogleSheets();
             } else {
-                alert("Username atau kata sandi salah. Gunakan username: hamid");
+                alert("Username atau kata sandi salah. Gunakan username: hamid dan sandi yang benar.");
             }
         }
 
         function handleLogout() {
+            localStorage.removeItem('siskapuga_logged_in');
             document.getElementById('appContainer').classList.add('hidden');
             document.getElementById('bottomNav').classList.add('hidden');
             document.getElementById('loginPage').classList.remove('hidden');
@@ -1097,7 +1109,7 @@
                         </td>
                         <td class="py-4 px-5 text-slate-700 font-semibold whitespace-nowrap">${w.statusPerkawinan}</td>
                         <td class="py-4 px-5 text-slate-700 font-semibold whitespace-nowrap">${w.hubunganKK}</td>
-                        <td class="py-4 px-5 text-slate-800 text-xs font-medium leading-relaxed">
+                        <td class="py-4 px-5 text-slate-800 text-xs font-medium leading-relaxed whitespace-nowrap">
                             Ayah: <span class="font-bold">${w.ayah || '-'}</span><br>
                             Ibu: <span class="font-bold">${w.ibu || '-'}</span>
                         </td>
