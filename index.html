@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISKAPUGA - Sistem Informasi Kependudukan Pugaan</title>
+    <title>SISKAPUGA - Sistem Informasi Kependudukan Desa Pugaan</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -14,81 +14,57 @@
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased">
 
-    <!-- HALAMAN LOGIN -->
-    <div id="loginPage" class="min-h-screen flex items-center justify-center bg-emerald-900 px-4">
-        <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden p-8">
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mb-4">
-                    <i data-lucide="landmark" class="w-8 h-8"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-900">SISKAPUGA</h2>
-                <p class="text-sm text-gray-500 mt-1">Sistem Informasi Kependudukan Pugaan</p>
-            </div>
-            <form onsubmit="handleLogin(event)" class="space-y-5">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Username / NIP</label>
-                    <input type="text" id="loginUser" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" value="Pugaan">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Kata Sandi</label>
-                    <input type="password" id="loginPass" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" value="Pugaandesa123@">
-                </div>
-                <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-3 rounded-lg transition duration-200 text-sm">
-                    Masuk ke Sistem
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- APLIKASI UTAMA -->
-    <div id="appContainer" class="hidden flex h-screen overflow-hidden">
+    <!-- APLIKASI UTAMA (LOGIN OTOMATIS: HAMID) -->
+    <div id="appContainer" class="flex flex-col md:flex-row h-screen overflow-hidden">
         
         <!-- SIDEBAR -->
-        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col justify-between hidden md:flex">
+        <aside class="w-full md:w-64 bg-white border-r border-gray-200 flex flex-col justify-between shrink-0">
             <div>
-                <div class="p-6 flex items-center gap-3 border-b border-gray-100">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold">
-                        <i data-lucide="landmark" class="w-5 h-5"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-gray-900 leading-tight">SISKAPUGA</h1>
-                        <p class="text-xs text-gray-500">Desa Pugaan</p>
+                <div class="p-4 md:p-6 flex items-center justify-between md:justify-start gap-3 border-b border-gray-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold">
+                            <i data-lucide="landmark" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h1 class="font-bold text-gray-900 leading-tight">SISKAPUGA</h1>
+                            <p class="text-xs text-gray-500">Desa Pugaan</p>
+                        </div>
                     </div>
                 </div>
 
-                <nav class="p-4 space-y-1 text-sm font-medium">
-                    <a href="#" onclick="switchTab('ringkasan')" id="nav-ringkasan" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-emerald-700 bg-emerald-50 transition">
+                <nav class="p-3 md:p-4 space-y-1 text-sm font-medium flex md:flex-col overflow-x-auto md:overflow-x-visible whitespace-nowrap">
+                    <a href="#" onclick="switchTab('ringkasan')" id="nav-ringkasan" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-emerald-700 bg-emerald-50 transition">
                         <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Ringkasan
                     </a>
-                    <a href="#" onclick="switchTab('penduduk')" id="nav-penduduk" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <a href="#" onclick="switchTab('penduduk')" id="nav-penduduk" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i data-lucide="users" class="w-4 h-4"></i> Data Kependudukan
                     </a>
-                    <a href="#" onclick="switchTab('keluarga')" id="nav-keluarga" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <a href="#" onclick="switchTab('keluarga')" id="nav-keluarga" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i data-lucide="home" class="w-4 h-4"></i> Data Keluarga (KK)
                     </a>
-                    <a href="#" onclick="switchTab('kelahiran')" id="nav-kelahiran" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <a href="#" onclick="switchTab('kelahiran')" id="nav-kelahiran" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i data-lucide="baby" class="w-4 h-4"></i> Kelahiran
                     </a>
-                    <a href="#" onclick="switchTab('kematian')" id="nav-kematian" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <a href="#" onclick="switchTab('kematian')" id="nav-kematian" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i data-lucide="user-x" class="w-4 h-4"></i> Kematian
                     </a>
-                    <a href="#" onclick="switchTab('pindah')" id="nav-pindah" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <a href="#" onclick="switchTab('pindah')" id="nav-pindah" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i data-lucide="arrow-right-left" class="w-4 h-4"></i> Pindah / Datang
                     </a>
-                    <a href="#" onclick="switchTab('statistik')" id="nav-statistik" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <a href="#" onclick="switchTab('statistik')" id="nav-statistik" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i data-lucide="pie-chart" class="w-4 h-4"></i> Statistik & Grafik
                     </a>
-                    <a href="#" onclick="switchTab('surat')" id="nav-surat" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <a href="#" onclick="switchTab('surat')" id="nav-surat" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i data-lucide="file-text" class="w-4 h-4"></i> Surat Menyurat
                     </a>
-                    <a href="#" onclick="switchTab('perangkat')" id="nav-perangkat" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
+                    <a href="#" onclick="switchTab('perangkat')" id="nav-perangkat" class="flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition">
                         <i data-lucide="shield" class="w-4 h-4"></i> Perangkat Desa
                     </a>
                 </nav>
             </div>
 
             <!-- Profil Hamid -->
-            <div class="p-4 border-t border-gray-100 flex items-center justify-between">
+            <div class="p-4 border-t border-gray-100 hidden md:flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
                         H
@@ -98,32 +74,34 @@
                         <p class="text-xs text-gray-500">ADMIN PUGAAN</p>
                     </div>
                 </div>
-                <button onclick="handleLogout()" class="text-gray-400 hover:text-red-600 transition" title="Keluar">
-                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                <button onclick="tarikDataDariGoogleSheets()" class="text-emerald-600 hover:text-emerald-800 transition" title="Sinkronkan Data">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                 </button>
             </div>
         </aside>
 
         <!-- MAIN CONTENT -->
         <main class="flex-1 flex flex-col overflow-y-auto">
-            <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8">
-                <h2 id="pageTitle" class="text-lg font-semibold text-gray-800">Ringkasan</h2>
-                <div class="flex items-center gap-4 text-sm text-gray-600">
-                    <span>14/10/2026</span>
+            <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-8 shrink-0">
+                <h2 id="pageTitle" class="text-base md:text-lg font-semibold text-gray-800">Ringkasan</h2>
+                <div class="flex items-center gap-3 text-xs md:text-sm text-gray-600">
+                    <button onclick="tarikDataDariGoogleSheets()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-lg font-semibold text-xs flex items-center gap-1.5">
+                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Sinkronkan Data Cloud
+                    </button>
                     <span class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-xs">H</span>
                 </div>
             </header>
 
-            <div class="p-8">
+            <div class="p-4 md:p-8 space-y-6">
                 <!-- 1. RINGKASAN -->
                 <div id="view-ringkasan" class="space-y-6">
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex justify-between items-center">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
                             <span class="inline-block px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-md mb-2">Desa Mandiri & Terintegrasi</span>
-                            <h3 class="text-lg font-bold text-gray-900">Selamat Datang di Sistem Informasi Kependudukan Desa Pugaan</h3>
-                            <p class="text-sm text-gray-500 mt-1"><b>SISKAPUGA</b> • Administrator: <b>Hamid</b></p>
+                            <h3 class="text-base md:text-lg font-bold text-gray-900">Selamat Datang di Sistem Informasi Kependudukan Desa Pugaan</h3>
+                            <p class="text-xs md:text-sm text-gray-500 mt-1"><b>SISKAPUGA</b> • Administrator: <b>Hamid</b></p>
                         </div>
-                        <div class="text-right">
+                        <div class="text-left md:text-right">
                             <p class="text-xs text-gray-400">Wilayah Kecamatan Pugaan</p>
                             <p class="text-sm font-bold text-gray-800">KAB. TABALONG</p>
                         </div>
@@ -169,16 +147,19 @@
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
                         <div>
                             <h3 class="font-bold text-gray-800">Manajemen Data Kependudukan</h3>
-                            <p class="text-xs text-gray-500">Impor file Excel `.xlsx`, tambah manual, atau ekspor data ke Google Sheets Drive.</p>
+                            <p class="text-xs text-gray-500">Impor file Excel `.xlsx`, sinkronkan dari Google Sheets, atau tambah manual.</p>
                         </div>
-                        <div class="flex items-center gap-3 flex-wrap">
-                            <button onclick="eksporKeGoogleSheets()" class="bg-blue-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
-                                <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i> Ekspor ke Google Sheets
+                        <div class="flex items-center gap-2 flex-wrap w-full md:w-auto">
+                            <button onclick="tarikDataDariGoogleSheets()" class="bg-emerald-600 text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-emerald-700 transition flex items-center gap-1.5">
+                                <i data-lucide="cloud-download" class="w-3.5 h-3.5"></i> Tarik Data Cloud
                             </button>
-                            <input type="file" id="excelFile" accept=".xlsx, .xls" class="text-xs text-gray-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700">
-                            <button onclick="importExcel()" class="bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">Impor Excel</button>
-                            <button onclick="toggleFormTambah()" class="bg-amber-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-amber-700 transition flex items-center gap-1.5">
-                                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Tambah Manual
+                            <button onclick="eksporKeGoogleSheets()" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-1.5">
+                                <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i> Simpan ke Cloud
+                            </button>
+                            <input type="file" id="excelFile" accept=".xlsx, .xls" class="text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-700">
+                            <button onclick="importExcel()" class="bg-gray-800 text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-gray-900 transition">Impor Excel</button>
+                            <button onclick="toggleFormTambah()" class="bg-amber-600 text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-amber-700 transition flex items-center gap-1">
+                                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Tambah
                             </button>
                         </div>
                     </div>
@@ -256,7 +237,7 @@
 
                     <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                         <div class="p-5 border-b border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
-                            <h3 class="font-bold text-gray-800">Daftar Penduduk Desa Pugaan</h3>
+                            <h3 class="font-bold text-gray-800">Daftar Penduduk Desa Pugaan (Urut RT)</h3>
                             
                             <!-- FITUR PENCARIAN -->
                             <div class="flex items-center gap-3 w-full md:w-auto">
@@ -288,7 +269,7 @@
                                 </thead>
                                 <tbody id="tabelPendudukBody" class="divide-y divide-gray-100">
                                     <tr>
-                                        <td colspan="10" class="p-8 text-center text-gray-400">Belum ada data penduduk. Silakan pilih file Excel atau tambah manual.</td>
+                                        <td colspan="10" class="p-8 text-center text-gray-400">Belum ada data penduduk. Silakan tarik dari Cloud atau Impor Excel.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -298,7 +279,6 @@
 
                 <!-- 3. DATA KELUARGA (KK) -->
                 <div id="view-keluarga" class="hidden space-y-6">
-                    <!-- REKAPITULASI JUMLAH KK PER RT -->
                     <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                         <h3 class="font-bold text-gray-800 mb-1">Rekapitulasi Jumlah Kartu Keluarga (KK) per RT</h3>
                         <p class="text-xs text-gray-500 mb-4">Jumlah total KK yang terdaftar di setiap RT Desa Pugaan.</p>
@@ -336,7 +316,7 @@
                                 </thead>
                                 <tbody id="tabelKKBody" class="divide-y">
                                     <tr>
-                                        <td colspan="3" class="p-6 text-center text-gray-400">Silakan impor data penduduk terlebih dahulu.</td>
+                                        <td colspan="3" class="p-6 text-center text-gray-400">Silakan muat data penduduk terlebih dahulu.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -347,11 +327,11 @@
                 <!-- 4. KELAHIRAN -->
                 <div id="view-kelahiran" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm max-w-2xl">
-                        <h3 class="font-bold text-gray-800 mb-4">Catat Kelahiran Baru (Otomatis Gabung KK & Data Penduduk)</h3>
+                        <h3 class="font-bold text-gray-800 mb-4">Catat Kelahiran Baru (Otomatis Gabung Tepat di Bawah KK Orang Tua)</h3>
                         <form onsubmit="catatKelahiran(event)" class="space-y-4 text-xs">
                             <div>
                                 <label class="block font-medium text-gray-700 mb-1">Nomor Kartu Keluarga (KK) Orang Tua</label>
-                                <input type="text" id="bayiKK" required class="w-full px-3 py-2 border rounded-lg" placeholder="Masukkan No KK (wajib sesuai data KK yang ada)">
+                                <input type="text" id="bayiKK" required class="w-full px-3 py-2 border rounded-lg" placeholder="Masukkan No KK yang sudah terdaftar">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
@@ -552,11 +532,16 @@
         lucide.createIcons();
 
         let dataPenduduk = [];
+        const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
+
+        // Auto tarik data cloud saat pertama kali dibuka di perangkat manapun (Laptop / HP)
+        window.onload = function() {
+            tarikDataDariGoogleSheets(true);
+        };
 
         function parseExcelDate(val) {
             if (!val) return "";
             let strVal = String(val).trim();
-
             if (!isNaN(strVal) && strVal !== "") {
                 let excelDate = XLSX.SSF.parse_date_code(parseFloat(strVal));
                 if (excelDate) {
@@ -572,20 +557,12 @@
         function hitungUmur(tanggalLahrStr) {
             let tglFormatted = parseExcelDate(tanggalLahrStr);
             if (!tglFormatted) return 0;
-            
-            let parts;
-            if (tglFormatted.includes('/')) {
-                parts = tglFormatted.split('/');
-            } else if (tglFormatted.includes('-')) {
-                parts = tglFormatted.split('-');
-            } else {
-                return 0;
-            }
+            let parts = tglFormatted.includes('/') ? tglFormatted.split('/') : (tglFormatted.includes('-') ? tglFormatted.split('-') : null);
+            if (!parts) return 0;
 
             let hari = parseInt(parts[0]);
             let bulan = parseInt(parts[1]) - 1;
             let tahun = parseInt(parts[2]);
-
             if (isNaN(hari) || isNaN(bulan) || isNaN(tahun)) return 0;
 
             let tglLahir = new Date(tahun, bulan, hari);
@@ -594,22 +571,67 @@
             let today = new Date();
             let umur = today.getFullYear() - tglLahir.getFullYear();
             let m = today.getMonth() - tglLahir.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < tglLahir.getDate())) {
-                umur--;
-            }
+            if (m < 0 || (m === 0 && today.getDate() < tglLahir.getDate())) umur--;
             return umur >= 0 ? umur : 0;
         }
 
+        function urutkanDataBerdasarkanRT() {
+            dataPenduduk.sort((a, b) => {
+                let rtA = (a.rt || "").toUpperCase();
+                let rtB = (b.rt || "").toUpperCase();
+                if (rtA !== rtB) return rtA.localeCompare(rtB);
+                return (a.kk || "").localeCompare(b.kk || "");
+            });
+        }
+
+        async function tarikDataDariGoogleSheets(isSilent = false) {
+            try {
+                if (!isSilent) alert("Mengambil data terbaru dari Cloud Google Sheets...");
+                let response = await fetch(urlWebApps);
+                let result = await response.json();
+                if (Array.isArray(result) && result.length > 0) {
+                    dataPenduduk = result;
+                    urutkanDataBerdasarkanRT();
+                    renderTabelPenduduk();
+                    renderTabelKK();
+                    if (!isSilent) alert("Berhasil menyinkronkan data dari Cloud!");
+                } else if (!isSilent) {
+                    alert("Cloud kosong atau belum ada data tersimpan.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                if (!isSilent) alert("Gagal mengambil data dari Cloud.");
+            }
+        }
+
+        async function eksporKeGoogleSheets() {
+            if (dataPenduduk.length === 0) {
+                alert("Belum ada data penduduk untuk disimpan!");
+                return;
+            }
+            urutkanDataBerdasarkanRT();
+            try {
+                alert("Menyimpan dan mengurutkan data ke Google Sheets Drive...");
+                await fetch(urlWebApps, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(dataPenduduk)
+                });
+                alert("Berhasil! Data tersimpan rapi dan terurut per RT di Google Sheets.");
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan saat menyimpan ke Google Sheets.");
+            }
+        }
+
         function toggleFormTambah() {
-            const form = document.getElementById('formTambahContainer');
-            form.classList.toggle('hidden');
+            document.getElementById('formTambahContainer').classList.toggle('hidden');
         }
 
         function tambahPendudukManual(e) {
             e.preventDefault();
             let tglLahir = document.getElementById('manTglLahir').value;
-            let umurOtomatis = hitungUmur(tglLahir);
-
             dataPenduduk.push({
                 kk: document.getElementById('manKK').value,
                 rt: document.getElementById('manRT').value,
@@ -618,7 +640,7 @@
                 jk: document.getElementById('manJk').value,
                 tempatLahir: document.getElementById('manTempatLahir').value,
                 tanggalLahir: tglLahir,
-                umur: umurOtomatis,
+                umur: hitungUmur(tglLahir),
                 agama: document.getElementById('manAgama').value,
                 pendidikan: document.getElementById('manPendidikan').value,
                 pekerjaan: document.getElementById('manPekerjaan').value,
@@ -629,34 +651,12 @@
                 status: "Aktif"
             });
 
+            urutkanDataBerdasarkanRT();
             renderTabelPenduduk();
             renderTabelKK();
-            alert("Data penduduk manual berhasil ditambahkan!");
+            eksporKeGoogleSheets(); // Auto sinkron ke cloud
             document.getElementById('formTambahContainer').classList.add('hidden');
             e.target.reset();
-        }
-
-        async function eksporKeGoogleSheets() {
-            if (dataPenduduk.length === 0) {
-                alert("Belum ada data penduduk untuk diekspor!");
-                return;
-            }
-
-            const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
-            try {
-                alert("Sedang mengirim dan menyimpan data ke Google Sheets Drive...");
-                await fetch(urlWebApps, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(dataPenduduk)
-                });
-                
-                alert("Berhasil! Data penduduk berhasil dikirim dan disimpan ke Google Sheets Drive.");
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Terjadi kesalahan saat mengekspor data ke Google Sheets.");
-            }
         }
 
         function importExcel() {
@@ -668,20 +668,13 @@
 
             const file = fileInput.files[0];
             const reader = new FileReader();
-
             reader.onload = function(e) {
                 try {
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
-                    
                     let targetSheetName = workbook.SheetNames.find(name => name.toLowerCase().includes('keluarga')) || workbook.SheetNames[0];
                     const worksheet = workbook.Sheets[targetSheetName];
                     const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
-
-                    if (!rows || rows.length === 0) {
-                        alert("File Excel kosong.");
-                        return;
-                    }
 
                     let newPendudukList = [];
                     let lastValidKK = "";
@@ -705,14 +698,10 @@
                         let colAyah = String(r[12] || "").trim();
                         let colIbu = String(r[13] || "").trim();
 
-                        if (colKK !== "" && !colKK.toLowerCase().includes('no')) {
-                            lastValidKK = colKK;
-                        }
+                        if (colKK !== "" && !colKK.toLowerCase().includes('no')) lastValidKK = colKK;
 
                         if ((colNik.length > 4 || colNama.length > 2) && !colNama.toLowerCase().includes('nama')) {
                             let tglLahirFormatted = parseExcelDate(colTglLahirRaw);
-                            let umurOtomatis = hitungUmur(tglLahirFormatted);
-                            
                             newPendudukList.push({
                                 kk: lastValidKK,
                                 rt: colRT !== "" ? colRT : "RT 01",
@@ -722,7 +711,7 @@
                                 agama: colAgama !== "" ? colAgama : "ISLAM",
                                 tempatLahir: colTempatLahir,
                                 tanggalLahir: tglLahirFormatted,
-                                umur: umurOtomatis,
+                                umur: hitungUmur(tglLahirFormatted),
                                 pendidikan: colPendidikan,
                                 pekerjaan: colPekerjaan,
                                 statusPerkawinan: colStatusKawin,
@@ -736,36 +725,20 @@
 
                     if (newPendudukList.length > 0) {
                         dataPenduduk = newPendudukList;
+                        urutkanDataBerdasarkanRT();
                         renderTabelPenduduk();
                         renderTabelKK();
-                        alert(`Berhasil mengimpor ${dataPenduduk.length} data penduduk lengkap dengan perhitungan umur otomatis!`);
+                        eksporKeGoogleSheets(); // Auto sinkron ke cloud
+                        alert(`Berhasil mengimpor dan mengurutkan ${dataPenduduk.length} data penduduk!`);
                     } else {
                         alert("Tidak ada baris data valid yang terbaca.");
                     }
-
                 } catch (err) {
                     console.error(err);
                     alert("Terjadi kesalahan saat membaca file Excel.");
                 }
             };
-
             reader.readAsArrayBuffer(file);
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            if(document.getElementById('loginUser').value === "Pugaan" && document.getElementById('loginPass').value === "Pugaandesa123@") {
-                document.getElementById('loginPage').classList.add('hidden');
-                document.getElementById('appContainer').classList.remove('hidden');
-                renderTabelPenduduk();
-            } else {
-                alert("Login salah! Gunakan Username: Pugaan & Password: Pugaandesa123@");
-            }
-        }
-
-        function handleLogout() {
-            document.getElementById('appContainer').classList.add('hidden');
-            document.getElementById('loginPage').classList.remove('hidden');
         }
 
         function switchTab(tabId) {
@@ -773,10 +746,10 @@
             tabs.forEach(t => {
                 document.getElementById('view-' + t).classList.add('hidden');
                 const btn = document.getElementById('nav-' + t);
-                if(btn) btn.className = "flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition";
+                if(btn) btn.className = "flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition";
             });
             document.getElementById('view-' + tabId).classList.remove('hidden');
-            document.getElementById('nav-' + tabId).className = "flex items-center gap-3 px-4 py-2.5 rounded-lg text-emerald-700 bg-emerald-50 transition";
+            document.getElementById('nav-' + tabId).className = "flex items-center gap-3 px-3 md:px-4 py-2.5 rounded-lg text-emerald-700 bg-emerald-50 transition";
             
             if(tabId === 'statistik') updateStatistik();
             if(tabId === 'keluarga') renderTabelKK();
@@ -824,7 +797,7 @@
             tbody.innerHTML = '';
             
             if(listData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-gray-400">Tidak ada data penduduk yang cocok dengan pencarian.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-gray-400">Tidak ada data penduduk.</td></tr>`;
                 document.getElementById('totalPendudukCount').innerText = `Total: 0 Penduduk`;
                 return;
             }
@@ -879,15 +852,10 @@
                 kkPerRt[cleanRt].add(w.kk);
             });
 
-            let totalRt1 = kkPerRt['RT 01'].size;
-            let totalRt2 = kkPerRt['RT 02'].size;
-            let totalRt3 = kkPerRt['RT 03'].size;
-            let totalAllKK = Object.keys(kkMap).length;
-
-            document.getElementById('rekapRt01').innerText = totalRt1 + " KK";
-            document.getElementById('rekapRt02').innerText = totalRt2 + " KK";
-            document.getElementById('rekapRt03').innerText = totalRt3 + " KK";
-            document.getElementById('rekapTotalKK').innerText = totalAllKK + " KK";
+            document.getElementById('rekapRt01').innerText = kkPerRt['RT 01'].size + " KK";
+            document.getElementById('rekapRt02').innerText = kkPerRt['RT 02'].size + " KK";
+            document.getElementById('rekapRt03').innerText = kkPerRt['RT 03'].size + " KK";
+            document.getElementById('rekapTotalKK').innerText = Object.keys(kkMap).length + " KK";
 
             for(let noKK in kkMap) {
                 tbody.innerHTML += `
@@ -927,9 +895,13 @@
                 status: "Aktif"
             });
 
+            // Otomatis urutkan agar bayi langsung bergabung di bawah No KK orang tuanya
+            urutkanDataBerdasarkanRT();
             renderTabelPenduduk();
             renderTabelKK();
-            alert(`Kelahiran ${nama} berhasil dicatat dan otomatis tergabung ke Data Keluarga (KK: ${kkInput}) serta Data Kependudukan! Form F-2.01 siap diterbitkan.`);
+            eksporKeGoogleSheets(); // Auto sinkron ke cloud
+
+            alert(`Kelahiran ${nama} berhasil dicatat & otomatis tergabung di bawah No KK ${kkInput}!`);
             switchTab('penduduk');
             e.target.reset();
         }
@@ -939,7 +911,8 @@
             const keyword = document.getElementById('matiNama').value.toUpperCase();
             dataPenduduk.forEach(w => { if(w.nama.includes(keyword) || w.nik === keyword) w.status = "Meninggal"; });
             renderTabelPenduduk();
-            alert("Data kematian dicatat. Status penduduk diperbarui.");
+            eksporKeGoogleSheets();
+            alert("Data kematian dicatat & disinkronkan.");
             switchTab('penduduk');
         }
 
@@ -948,7 +921,8 @@
             const nik = document.getElementById('pindahNik').value;
             dataPenduduk.forEach(w => { if(w.nik === nik || w.nama.includes(nik.toUpperCase())) w.status = "Pindah Pergi"; });
             renderTabelPenduduk();
-            alert("Pindah pergi dicatat. Formulir F-1.27 diterbitkan.");
+            eksporKeGoogleSheets();
+            alert("Pindah pergi dicatat.");
             switchTab('penduduk');
         }
 
@@ -961,8 +935,10 @@
                 pendidikan: "SLTA/SEDERAJAT", pekerjaan: "WIRASWASTA", statusPerkawinan: "KAWIN",
                 hubunganKK: "ANGGOTA KELUARGA", ayah: "-", ibu: "-", status: "Aktif"
             });
+            urutkanDataBerdasarkanRT();
             renderTabelPenduduk();
             renderTabelKK();
+            eksporKeGoogleSheets();
             alert(`Penduduk baru ${nama} berhasil ditambahkan.`);
             switchTab('penduduk');
         }
@@ -990,7 +966,6 @@
             document.getElementById('statPerempuan').innerText = perempuan;
             document.getElementById('statRataUmur').innerText = rataUmur + " Thn";
 
-            // Update Grafik Batang
             let persenLaki = total > 0 ? Math.round((laki / total) * 100) : 0;
             let persenPerempuan = total > 0 ? Math.round((perempuan / total) * 100) : 0;
 
