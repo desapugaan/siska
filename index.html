@@ -121,9 +121,6 @@
                     <h2 id="pageTitle" class="text-base md:text-lg font-bold text-slate-800 tracking-tight">Ringkasan</h2>
                 </div>
                 <div class="flex items-center gap-2 md:gap-3 text-xs">
-                    <button onclick="tarikDataDariGoogleSheets()" class="bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 hover:bg-emerald-100 transition shadow-sm">
-                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Tarik</span> Cloud
-                    </button>
                     <span class="w-9 h-9 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-bold text-xs shadow-md shadow-emerald-700/20">H</span>
                 </div>
             </header>
@@ -187,14 +184,11 @@
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
                         <div>
                             <h3 class="font-bold text-slate-800">Manajemen Data Kependudukan</h3>
-                            <p class="text-xs text-slate-400">Impor file Excel `.xlsx`, sinkronkan dari Cloud, atau tambah manual.</p>
+                            <p class="text-xs text-slate-400">Impor file Excel `.xlsx`, sinkronkan otomatis, atau tambah manual.</p>
                         </div>
                         <div class="flex items-center gap-2 flex-wrap w-full md:w-auto">
-                            <button onclick="tarikDataDariGoogleSheets()" class="bg-emerald-600 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-sm">
-                                <i data-lucide="cloud-download" class="w-4 h-4"></i> Tarik Cloud
-                            </button>
-                            <button onclick="eksporKeGoogleSheets()" class="bg-blue-600 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl hover:bg-blue-700 transition flex items-center gap-1.5 shadow-sm">
-                                <i data-lucide="cloud-upload" class="w-4 h-4"></i> Simpan Cloud
+                            <button onclick="eksporKeGoogleSheets()" class="bg-blue-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-blue-700 transition flex items-center gap-1.5 shadow-sm">
+                                <i data-lucide="cloud-upload" class="w-4 h-4"></i> Simpan
                             </button>
                             <input type="file" id="excelFile" accept=".xlsx, .xls" class="text-xs text-slate-500 file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-700">
                             <button onclick="importExcel()" class="bg-slate-800 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl hover:bg-slate-900 transition shadow-sm">Impor Excel</button>
@@ -275,41 +269,43 @@
                         </form>
                     </div>
 
-                    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-                        <div class="p-5 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-                            <h3 class="font-bold text-slate-800">Daftar Penduduk Desa Pugaan (Urut RT)</h3>
+                    <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+                        <div class="p-6 bg-gradient-to-r from-emerald-800 to-teal-700 text-white flex flex-col md:flex-row justify-between items-center gap-4">
+                            <div>
+                                <h3 class="font-bold text-lg">Daftar Penduduk Desa Pugaan</h3>
+                                <p class="text-xs text-emerald-100">Data kependudukan terurut rapi berdasarkan RT dan No. KK</p>
+                            </div>
                             
                             <!-- FITUR PENCARIAN -->
                             <div class="flex items-center gap-3 w-full md:w-auto">
-                                <div class="relative w-full md:w-72">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
+                                <div class="relative w-full md:w-80">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400">
                                         <i data-lucide="search" class="w-4 h-4"></i>
                                     </span>
-                                    <input type="text" id="inputPencarian" onkeyup="filterPenduduk()" placeholder="Cari nama, NIK, KK, atau RT..." class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-slate-50">
+                                    <input type="text" id="inputPencarian" onkeyup="filterPenduduk()" placeholder="Cari nama, NIK, KK, atau RT..." class="w-full pl-11 pr-4 py-3 border border-transparent rounded-2xl text-xs focus:ring-2 focus:ring-emerald-400 focus:outline-none bg-white/10 text-white placeholder-emerald-200 backdrop-blur-md shadow-inner">
                                 </div>
-                                <span class="text-xs bg-slate-100 px-3.5 py-2.5 rounded-xl text-slate-600 font-bold whitespace-nowrap shadow-sm" id="totalPendudukCount">Total: 0 Penduduk</span>
+                                <span class="text-xs bg-white/20 backdrop-blur-md px-4 py-3 rounded-2xl text-white font-bold whitespace-nowrap shadow-sm" id="totalPendudukCount">0 Penduduk</span>
                             </div>
                         </div>
 
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
-                                <thead class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">
+                                <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 uppercase text-[11px] tracking-wider">
                                     <tr>
-                                        <th class="p-3.5">No. KK</th>
-                                        <th class="p-3.5">RT</th>
-                                        <th class="p-3.5">NIK & Nama Lengkap</th>
-                                        <th class="p-3.5">JK / Agama</th>
-                                        <th class="p-3.5">Tempat, Tgl Lahir / Umur</th>
-                                        <th class="p-3.5">Pendidikan / Pekerjaan</th>
-                                        <th class="p-3.5">Status Perkawinan</th>
-                                        <th class="p-3.5">Hubungan KK</th>
-                                        <th class="p-3.5">Nama Orang Tua (Ayah / Ibu)</th>
-                                        <th class="p-3.5">Status</th>
+                                        <th class="p-4">No. KK</th>
+                                        <th class="p-4">RT</th>
+                                        <th class="p-4">NIK & Nama Lengkap</th>
+                                        <th class="p-4">JK / Agama</th>
+                                        <th class="p-4">Tempat, Tgl Lahir / Umur</th>
+                                        <th class="p-4">Pendidikan / Pekerjaan</th>
+                                        <th class="p-4">Status Perkawinan</th>
+                                        <th class="p-4">Hubungan KK</th>
+                                        <th class="p-4">Nama Orang Tua (Ayah / Ibu)</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tabelPendudukBody" class="divide-y divide-slate-100">
+                                <tbody id="tabelPendudukBody" class="divide-y divide-slate-100 font-medium">
                                     <tr>
-                                        <td colspan="10" class="p-12 text-center text-slate-400 font-medium">Belum ada data penduduk. Silakan tarik dari Cloud atau Impor Excel.</td>
+                                        <td colspan="9" class="p-12 text-center text-slate-400 font-medium">Belum ada data penduduk. Silakan Impor Excel atau sinkronkan.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -434,7 +430,7 @@
                     </div>
                 </div>
 
-                <!-- 5. KEMATIAN (DENGAN PENCARIAN & AUTO-FILL KOLOM KEPENDUDUKAN & HAPUS OTOMATIS) -->
+                <!-- 5. KEMATIAN -->
                 <div id="view-kematian" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200/80 shadow-sm max-w-2xl">
                         <h3 class="font-bold text-slate-800 mb-1 text-base">Pencatatan Kematian Warga</h3>
@@ -445,7 +441,6 @@
                                 <label class="block font-bold text-slate-600 mb-1">Cari Nama atau NIK Warga yang Meninggal</label>
                                 <div class="relative">
                                     <input type="text" id="cariMatiKeyword" onkeyup="cariWargaMati()" class="w-full px-3.5 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none font-semibold text-slate-800" placeholder="Ketik nama atau NIK warga...">
-                                    <!-- Dropdown Hasil Pencarian Warga -->
                                     <div id="hasilPencarianMati" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                                 </div>
                             </div>
@@ -741,7 +736,6 @@
 
         async function tarikDataDariGoogleSheets(isSilent = false) {
             try {
-                if (!isSilent) alert("Mengambil data terbaru dari Cloud Google Sheets...");
                 let response = await fetch(urlWebApps);
                 let result = await response.json();
                 if (Array.isArray(result) && result.length > 0) {
@@ -749,13 +743,9 @@
                     urutkanDataBerdasarkanRT();
                     renderTabelPenduduk();
                     renderTabelKK();
-                    if (!isSilent) alert("Berhasil menyinkronkan data dari Cloud!");
-                } else if (!isSilent) {
-                    alert("Cloud kosong atau belum ada data tersimpan.");
                 }
             } catch (error) {
-                console.error("Error:", error);
-                if (!isSilent) alert("Gagal mengambil data dari Cloud.");
+                console.error("Error background sync:", error);
             }
         }
 
@@ -766,14 +756,14 @@
             }
             urutkanDataBerdasarkanRT();
             try {
-                alert("Menyimpan dan mengurutkan data ke Google Sheets Drive...");
+                alert("Menyimpan data ke Cloud Google Sheets...");
                 await fetch(urlWebApps, {
                     method: "POST",
                     mode: "no-cors",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(dataPenduduk)
                 });
-                alert("Berhasil! Data tersimpan rapi dan terurut per RT di Google Sheets.");
+                alert("Berhasil! Data tersimpan rapi dan terurut di Google Sheets.");
             } catch (error) {
                 console.error("Error:", error);
                 alert("Terjadi kesalahan saat menyimpan ke Google Sheets.");
@@ -802,8 +792,7 @@
                 statusPerkawinan: document.getElementById('manStatusKawin').value,
                 hubunganKK: document.getElementById('manHubungan').value,
                 ayah: document.getElementById('manAyah').value,
-                ibu: document.getElementById('manIbu').value,
-                status: "Aktif"
+                ibu: document.getElementById('manIbu').value
             });
 
             urutkanDataBerdasarkanRT();
@@ -872,8 +861,7 @@
                                 statusPerkawinan: colStatusKawin,
                                 hubunganKK: colHubungan,
                                 ayah: colAyah !== "" ? colAyah : "-",
-                                ibu: colIbu !== "" ? colIbu : "-",
-                                status: "Aktif"
+                                ibu: colIbu !== "" ? colIbu : "-"
                             });
                         }
                     }
@@ -896,7 +884,6 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // --- PENCARIAN & AUTO-FILL DI FORM KEMATIAN ---
         function cariWargaMati() {
             let kw = document.getElementById('cariMatiKeyword').value.toLowerCase();
             let dropdown = document.getElementById('hasilPencarianMati');
@@ -934,7 +921,6 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- SIMPAN KEMATIAN: HAPUS OTOMATIS DARI DATA PENDUDUK & CLOUD ---
         function catatKematian(e) {
             e.preventDefault();
             if (!selectedWargaMati) {
@@ -945,20 +931,15 @@
             let namaMeninggal = selectedWargaMati.nama;
             let nikMeninggal = selectedWargaMati.nik;
 
-            // Hapus warga dari array dataPenduduk
             dataPenduduk = dataPenduduk.filter(w => w.nik !== nikMeninggal);
 
-            // Perbarui tabel & rekap KK
             urutkanDataBerdasarkanRT();
             renderTabelPenduduk();
             renderTabelKK();
-
-            // Auto hapus & sinkronisasi ulang ke Google Sheets Cloud
             eksporKeGoogleSheets();
 
-            alert(`Data kematian ${namaMeninggal} (NIK: ${nikMeninggal}) berhasil dicatat. Warga tersebut otomatis terhapus dari Data Kependudukan dan Cloud Sheets!`);
+            alert(`Data kematian ${namaMeninggal} berhasil dicatat & otomatis terhapus dari sistem.`);
             
-            // Reset form kematian
             selectedWargaMati = null;
             document.getElementById('cariMatiKeyword').value = '';
             document.getElementById('previewMatiNik').innerText = '-';
@@ -1033,32 +1014,30 @@
             tbody.innerHTML = '';
             
             if(listData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="p-12 text-center text-slate-400 font-medium">Tidak ada data penduduk.</td></tr>`;
-                document.getElementById('totalPendudukCount').innerText = `Total: 0 Penduduk`;
+                tbody.innerHTML = `<tr><td colspan="9" class="p-12 text-center text-slate-400 font-medium">Tidak ada data penduduk.</td></tr>`;
+                document.getElementById('totalPendudukCount').innerText = `0 Penduduk`;
                 return;
             }
 
             listData.forEach(w => {
                 let umurVal = w.umur !== undefined && !isNaN(w.umur) ? w.umur : hitungUmur(w.tanggalLahir);
                 let tglFormatted = parseExcelDate(w.tanggalLahir);
-                let badge = '<span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full font-bold">Aktif</span>';
                 
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50/80 transition">
-                        <td class="p-3.5 font-mono text-xs text-slate-600">${w.kk}</td>
-                        <td class="p-3.5 font-semibold text-slate-700">${w.rt}</td>
-                        <td class="p-3.5 font-bold text-slate-900">${w.nama}<br><span class="text-[11px] text-slate-400 font-mono font-normal">${w.nik}</span></td>
-                        <td class="p-3.5 text-slate-600">${w.jk} / ${w.agama}</td>
-                        <td class="p-3.5 text-slate-600">${w.tempatLahir}, ${tglFormatted}<br><span class="text-xs font-bold text-emerald-600">(${umurVal} Tahun)</span></td>
-                        <td class="p-3.5 text-slate-600">${w.pendidikan}<br><span class="text-[11px] text-slate-400">${w.pekerjaan}</span></td>
-                        <td class="p-3.5 text-slate-600">${w.statusPerkawinan}</td>
-                        <td class="p-3.5 text-slate-600">${w.hubunganKK}</td>
-                        <td class="p-3.5 text-slate-600 text-xs">Ayah: ${w.ayah}<br>Ibu: ${w.ibu}</td>
-                        <td class="p-3.5">${badge}</td>
+                    <tr class="hover:bg-emerald-50/40 transition">
+                        <td class="p-4 font-mono font-bold text-slate-800 text-sm tracking-wide">${w.kk}</td>
+                        <td class="p-4 font-bold text-emerald-700">${w.rt}</td>
+                        <td class="p-4 font-bold text-slate-900 text-sm">${w.nama}<br><span class="text-xs text-slate-600 font-mono font-bold tracking-wide">${w.nik}</span></td>
+                        <td class="p-4 text-slate-700 font-medium">${w.jk} / ${w.agama}</td>
+                        <td class="p-4 text-slate-700">${w.tempatLahir}, ${tglFormatted}<br><span class="text-xs font-bold text-emerald-600">(${umurVal} Tahun)</span></td>
+                        <td class="p-4 text-slate-700">${w.pendidikan}<br><span class="text-xs text-slate-500">${w.pekerjaan}</span></td>
+                        <td class="p-4 text-slate-700 font-medium">${w.statusPerkawinan}</td>
+                        <td class="p-4 text-slate-700 font-medium">${w.hubunganKK}</td>
+                        <td class="p-4 text-slate-700 text-xs">Ayah: ${w.ayah}<br>Ibu: ${w.ibu}</td>
                     </tr>
                 `;
             });
-            document.getElementById('totalPendudukCount').innerText = `Total: ${listData.length} Penduduk`;
+            document.getElementById('totalPendudukCount').innerText = `${listData.length} Penduduk`;
         }
 
         function renderTabelKK() {
@@ -1138,8 +1117,7 @@
                 statusPerkawinan: "BELUM KAWIN",
                 hubunganKK: "ANAK",
                 ayah: document.getElementById('bayiAyah').value.toUpperCase(),
-                ibu: document.getElementById('bayiIbu').value.toUpperCase(),
-                status: "Aktif"
+                ibu: document.getElementById('bayiIbu').value.toUpperCase()
             });
 
             urutkanDataBerdasarkanRT();
@@ -1170,7 +1148,7 @@
                 kk: "6309090712070117", rt: "RT 01", nik: "630909" + Math.floor(10000000 + Math.random() * 90000000),
                 nama: nama, jk: "L", agama: "ISLAM", tempatLahir: "TABALONG", tanggalLahir: "2010-05-10", umur: hitungUmur("2010-05-10"),
                 pendidikan: "SLTA/SEDERAJAT", pekerjaan: "WIRASWASTA", statusPerkawinan: "KAWIN",
-                hubunganKK: "ANGGOTA KELUARGA", ayah: "-", ibu: "-", status: "Aktif"
+                hubunganKK: "ANGGOTA KELUARGA", ayah: "-", ibu: "-"
             });
             urutkanDataBerdasarkanRT();
             renderTabelPenduduk();
