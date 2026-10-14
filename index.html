@@ -269,7 +269,7 @@
                         </form>
                     </div>
 
-                    <!-- DAFTAR PENDUDUK DENGAN DESAIN CLEAN & TERSUSUN RAPI -->
+                    <!-- DAFTAR PENDUDUK DENGAN RT LUAS & TERSUSUN SANGAT RAPI -->
                     <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
                         <div class="p-6 md:p-8 bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
                             <div class="absolute -right-10 -bottom-10 opacity-10">
@@ -298,7 +298,7 @@
                                 <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[11px] tracking-wider">
                                     <tr>
                                         <th class="py-4 px-4 whitespace-nowrap">No. KK</th>
-                                        <th class="py-4 px-3 text-center whitespace-nowrap">RT</th>
+                                        <th class="py-4 px-4 whitespace-nowrap min-w-[100px]">RT</th>
                                         <th class="py-4 px-4 min-w-[240px]">NIK & Nama Lengkap</th>
                                         <th class="py-4 px-4 whitespace-nowrap">JK / Agama</th>
                                         <th class="py-4 px-4 whitespace-nowrap">Tempat, Tgl Lahir / Umur</th>
@@ -1020,11 +1020,14 @@
                 let umurVal = w.umur !== undefined && !isNaN(w.umur) ? w.umur : hitungUmur(w.tanggalLahir);
                 let tglFormatted = parseExcelDate(w.tanggalLahir);
                 let rowBg = index % 2 === 0 ? 'bg-white' : 'bg-slate-50/80';
+                let rtClean = w.rt ? (w.rt.toUpperCase().includes('RT') ? w.rt.toUpperCase() : 'RT ' + w.rt) : 'RT 01';
                 
                 tbody.innerHTML += `
                     <tr class="${rowBg} hover:bg-emerald-50/70 transition duration-150">
                         <td class="py-4 px-4 font-mono font-bold text-slate-900 text-sm whitespace-nowrap">${w.kk}</td>
-                        <td class="py-4 px-3 text-center font-bold text-emerald-800 whitespace-nowrap"><span class="px-2.5 py-1 bg-emerald-100 rounded-lg">${w.rt}</span></td>
+                        <td class="py-4 px-4 font-bold text-emerald-800 whitespace-nowrap">
+                            <span class="px-3 py-1.5 bg-emerald-100 rounded-xl inline-block shadow-xs">${rtClean}</span>
+                        </td>
                         <td class="py-4 px-4">
                             <p class="font-bold text-slate-900 text-sm mb-1">${w.nama}</p>
                             <span class="font-mono font-bold text-slate-800 tracking-wider bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block text-xs">${w.nik}</span>
