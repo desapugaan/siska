@@ -321,24 +321,32 @@
                 <div id="view-keluarga" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                         <h3 class="font-bold text-slate-800 mb-1">Rekapitulasi Jumlah Kartu Keluarga (KK) per RT</h3>
-                        <p class="text-xs text-slate-400 mb-4">Jumlah total KK yang terdaftar di setiap RT Desa Pugaan.</p>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="rekapRtContainer">
-                            <div class="p-5 bg-emerald-50/70 rounded-2xl border border-emerald-100 text-center">
-                                <p class="text-xs text-emerald-600 font-bold uppercase tracking-wider">RT 01</p>
-                                <h4 class="text-2xl font-black text-emerald-900 mt-1" id="rekapRt01">0 KK</h4>
+                        <p class="text-xs text-slate-400 mb-4">Jumlah total KK yang terdaftar di setiap RT (RT 01 s.d. RT 05) Desa Pugaan.</p>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="rekapRtContainer">
+                            <div class="p-4 bg-emerald-50/70 rounded-2xl border border-emerald-100 text-center">
+                                <p class="text-xs text-emerald-600 font-bold uppercase">RT 01</p>
+                                <h4 class="text-xl font-black text-emerald-900 mt-1" id="rekapRt01">0 KK</h4>
                             </div>
-                            <div class="p-5 bg-blue-50/70 rounded-2xl border border-blue-100 text-center">
-                                <p class="text-xs text-blue-600 font-bold uppercase tracking-wider">RT 02</p>
-                                <h4 class="text-2xl font-black text-blue-900 mt-1" id="rekapRt02">0 KK</h4>
+                            <div class="p-4 bg-blue-50/70 rounded-2xl border border-blue-100 text-center">
+                                <p class="text-xs text-blue-600 font-bold uppercase">RT 02</p>
+                                <h4 class="text-xl font-black text-blue-900 mt-1" id="rekapRt02">0 KK</h4>
                             </div>
-                            <div class="p-5 bg-orange-50/70 rounded-2xl border border-orange-100 text-center">
-                                <p class="text-xs text-orange-600 font-bold uppercase tracking-wider">RT 03</p>
-                                <h4 class="text-2xl font-black text-orange-900 mt-1" id="rekapRt03">0 KK</h4>
+                            <div class="p-4 bg-orange-50/70 rounded-2xl border border-orange-100 text-center">
+                                <p class="text-xs text-orange-600 font-bold uppercase">RT 03</p>
+                                <h4 class="text-xl font-black text-orange-900 mt-1" id="rekapRt03">0 KK</h4>
                             </div>
-                            <div class="p-5 bg-purple-50/70 rounded-2xl border border-purple-100 text-center">
-                                <p class="text-xs text-purple-600 font-bold uppercase tracking-wider">Total Seluruh KK</p>
-                                <h4 class="text-2xl font-black text-purple-900 mt-1" id="rekapTotalKK">0 KK</h4>
+                            <div class="p-4 bg-teal-50/70 rounded-2xl border border-teal-100 text-center">
+                                <p class="text-xs text-teal-600 font-bold uppercase">RT 04</p>
+                                <h4 class="text-xl font-black text-teal-900 mt-1" id="rekapRt04">0 KK</h4>
                             </div>
+                            <div class="p-4 bg-indigo-50/70 rounded-2xl border border-indigo-100 text-center">
+                                <p class="text-xs text-indigo-600 font-bold uppercase">RT 05</p>
+                                <h4 class="text-xl font-black text-indigo-900 mt-1" id="rekapRt05">0 KK</h4>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-purple-50/70 rounded-2xl border border-purple-100 text-center max-w-xs mx-auto">
+                            <p class="text-xs text-purple-600 font-bold uppercase">Total Seluruh KK</p>
+                            <h4 class="text-2xl font-black text-purple-900 mt-1" id="rekapTotalKK">0 KK</h4>
                         </div>
                     </div>
 
@@ -426,21 +434,58 @@
                     </div>
                 </div>
 
-                <!-- 5. KEMATIAN -->
+                <!-- 5. KEMATIAN (DENGAN PENCARIAN & AUTO-FILL KOLOM KEPENDUDUKAN & HAPUS OTOMATIS) -->
                 <div id="view-kematian" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200/80 shadow-sm max-w-2xl">
-                        <h3 class="font-bold text-slate-800 mb-1 text-base">Catat Kematian</h3>
-                        <p class="text-xs text-slate-400 mb-6">Otomatis non-aktifkan status penduduk.</p>
+                        <h3 class="font-bold text-slate-800 mb-1 text-base">Pencatatan Kematian Warga</h3>
+                        <p class="text-xs text-slate-400 mb-6">Cari nama/NIK warga, data otomatis terisi, dan saat disimpan akan otomatis terhapus dari Data Kependudukan & Cloud.</p>
+                        
                         <form onsubmit="catatKematian(event)" class="space-y-4 text-xs">
                             <div>
-                                <label class="block font-bold text-slate-600 mb-1">Nama Almarhum / NIK</label>
-                                <input type="text" id="matiNama" required class="w-full px-3.5 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Masukkan Nama atau NIK warga">
+                                <label class="block font-bold text-slate-600 mb-1">Cari Nama atau NIK Warga yang Meninggal</label>
+                                <div class="relative">
+                                    <input type="text" id="cariMatiKeyword" onkeyup="cariWargaMati()" class="w-full px-3.5 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none font-semibold text-slate-800" placeholder="Ketik nama atau NIK warga...">
+                                    <!-- Dropdown Hasil Pencarian Warga -->
+                                    <div id="hasilPencarianMati" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                                </div>
                             </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                                <p class="font-bold text-slate-700 text-xs uppercase tracking-wider">Detail Data Kependudukan Terpilih:</p>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <span class="text-slate-400 block text-[10px]">NIK:</span>
+                                        <span id="previewMatiNik" class="font-mono font-bold text-slate-800">-</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-400 block text-[10px]">No. KK:</span>
+                                        <span id="previewMatiKK" class="font-mono font-bold text-slate-800">-</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-400 block text-[10px]">Nama Lengkap:</span>
+                                        <span id="previewMatiNama" class="font-bold text-slate-800">-</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-400 block text-[10px]">RT:</span>
+                                        <span id="previewMatiRT" class="font-bold text-slate-800">-</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-400 block text-[10px]">Tempat, Tgl Lahir:</span>
+                                        <span id="previewMatiTTL" class="font-bold text-slate-800">-</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-slate-400 block text-[10px]">Orang Tua (Ayah / Ibu):</span>
+                                        <span id="previewMatiOrtu" class="font-bold text-slate-800">-</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div>
                                 <label class="block font-bold text-slate-600 mb-1">Tanggal Kematian</label>
-                                <input type="date" id="matiTanggal" required class="w-full px-3.5 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                <input type="date" id="matiTanggal" required class="w-full px-3.5 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:outline-none">
                             </div>
-                            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-4 rounded-xl transition text-sm shadow-lg shadow-red-600/20">Simpan Kematian & Update Status</button>
+
+                            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-4 rounded-xl transition text-sm shadow-lg shadow-red-600/20">Simpan & Hapus Otomatis dari Data Kependudukan & Cloud</button>
                         </form>
                     </div>
                 </div>
@@ -575,27 +620,27 @@
         </main>
     </div>
 
-    <!-- BOTTOM NAVBAR KHUSUS HP (SANGAT KEREN & PRAKTIS) -->
+    <!-- BOTTOM NAVBAR KHUSUS HP -->
     <div id="bottomNav" class="hidden fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-200 z-30 px-4 py-2 flex justify-around items-center md:hidden shadow-lg">
-        <button onclick="switchTab('ringkasan')" class="flex flex-col items-center gap-1 text-emerald-600" id="bnav-ringkasan">
+        <button onclick="switchTab('ringkasan')" class="flex flex-col items-center gap-1 text-emerald-600 font-bold" id="bnav-ringkasan">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-            <span class="text-[10px] font-bold">Ringkasan</span>
+            <span class="text-[10px]">Ringkasan</span>
         </button>
         <button onclick="switchTab('penduduk')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600" id="bnav-penduduk">
             <i data-lucide="users" class="w-5 h-5"></i>
-            <span class="text-[10px] font-bold">Penduduk</span>
+            <span class="text-[10px]">Penduduk</span>
         </button>
         <button onclick="switchTab('keluarga')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600" id="bnav-keluarga">
             <i data-lucide="home" class="w-5 h-5"></i>
-            <span class="text-[10px] font-bold">KK</span>
+            <span class="text-[10px]">KK</span>
         </button>
         <button onclick="switchTab('kelahiran')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600" id="bnav-kelahiran">
             <i data-lucide="baby" class="w-5 h-5"></i>
-            <span class="text-[10px] font-bold">Lahir</span>
+            <span class="text-[10px]">Lahir</span>
         </button>
         <button onclick="switchTab('statistik')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600" id="bnav-statistik">
             <i data-lucide="pie-chart" class="w-5 h-5"></i>
-            <span class="text-[10px] font-bold">Statistik</span>
+            <span class="text-[10px]">Statistik</span>
         </button>
     </div>
 
@@ -604,6 +649,7 @@
         lucide.createIcons();
 
         let dataPenduduk = [];
+        let selectedWargaMati = null;
         const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
 
         function toggleMobileSidebar() {
@@ -850,6 +896,82 @@
             reader.readAsArrayBuffer(file);
         }
 
+        // --- PENCARIAN & AUTO-FILL DI FORM KEMATIAN ---
+        function cariWargaMati() {
+            let kw = document.getElementById('cariMatiKeyword').value.toLowerCase();
+            let dropdown = document.getElementById('hasilPencarianMati');
+            dropdown.innerHTML = '';
+            
+            if (kw.length < 2) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+
+            let matches = dataPenduduk.filter(w => w.nama.toLowerCase().includes(kw) || w.nik.toLowerCase().includes(kw));
+            if (matches.length === 0) {
+                dropdown.innerHTML = `<div class="p-3 text-xs text-slate-400">Tidak ditemukan.</div>`;
+                dropdown.classList.remove('hidden');
+                return;
+            }
+
+            matches.forEach(w => {
+                let div = document.createElement('div');
+                div.className = "p-2.5 hover:bg-slate-100 cursor-pointer text-xs border-b border-slate-100 font-semibold";
+                div.innerHTML = `${w.nama} <span class="text-slate-400 font-mono text-[10px]">(${w.nik} - ${w.rt})</span>`;
+                div.onclick = function() {
+                    selectedWargaMati = w;
+                    document.getElementById('cariMatiKeyword').value = w.nama + " (" + w.nik + ")";
+                    document.getElementById('previewMatiNik').innerText = w.nik;
+                    document.getElementById('previewMatiKK').innerText = w.kk;
+                    document.getElementById('previewMatiNama').innerText = w.nama;
+                    document.getElementById('previewMatiRT').innerText = w.rt;
+                    document.getElementById('previewMatiTTL').innerText = `${w.tempatLahir}, ${parseExcelDate(w.tanggalLahir)}`;
+                    document.getElementById('previewMatiOrtu').innerText = `${w.ayah} / ${w.ibu}`;
+                    dropdown.classList.add('hidden');
+                };
+                dropdown.appendChild(div);
+            });
+            dropdown.classList.remove('hidden');
+        }
+
+        // --- SIMPAN KEMATIAN: HAPUS OTOMATIS DARI DATA PENDUDUK & CLOUD ---
+        function catatKematian(e) {
+            e.preventDefault();
+            if (!selectedWargaMati) {
+                alert("Silakan cari dan pilih warga yang meninggal terlebih dahulu dari hasil pencarian!");
+                return;
+            }
+
+            let namaMeninggal = selectedWargaMati.nama;
+            let nikMeninggal = selectedWargaMati.nik;
+
+            // Hapus warga dari array dataPenduduk
+            dataPenduduk = dataPenduduk.filter(w => w.nik !== nikMeninggal);
+
+            // Perbarui tabel & rekap KK
+            urutkanDataBerdasarkanRT();
+            renderTabelPenduduk();
+            renderTabelKK();
+
+            // Auto hapus & sinkronisasi ulang ke Google Sheets Cloud
+            eksporKeGoogleSheets();
+
+            alert(`Data kematian ${namaMeninggal} (NIK: ${nikMeninggal}) berhasil dicatat. Warga tersebut otomatis terhapus dari Data Kependudukan dan Cloud Sheets!`);
+            
+            // Reset form kematian
+            selectedWargaMati = null;
+            document.getElementById('cariMatiKeyword').value = '';
+            document.getElementById('previewMatiNik').innerText = '-';
+            document.getElementById('previewMatiKK').innerText = '-';
+            document.getElementById('previewMatiNama').innerText = '-';
+            document.getElementById('previewMatiRT').innerText = '-';
+            document.getElementById('previewMatiTTL').innerText = '-';
+            document.getElementById('previewMatiOrtu').innerText = '-';
+            document.getElementById('matiTanggal').value = '';
+            
+            switchTab('penduduk');
+        }
+
         function switchTab(tabId) {
             const tabs = ['ringkasan', 'penduduk', 'keluarga', 'kelahiran', 'kematian', 'pindah', 'statistik', 'surat', 'perangkat'];
             tabs.forEach(t => {
@@ -919,7 +1041,7 @@
             listData.forEach(w => {
                 let umurVal = w.umur !== undefined && !isNaN(w.umur) ? w.umur : hitungUmur(w.tanggalLahir);
                 let tglFormatted = parseExcelDate(w.tanggalLahir);
-                let badge = w.status === 'Aktif' ? '<span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full font-bold">Aktif</span>' : '<span class="px-2.5 py-1 bg-red-100 text-red-700 text-xs rounded-full font-bold">' + w.status + '</span>';
+                let badge = '<span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full font-bold">Aktif</span>';
                 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-50/80 transition">
@@ -948,12 +1070,14 @@
                 document.getElementById('rekapRt01').innerText = "0 KK";
                 document.getElementById('rekapRt02').innerText = "0 KK";
                 document.getElementById('rekapRt03').innerText = "0 KK";
+                document.getElementById('rekapRt04').innerText = "0 KK";
+                document.getElementById('rekapRt05').innerText = "0 KK";
                 document.getElementById('rekapTotalKK').innerText = "0 KK";
                 return;
             }
 
             let kkMap = {};
-            let kkPerRt = { "RT 01": new Set(), "RT 02": new Set(), "RT 03": new Set() };
+            let kkPerRt = { "RT 01": new Set(), "RT 02": new Set(), "RT 03": new Set(), "RT 04": new Set(), "RT 05": new Set() };
 
             dataPenduduk.forEach(w => {
                 if(!w.kk) return;
@@ -962,7 +1086,13 @@
                 }
                 kkMap[w.kk].count++;
 
-                let cleanRt = w.rt.toUpperCase().includes('02') ? 'RT 02' : (w.rt.toUpperCase().includes('03') ? 'RT 03' : 'RT 01');
+                let rtUp = (w.rt || "").toUpperCase();
+                let cleanRt = "RT 01";
+                if(rtUp.includes('02')) cleanRt = 'RT 02';
+                else if(rtUp.includes('03')) cleanRt = 'RT 03';
+                else if(rtUp.includes('04')) cleanRt = 'RT 04';
+                else if(rtUp.includes('05')) cleanRt = 'RT 05';
+
                 if(!kkPerRt[cleanRt]) kkPerRt[cleanRt] = new Set();
                 kkPerRt[cleanRt].add(w.kk);
             });
@@ -970,6 +1100,8 @@
             document.getElementById('rekapRt01').innerText = kkPerRt['RT 01'].size + " KK";
             document.getElementById('rekapRt02').innerText = kkPerRt['RT 02'].size + " KK";
             document.getElementById('rekapRt03').innerText = kkPerRt['RT 03'].size + " KK";
+            document.getElementById('rekapRt04').innerText = kkPerRt['RT 04'].size + " KK";
+            document.getElementById('rekapRt05').innerText = kkPerRt['RT 05'].size + " KK";
             document.getElementById('rekapTotalKK').innerText = Object.keys(kkMap).length + " KK";
 
             for(let noKK in kkMap) {
@@ -1020,23 +1152,14 @@
             e.target.reset();
         }
 
-        function catatKematian(e) {
-            e.preventDefault();
-            const keyword = document.getElementById('matiNama').value.toUpperCase();
-            dataPenduduk.forEach(w => { if(w.nama.includes(keyword) || w.nik === keyword) w.status = "Meninggal"; });
-            renderTabelPenduduk();
-            eksporKeGoogleSheets();
-            alert("Data kematian dicatat & disinkronkan.");
-            switchTab('penduduk');
-        }
-
         function catatPindahPergi(e) {
             e.preventDefault();
             const nik = document.getElementById('pindahNik').value;
-            dataPenduduk.forEach(w => { if(w.nik === nik || w.nama.includes(nik.toUpperCase())) w.status = "Pindah Pergi"; });
+            dataPenduduk = dataPenduduk.filter(w => w.nik !== nik && !w.nama.toLowerCase().includes(nik.toLowerCase()));
             renderTabelPenduduk();
+            renderTabelKK();
             eksporKeGoogleSheets();
-            alert("Pindah pergi dicatat.");
+            alert("Pindah pergi dicatat & data warga dihapus dari sistem.");
             switchTab('penduduk');
         }
 
@@ -1063,13 +1186,12 @@
         }
 
         function updateStatistik() {
-            let aktifList = dataPenduduk.filter(w => w.status === 'Aktif');
-            let total = aktifList.length;
-            let laki = aktifList.filter(w => w.jk === 'L' || w.jk === 'LAKI-LAKI').length;
-            let perempuan = aktifList.filter(w => w.jk === 'P' || w.jk === 'PEREMPUAN').length;
+            let total = dataPenduduk.length;
+            let laki = dataPenduduk.filter(w => w.jk === 'L' || w.jk === 'LAKI-LAKI').length;
+            let perempuan = dataPenduduk.filter(w => w.jk === 'P' || w.jk === 'PEREMPUAN').length;
             
             let totalUmur = 0;
-            aktifList.forEach(w => {
+            dataPenduduk.forEach(w => {
                 let u = w.umur !== undefined && !isNaN(w.umur) ? w.umur : hitungUmur(w.tanggalLahir);
                 totalUmur += u;
             });
