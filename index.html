@@ -173,7 +173,7 @@
                         </div>
                         <div class="flex items-center gap-3 flex-wrap">
                             <button onclick="eksporKeGoogleSheets()" class="bg-blue-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
-                                <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i> Ekspor ke Google Sheets Drive
+                                <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i> Ekspor ke Google Sheets
                             </button>
                             <input type="file" id="excelFile" accept=".xlsx, .xls" class="text-xs text-gray-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700">
                             <button onclick="importExcel()" class="bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-emerald-800 transition">Impor Excel</button>
@@ -255,10 +255,21 @@
                     </div>
 
                     <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                        <div class="p-5 border-b border-gray-200 flex justify-between items-center">
+                        <div class="p-5 border-b border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
                             <h3 class="font-bold text-gray-800">Daftar Penduduk Desa Pugaan</h3>
-                            <span class="text-xs bg-gray-100 px-3 py-1 rounded-full text-gray-600 font-medium" id="totalPendudukCount">Total: 0 Penduduk</span>
+                            
+                            <!-- FITUR PENCARIAN -->
+                            <div class="flex items-center gap-3 w-full md:w-auto">
+                                <div class="relative w-full md:w-72">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                                        <i data-lucide="search" class="w-4 h-4"></i>
+                                    </span>
+                                    <input type="text" id="inputPencarian" onkeyup="filterPenduduk()" placeholder="Cari nama atau NIK..." class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                </div>
+                                <span class="text-xs bg-gray-100 px-3 py-2 rounded-lg text-gray-600 font-medium whitespace-nowrap" id="totalPendudukCount">Total: 0 Penduduk</span>
+                            </div>
                         </div>
+
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs">
                                 <thead class="bg-gray-50 text-gray-600 border-b border-gray-200">
@@ -277,7 +288,7 @@
                                 </thead>
                                 <tbody id="tabelPendudukBody" class="divide-y divide-gray-100">
                                     <tr>
-                                        <td colspan="10" class="p-8 text-center text-gray-400">Belum ada data penduduk. Silakan pilih file Excel, tambah manual, atau ekspor ke Sheets.</td>
+                                        <td colspan="10" class="p-8 text-center text-gray-400">Belum ada data penduduk. Silakan pilih file Excel atau tambah manual.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -461,7 +472,6 @@
 
         let dataPenduduk = [];
 
-        // FUNGSI KONVERSI ANGKA SERIAL EXCEL MENJADI TANGGAL & HITUNG UMUR
         function parseExcelDate(val) {
             if (!val) return "";
             let strVal = String(val).trim();
@@ -509,13 +519,11 @@
             return umur >= 0 ? umur : 0;
         }
 
-        // TOGGLE FORM TAMBAH MANUAL
         function toggleFormTambah() {
             const form = document.getElementById('formTambahContainer');
             form.classList.toggle('hidden');
         }
 
-        // TAMBAH PENDUDUK MANUAL
         function tambahPendudukManual(e) {
             e.preventDefault();
             let tglLahir = document.getElementById('manTglLahir').value;
@@ -547,7 +555,6 @@
             e.target.reset();
         }
 
-        // EKSPOR DATA KE GOOGLE SHEETS DRIVE
         async function eksporKeGoogleSheets() {
             if (dataPenduduk.length === 0) {
                 alert("Belum ada data penduduk untuk diekspor!");
@@ -557,21 +564,20 @@
             const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
             try {
                 alert("Sedang mengirim dan menyimpan data ke Google Sheets Drive...");
-                const response = await fetch(urlWebApps, {
+                await fetch(urlWebApps, {
                     method: "POST",
                     mode: "no-cors",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(dataPenduduk)
                 });
                 
-                alert("Berhasil! Data penduduk berhasil diekspor dan disimpan ke Google Sheets Drive.");
+                alert("Berhasil! Data penduduk berhasil dikirim dan disimpan ke Google Sheets Drive.");
             } catch (error) {
                 console.error("Error:", error);
                 alert("Terjadi kesalahan saat mengekspor data ke Google Sheets.");
             }
         }
 
-        // IMPOR EXCEL
         function importExcel() {
             const fileInput = document.getElementById('excelFile');
             if (fileInput.files.length === 0) {
@@ -717,17 +723,32 @@
             }
         }
 
+        function filterPenduduk() {
+            let keyword = document.getElementById('inputPencarian').value.toLowerCase();
+            let filtered = dataPenduduk.filter(w => 
+                w.nama.toLowerCase().includes(keyword) || 
+                w.nik.toLowerCase().includes(keyword) || 
+                w.kk.toLowerCase().includes(keyword) ||
+                w.rt.toLowerCase().includes(keyword)
+            );
+            renderTabelPendudukCustom(filtered);
+        }
+
         function renderTabelPenduduk() {
+            renderTabelPendudukCustom(dataPenduduk);
+        }
+
+        function renderTabelPendudukCustom(listData) {
             const tbody = document.getElementById('tabelPendudukBody');
             tbody.innerHTML = '';
             
-            if(dataPenduduk.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-gray-400">Belum ada data penduduk. Silakan impor file Excel atau tambah manual.</td></tr>`;
+            if(listData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-gray-400">Tidak ada data penduduk yang cocok dengan pencarian.</td></tr>`;
                 document.getElementById('totalPendudukCount').innerText = `Total: 0 Penduduk`;
                 return;
             }
 
-            dataPenduduk.forEach(w => {
+            listData.forEach(w => {
                 let umurVal = w.umur !== undefined ? w.umur : hitungUmur(w.tanggalLahir);
                 let badge = w.status === 'Aktif' ? '<span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">Aktif</span>' : '<span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-medium">' + w.status + '</span>';
                 
@@ -746,7 +767,7 @@
                     </tr>
                 `;
             });
-            document.getElementById('totalPendudukCount').innerText = `Total: ${dataPenduduk.length} Penduduk`;
+            document.getElementById('totalPendudukCount').innerText = `Total: ${listData.length} Penduduk`;
         }
 
         function renderTabelKK() {
