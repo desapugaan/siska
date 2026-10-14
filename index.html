@@ -120,8 +120,8 @@
                     <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex justify-between items-center">
                         <div>
                             <span class="inline-block px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-md mb-2">Desa Mandiri & Terintegrasi</span>
-                            <h3 class="text-lg font-bold text-gray-900">Sistem Informasi Kependudukan Desa Pugaan</h3>
-                            <p class="text-sm text-gray-500 mt-1">Selamat datang, Administrator <b>Hamid</b> • Siap Impor & Ekspor Data Drive</p>
+                            <h3 class="text-lg font-bold text-gray-900">Selamat Datang di Sistem Informasi Kependudukan Desa Pugaan</h3>
+                            <p class="text-sm text-gray-500 mt-1"><b>SISKAPUGA</b> • Administrator: <b>Hamid</b></p>
                         </div>
                         <div class="text-right">
                             <p class="text-xs text-gray-400">Wilayah Kecamatan Pugaan</p>
@@ -347,30 +347,60 @@
                 <!-- 4. KELAHIRAN -->
                 <div id="view-kelahiran" class="hidden space-y-6">
                     <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm max-w-2xl">
-                        <h3 class="font-bold text-gray-800 mb-4">Catat Kelahiran Baru (Otomatis Tambah Penduduk & Form F-2.01)</h3>
-                        <form onsubmit="catatKelahiran(event)" class="space-y-4">
+                        <h3 class="font-bold text-gray-800 mb-4">Catat Kelahiran Baru (Otomatis Gabung KK & Data Penduduk)</h3>
+                        <form onsubmit="catatKelahiran(event)" class="space-y-4 text-xs">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Bayi</label>
-                                <input type="text" id="bayiNama" required class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="Contoh: Muhammad Al Fatih">
+                                <label class="block font-medium text-gray-700 mb-1">Nomor Kartu Keluarga (KK) Orang Tua</label>
+                                <input type="text" id="bayiKK" required class="w-full px-3 py-2 border rounded-lg" placeholder="Masukkan No KK (wajib sesuai data KK yang ada)">
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
-                                    <select id="bayiJk" class="w-full px-3 py-2 border rounded-lg text-sm">
+                                    <label class="block font-medium text-gray-700 mb-1">RT</label>
+                                    <input type="text" id="bayiRT" required class="w-full px-3 py-2 border rounded-lg" value="RT 01">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-gray-700 mb-1">NIK Bayi (Opsional)</label>
+                                    <input type="text" id="bayiNik" class="w-full px-3 py-2 border rounded-lg" placeholder="Kosongkan jika otomatis">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-medium text-gray-700 mb-1">Nama Lengkap Bayi</label>
+                                <input type="text" id="bayiNama" required class="w-full px-3 py-2 border rounded-lg" placeholder="Contoh: Muhammad Al Fatih">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block font-medium text-gray-700 mb-1">Jenis Kelamin</label>
+                                    <select id="bayiJk" class="w-full px-3 py-2 border rounded-lg">
                                         <option value="L">Laki-laki (L)</option>
                                         <option value="P">Perempuan (P)</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir (DD/MM/YYYY)</label>
-                                    <input type="text" id="bayiTanggal" required class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="14/10/2026">
+                                    <label class="block font-medium text-gray-700 mb-1">Agama</label>
+                                    <input type="text" id="bayiAgama" value="ISLAM" class="w-full px-3 py-2 border rounded-lg">
                                 </div>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Kartu Keluarga (KK)</label>
-                                <input type="text" id="bayiKK" required class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="No KK keluarga">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block font-medium text-gray-700 mb-1">Tempat Lahir</label>
+                                    <input type="text" id="bayiTempatLahir" value="PUGAAN" required class="w-full px-3 py-2 border rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-gray-700 mb-1">Tanggal Lahir (DD/MM/YYYY)</label>
+                                    <input type="text" id="bayiTanggal" required class="w-full px-3 py-2 border rounded-lg" placeholder="14/10/2026">
+                                </div>
                             </div>
-                            <button type="submit" class="bg-emerald-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-emerald-800 transition">Simpan & Terbitkan Formulir F-2.01</button>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block font-medium text-gray-700 mb-1">Nama Ayah</label>
+                                    <input type="text" id="bayiAyah" required class="w-full px-3 py-2 border rounded-lg" placeholder="Nama Ayah Kandung">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-gray-700 mb-1">Nama Ibu</label>
+                                    <input type="text" id="bayiIbu" required class="w-full px-3 py-2 border rounded-lg" placeholder="Nama Ibu Kandung">
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2.5 px-4 rounded-lg transition text-sm">Simpan Kelahiran & Terbitkan Formulir F-2.01</button>
                         </form>
                     </div>
                 </div>
@@ -849,7 +879,6 @@
                 kkPerRt[cleanRt].add(w.kk);
             });
 
-            // Update rekap card RT
             let totalRt1 = kkPerRt['RT 01'].size;
             let totalRt2 = kkPerRt['RT 02'].size;
             let totalRt3 = kkPerRt['RT 03'].size;
@@ -873,18 +902,36 @@
 
         function catatKelahiran(e) {
             e.preventDefault();
+            const kkInput = document.getElementById('bayiKK').value.trim();
             const nama = document.getElementById('bayiNama').value.toUpperCase();
             const tglLahir = document.getElementById('bayiTanggal').value;
+            const customNik = document.getElementById('bayiNik').value;
+            const nikBayi = customNik ? customNik : "630909" + Math.floor(10000000 + Math.random() * 90000000);
+
             dataPenduduk.push({
-                kk: document.getElementById('bayiKK').value, rt: "RT 01", nik: "630909" + Math.floor(10000000 + Math.random() * 90000000),
-                nama: nama, jk: document.getElementById('bayiJk').value, agama: "ISLAM", tempatLahir: "PUGAAN",
-                tanggalLahir: tglLahir, umur: hitungUmur(tglLahir), pendidikan: "BELUM TAMAT SD", pekerjaan: "BELUM/TIDAK BEKERJA",
-                statusPerkawinan: "BELUM KAWIN", hubunganKK: "ANAK", ayah: "-", ibu: "-", status: "Aktif"
+                kk: kkInput,
+                rt: document.getElementById('bayiRT').value,
+                nik: nikBayi,
+                nama: nama,
+                jk: document.getElementById('bayiJk').value,
+                agama: document.getElementById('bayiAgama').value,
+                tempatLahir: document.getElementById('bayiTempatLahir').value.toUpperCase(),
+                tanggalLahir: tglLahir,
+                umur: hitungUmur(tglLahir),
+                pendidikan: "BELUM TAMAT SD",
+                pekerjaan: "BELUM/TIDAK BEKERJA",
+                statusPerkawinan: "BELUM KAWIN",
+                hubunganKK: "ANAK",
+                ayah: document.getElementById('bayiAyah').value.toUpperCase(),
+                ibu: document.getElementById('bayiIbu').value.toUpperCase(),
+                status: "Aktif"
             });
+
             renderTabelPenduduk();
             renderTabelKK();
-            alert(`Kelahiran ${nama} berhasil dicatat & masuk ke Data Kependudukan otomatis! Form F-2.01 siap diterbitkan.`);
+            alert(`Kelahiran ${nama} berhasil dicatat dan otomatis tergabung ke Data Keluarga (KK: ${kkInput}) serta Data Kependudukan! Form F-2.01 siap diterbitkan.`);
             switchTab('penduduk');
+            e.target.reset();
         }
 
         function catatKematian(e) {
