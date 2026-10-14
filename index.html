@@ -455,73 +455,98 @@
 
         // IMPOR EXCEL DENGAN SHEETJS & PEMROSESAN UMUR
         function importExcel() {
-            const fileInput = document.getElementById('excelFile');
-            if (fileInput.files.length === 0) {
-                alert('Silakan pilih file Excel (.xlsx / .xls) terlebih dahulu.');
+            function importExcel() {
+    const fileInput = document.getElementById('excelFile');
+    if (fileInput.files.length === 0) {
+        alert('Silakan pilih file Excel (.xlsx / .xls) terlebih dahulu.');
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            
+            let targetSheetName = workbook.SheetNames.find(name => name.toLowerCase().includes('keluarga')) || workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[targetSheetName];
+            const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "" });
+
+            if (!rows || rows.length === 0) {
+                alert("File Excel kosong.");
                 return;
             }
 
-            const file = fileInput.files[0];
-            const reader = new FileReader();
+            let newPendudukList = [];
+            let lastValidKK = "";
 
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    const firstSheetName = workbook.SheetNames[0];
-                    const worksheet = workbook.Sheets[firstSheetName];
-                    const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            // Loop membaca seluruh baris tanpa batasan error kosong di atas
+            for (let i = 0; i < rows.length; i++) {
+                let r = rows[i];
+                if (!r || r.length === 0) continue;
 
-                    if (rows.length <= 1) {
-                        alert("File Excel kosong atau tidak memiliki baris data.");
-                        return;
-                    }
+                let colKK = String(r[0] || "").trim();
+                let colRT = String(r[1] || "").trim();
+                let colNik = String(r[2] || "").trim();
+                let colNama = String(r[3] || "").trim();
+                let colJk = String(r[4] || "").trim();
+                let colTempatLahir = String(r[5] || "").trim();
+                let colTglLahir = String(r[6] || "").trim();
+                let colAgama = String(r[7] || "").trim();
+                let colPendidikan = String(r[8] || "").trim();
+                let colPekerjaan = String(r[9] || "").trim();
+                let colStatusKawin = String(r[10] || "").trim();
+                let colHubungan = String(r[11] || "").trim();
+                let colAyah = String(r[12] || "").trim();
+                let colIbu = String(r[13] || "").trim();
 
-                    let newPendudukList = [];
-                    for (let i = 1; i < rows.length; i++) {
-                        let r = rows[i];
-                        if (!r || r.length === 0 || !r[3]) continue; 
-
-                        let tglLahir = r[8] ? String(r[8]) : "";
-                        let umurOtomatis = hitungUmur(tglLahir);
-
-                        newPendudukList.push({
-                            kk: r[1] ? String(r[1]) : "",
-                            rt: r[2] ? String(r[2]) : "",
-                            nik: r[3] ? String(r[3]) : "",
-                            nama: r[4] ? String(r[4]).toUpperCase() : "",
-                            jk: r[5] ? String(r[5]) : "",
-                            agama: r[6] ? String(r[6]) : "",
-                            tempatLahir: r[7] ? String(r[7]) : "",
-                            tanggalLahir: tglLahir,
-                            umur: umurOtomatis,
-                            pendidikan: r[9] ? String(r[9]) : "",
-                            pekerjaan: r[10] ? String(r[10]) : "",
-                            statusPerkawinan: r[11] ? String(r[11]) : "",
-                            hubunganKK: r[12] ? String(r[12]) : "",
-                            ayah: r[13] ? String(r[13]) : "-",
-                            ibu: r[14] ? String(r[14]) : "-",
-                            status: r[15] ? String(r[15]) : "Aktif"
-                        });
-                    }
-
-                    if (newPendudukList.length > 0) {
-                        dataPenduduk = newPendudukList;
-                        renderTabelPenduduk();
-                        alert(`Berhasil mengimpor ${dataPenduduk.length} data penduduk lengkap dengan perhitungan umurnya!`);
-                    } else {
-                        alert("Format kolom Excel tidak sesuai atau data tidak ditemukan.");
-                    }
-
-                } catch (err) {
-                    console.error(err);
-                    alert("Terjadi kesalahan saat membaca file Excel.");
+                if (colKK !== "" && !colKK.toLowerCase().includes('no')) {
+                    lastValidKK = colKK;
                 }
-            };
 
-            reader.readAsArrayBuffer(file);
+                // Ambil baris yang memiliki NIK atau Nama valid (mengabaikan baris header)
+                if ((colNik.length > 4 || colNama.length > 2) && !colNama.toLowerCase().includes('nama')) {
+                    let umurOtomatis = hitungUmur(colTglLahir);
+                    
+                    newPendudukList.push({
+                        kk: lastValidKK,
+                        rt: colRT !== "" ? colRT : "RT 01",
+                        nik: colNik,
+                        nama: colNama.toUpperCase(),
+                        jk: colJk,
+                        agama: colAgama !== "" ? colAgama : "ISLAM",
+                        tempatLahir: colTempatLahir,
+                        tanggalLahir: colTglLahir,
+                        umur: umurOtomatis,
+                        pendidikan: colPendidikan,
+                        pekerjaan: colPekerjaan,
+                        statusPerkawinan: colStatusKawin,
+                        hubunganKK: colHubungan,
+                        ayah: colAyah !== "" ? colAyah : "-",
+                        ibu: colIbu !== "" ? colIbu : "-",
+                        status: "Aktif"
+                    });
+                }
+            }
+
+            if (newPendudukList.length > 0) {
+                dataPenduduk = newPendudukList;
+                renderTabelPenduduk();
+                alert(`Berhasil mengimpor ${dataPenduduk.length} data penduduk!`);
+            } else {
+                alert("Gagal membaca baris data. Pastikan format kolom sesuai dengan template.");
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Terjadi kesalahan saat membaca file Excel.");
         }
+    };
 
+    reader.readAsArrayBuffer(file);
+}
         function handleLogin(e) {
             e.preventDefault();
             if(document.getElementById('loginUser').value === "Pugaan" && document.getElementById('loginPass').value === "Pugaandesa123@") {
