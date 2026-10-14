@@ -535,10 +535,15 @@
                     </div>
                 </div>
 
-                <!-- 7. STATISTIK & GRAFIK -->
+                <!-- 7. STATISTIK & GRAFIK (DIPERBARUI DENGAN UMUR & PEKERJAAN OTOMATIS) -->
                 <div id="view-statistik" class="hidden space-y-6">
-                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl space-y-6">
-                        <h3 class="font-bold text-lg text-slate-900">Statistik Demografi Penduduk & Rata-rata Umur</h3>
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl space-y-8">
+                        <div>
+                            <h3 class="font-black text-xl text-slate-900">Statistik Demografi Penduduk Desa Pugaan</h3>
+                            <p class="text-xs text-slate-500 mt-1">Data dihitung secara otomatis dan real-time langsung dari database kependudukan.</p>
+                        </div>
+
+                        <!-- KARTU RINGKASAN UTAMA -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="p-5 bg-emerald-50/70 rounded-3xl border border-emerald-100 shadow-xs">
                                 <p class="text-xs text-emerald-600 font-bold uppercase">Total Penduduk Aktif</p>
@@ -558,8 +563,9 @@
                             </div>
                         </div>
 
+                        <!-- GRAFIK JENIS KELAMIN -->
                         <div class="pt-6 border-t border-slate-100 space-y-4">
-                            <h4 class="font-bold text-slate-800 text-sm">Grafik Perbandingan Penduduk Berdasarkan Jenis Kelamin</h4>
+                            <h4 class="font-bold text-slate-800 text-sm">1. Grafik Perbandingan Penduduk Berdasarkan Jenis Kelamin</h4>
                             <div class="space-y-4">
                                 <div>
                                     <div class="flex justify-between text-xs font-bold mb-1.5">
@@ -579,6 +585,22 @@
                                         <div id="barGrafikPerempuan" class="bg-pink-500 h-full rounded-full transition-all duration-500 shadow-sm" style="width: 0%"></div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- GRAFIK BERDASARKAN UMUR (0 TAHUN, 1 TAHUN, DST) -->
+                        <div class="pt-6 border-t border-slate-100 space-y-4">
+                            <h4 class="font-bold text-slate-800 text-sm">2. Statistik Jumlah Penduduk Berdasarkan Umur (0 Tahun, 1 Tahun, dst.)</h4>
+                            <div id="containerStatistikUmur" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                                <!-- Diisi otomatis via JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- GRAFIK BERDASARKAN PEKERJAAN -->
+                        <div class="pt-6 border-t border-slate-100 space-y-4">
+                            <h4 class="font-bold text-slate-800 text-sm">3. Statistik Berdasarkan Jenis Pekerjaan (Petani, PNS, Wiraswasta, dll.)</h4>
+                            <div id="containerStatistikPekerjaan" class="space-y-3">
+                                <!-- Diisi otomatis via JavaScript -->
                             </div>
                         </div>
                     </div>
@@ -919,7 +941,7 @@
                                 tanggalLahir: tglLahirFormatted,
                                 umur: hitungUmur(tglLahirFormatted),
                                 pendidikan: colPendidikan,
-                                pekerjaan: colPekerjaan,
+                                pekerjaan: colPekerjaan !== "" ? colPekerjaan.toUpperCase() : "TIDAK / BELUM BEKERJA",
                                 statusPerkawinan: colStatusKawin,
                                 hubunganKK: colHubungan,
                                 ayah: colAyah !== "" ? colAyah : "-",
@@ -1253,10 +1275,21 @@
             let perempuan = dataPenduduk.filter(w => w.jk === 'P' || w.jk === 'PEREMPUAN').length;
             
             let totalUmur = 0;
+            let umurMap = {};
+            let pekerjaanMap = {};
+
             dataPenduduk.forEach(w => {
                 let u = w.umur !== undefined && !isNaN(w.umur) ? w.umur : hitungUmur(w.tanggalLahir);
                 totalUmur += u;
+
+                // Rekap umur
+                umurMap[u] = (umurMap[u] || 0) + 1;
+
+                // Rekap pekerjaan
+                let pek = (w.pekerjaan && w.pekerjaan.trim() !== "") ? w.pekerjaan.trim().toUpperCase() : "TIDAK / BELUM BEKERJA";
+                pekerjaanMap[pek] = (pekerjaanMap[pek] || 0) + 1;
             });
+
             let rataUmur = total > 0 ? Math.round(totalUmur / total) : 0;
 
             document.getElementById('statTotal').innerText = total;
@@ -1272,6 +1305,48 @@
 
             document.getElementById('labelGrafikPerempuan').innerText = `${perempuan} orang (${persenPerempuan}%)`;
             document.getElementById('barGrafikPerempuan').style.width = persenPerempuan + '%';
+
+            // Render Statistik Berdasarkan Umur
+            const containerUmur = document.getElementById('containerStatistikUmur');
+            containerUmur.innerHTML = '';
+            let sortedUmurKeys = Object.keys(umurMap).map(Number).sort((a, b) => a - b);
+
+            sortedUmurKeys.forEach(age => {
+                let count = umurMap[age];
+                let pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                containerUmur.innerHTML += `
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-slate-700">${age} Tahun</span>
+                            <span class="text-slate-900">${count} orang (${pct}%)</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden p-0.5 border border-slate-200">
+                            <div class="bg-emerald-600 h-full rounded-full transition-all duration-300" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Render Statistik Berdasarkan Pekerjaan
+            const containerPekerjaan = document.getElementById('containerStatistikPekerjaan');
+            containerPekerjaan.innerHTML = '';
+            let sortedPekerjaan = Object.keys(pekerjaanMap).sort((a, b) => pekerjaanMap[b] - pekerjaanMap[a]);
+
+            sortedPekerjaan.forEach(pek => {
+                let count = pekerjaanMap[pek];
+                let pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                containerPekerjaan.innerHTML += `
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-slate-700">${pek}</span>
+                            <span class="text-slate-900">${count} orang (${pct}%)</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden p-0.5 border border-slate-200">
+                            <div class="bg-teal-600 h-full rounded-full transition-all duration-300" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
         }
     </script>
 </body>
