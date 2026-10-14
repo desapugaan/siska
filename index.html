@@ -535,7 +535,7 @@
                     </div>
                 </div>
 
-                <!-- 7. STATISTIK & GRAFIK (DIPERBARUI DENGAN UMUR & PEKERJAAN OTOMATIS) -->
+                <!-- 7. STATISTIK & GRAFIK (LENGKAP SEMUA UMUR & PEKERJAAN) -->
                 <div id="view-statistik" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl space-y-8">
                         <div>
@@ -588,10 +588,10 @@
                             </div>
                         </div>
 
-                        <!-- GRAFIK BERDASARKAN UMUR (0 TAHUN, 1 TAHUN, DST) -->
+                        <!-- GRAFIK BERDASARKAN UMUR LENGKAP SEMUA UMUR -->
                         <div class="pt-6 border-t border-slate-100 space-y-4">
-                            <h4 class="font-bold text-slate-800 text-sm">2. Statistik Jumlah Penduduk Berdasarkan Umur (0 Tahun, 1 Tahun, dst.)</h4>
-                            <div id="containerStatistikUmur" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                            <h4 class="font-bold text-slate-800 text-sm">2. Statistik Lengkap Jumlah Penduduk Berdasarkan Umur (0 Tahun sampai Umur Tertua)</h4>
+                            <div id="containerStatistikUmur" class="space-y-3 max-h-[450px] overflow-y-auto pr-2 border border-slate-100 p-4 rounded-3xl bg-slate-50/50">
                                 <!-- Diisi otomatis via JavaScript -->
                             </div>
                         </div>
@@ -599,7 +599,7 @@
                         <!-- GRAFIK BERDASARKAN PEKERJAAN -->
                         <div class="pt-6 border-t border-slate-100 space-y-4">
                             <h4 class="font-bold text-slate-800 text-sm">3. Statistik Berdasarkan Jenis Pekerjaan (Petani, PNS, Wiraswasta, dll.)</h4>
-                            <div id="containerStatistikPekerjaan" class="space-y-3">
+                            <div id="containerStatistikPekerjaan" class="space-y-3 max-h-[400px] overflow-y-auto pr-2 border border-slate-100 p-4 rounded-3xl bg-slate-50/50">
                                 <!-- Diisi otomatis via JavaScript -->
                             </div>
                         </div>
@@ -1306,13 +1306,13 @@
             document.getElementById('labelGrafikPerempuan').innerText = `${perempuan} orang (${persenPerempuan}%)`;
             document.getElementById('barGrafikPerempuan').style.width = persenPerempuan + '%';
 
-            // Render Statistik Berdasarkan Umur
+            // Render Statistik Berdasarkan Umur (LENGKAP DARI 0 SAMPAI TERTUA)
             const containerUmur = document.getElementById('containerStatistikUmur');
             containerUmur.innerHTML = '';
-            let sortedUmurKeys = Object.keys(umurMap).map(Number).sort((a, b) => a - b);
-
-            sortedUmurKeys.forEach(age => {
-                let count = umurMap[age];
+            
+            let maxUmur = Math.max(...Object.keys(umurMap).map(Number), 0);
+            for (let age = 0; age <= maxUmur; age++) {
+                let count = umurMap[age] || 0;
                 let pct = total > 0 ? Math.round((count / total) * 100) : 0;
                 containerUmur.innerHTML += `
                     <div>
@@ -1325,7 +1325,7 @@
                         </div>
                     </div>
                 `;
-            });
+            }
 
             // Render Statistik Berdasarkan Pekerjaan
             const containerPekerjaan = document.getElementById('containerStatistikPekerjaan');
