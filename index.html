@@ -1323,7 +1323,7 @@
                 };
                 dropdown.appendChild(div);
             });
-            dropdown.classList.remove('hidden');
+            dropdown.classList.add('hidden');
         }
 
         async function pratinjauDanCetakFormulir() {
@@ -1345,68 +1345,49 @@
                     area.innerHTML = htmlTemplate;
 
                     setTimeout(() => {
-                        let isiBarisTabel = (labelKunci, warga) => {
-                            if (!warga) return;
-                            let allRows = area.querySelectorAll('tr');
-                            let targetDitemukan = false;
-
-                            allRows.forEach(row => {
-                                let cells = row.querySelectorAll('td');
-                                if (cells.length >= 2) {
-                                    let labelText = cells[0].innerText.toLowerCase();
-                                    if (labelText.includes(labelKunci) && !targetDitemukan) {
-                                        let kolomIsi = cells[1] || cells[2];
-                                        if (kolomIsi) {
-                                            let kotakHuruf = kolomIsi.querySelectorAll('input, td, span');
-                                            if (kotakHuruf.length > 5) {
-                                                let gabungTeks = (warga.nama || warga.nik || "").toUpperCase();
-                                                for (let i = 0; i < Math.min(kotakHuruf.length, gabungTeks.length); i++) {
-                                                    kotakHuruf[i].innerText = gabungTeks[i];
-                                                }
-                                            } else {
-                                                kolomIsi.innerHTML = `: <b>${warga.nama || ''}</b><br><span style="font-size:7px;">NIK: ${warga.nik || ''} | KK: ${warga.kk || ''}</span>`;
+                        let tables = area.querySelectorAll('table');
+                        if (tables && tables.length > 0) {
+                            // Fungsi pintar mencari label spesifik di dalam tabel F-2.01 agar tidak salah kolom
+                            let isiBarisBerdasarkanLabelTabel = (tableEl, warga) => {
+                                if (!tableEl || !warga) return;
+                                let rows = tableEl.querySelectorAll('tr');
+                                rows.forEach(r => {
+                                    let cells = r.querySelectorAll('td');
+                                    if (cells.length >= 2) {
+                                        let labelText = cells[0].innerText.toLowerCase().trim();
+                                        let targetCell = cells[1] || cells[2];
+                                        if (targetCell) {
+                                            if (labelText.includes('1. nama') || labelText === '1. nama' || (labelText.includes('nama') && !labelText.includes('orang'))) {
+                                                targetCell.innerHTML = `: <b>${warga.nama || ''}</b>`;
+                                            } else if (labelText.includes('2. nik') || labelText === '2. nik') {
+                                                targetCell.innerHTML = `: ${warga.nik || ''}`;
+                                            } else if (labelText.includes('4. nomor kartu keluarga') || labelText.includes('kartu keluarga')) {
+                                                targetCell.innerHTML = `: ${warga.kk || ''}`;
+                                            } else if (labelText.includes('5. kewarganegaraan') || labelText.includes('kewarganegaraan')) {
+                                                targetCell.innerHTML = `: INDONESIA`;
                                             }
-                                            targetDitemukan = true;
                                         }
                                     }
-                                }
-                            });
-                        };
-
-                        let tables = area.querySelectorAll('table');
-                        if (tables.length > 0) {
-                            let setCellText = (tblIdx, rowIdx, cellIdx, textValue) => {
-                                try {
-                                    if (tables[tblIdx] && tables[tblIdx].rows[rowIdx] && tables[tblIdx].rows[rowIdx].cells[cellIdx]) {
-                                        tables[tblIdx].rows[rowIdx].cells[cellIdx].innerHTML = textValue;
-                                    }
-                                } catch (e) {}
+                                });
                             };
 
-                            if (terpilihPelapor) {
-                                setCellText(0, 0, 1, `: ${terpilihPelapor.nama}`);
-                                setCellText(0, 1, 1, `: ${terpilihPelapor.nik}`);
-                                setCellText(0, 3, 1, `: ${terpilihPelapor.kk}`);
-                                setCellText(0, 4, 1, `: INDONESIA`);
-                            }
-                            if (terpilihAyah) {
-                                setCellText(2, 0, 1, `: ${terpilihAyah.nama}`);
-                                setCellText(2, 1, 1, `: ${terpilihAyah.nik}`);
-                                setCellText(2, 3, 1, `: ${terpilihAyah.kk}`);
-                                setCellText(2, 4, 1, `: INDONESIA`);
-                            }
-                            if (terpilihIbu) {
-                                setCellText(3, 0, 1, `: ${terpilihIbu.nama}`);
-                                setCellText(3, 1, 1, `: ${terpilihIbu.nik}`);
-                                setCellText(3, 3, 1, `: ${terpilihIbu.kk}`);
-                                setCellText(3, 4, 1, `: INDONESIA`);
-                            }
+                            // Petakan masing-masing tabel section berdasarkan judul heading tabelnya
+                            tables.forEach(tbl => {
+                                let headerText = tbl.innerText.toUpperCase();
+                                if (headerText.includes('DATA PELAPOR') && terpilihPelapor) {
+                                    isiBarisBerdasarkanLabelTabel(tbl, terpilihPelapor);
+                                } else if (headerText.includes('DATA AYAH') && terpilihAyah) {
+                                    isiBarisBerdasarkanLabelTabel(tbl, terpilihAyah);
+                                } else if (headerText.includes('DATA IBU') && terpilihIbu) {
+                                    isiBarisBerdasarkanLabelTabel(tbl, terpilihIbu);
+                                }
+                            });
                         }
                     }, 400);
 
                     document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 } catch (error) {
-                    alert("Gagal memuat template aktakelahiran.html dari GitHub. Pastikan koneksi internet aktif dan file sudah ada di repository.");
+                    alert("Gagal memuat template aktakelahiran.html dari GitHub. Pastikan koneksi internet aktif.");
                 }
             } else {
                 judul.innerText = `Surat Keterangan ${jenis}`;
