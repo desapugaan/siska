@@ -1345,35 +1345,35 @@
                     area.innerHTML = htmlTemplate;
 
                     setTimeout(() => {
-                        let fillInputs = (prefix, w) => {
+                        let isiDataKeTemplate = (sectionIndex, w) => {
                             if (!w) return;
-                            let elNama = document.querySelector(`input[name*="${prefix}_nama"], #${prefix}_nama, input[id*="${prefix}Nama"]`) || document.getElementById(prefix + 'Nama');
-                            let elNik = document.querySelector(`input[name*="${prefix}_nik"], #${prefix}_nik, input[id*="${prefix}Nik"]`) || document.getElementById(prefix + 'Nik');
-                            let elKk = document.querySelector(`input[name*="${prefix}_kk"], #${prefix}_kk, input[id*="${prefix}Kk"]`) || document.getElementById(prefix + 'Kk');
-                            let elTempat = document.querySelector(`input[name*="${prefix}_tempat"], #${prefix}_tempat`) || document.getElementById(prefix + 'TempatLahir');
-                            let elTgl = document.querySelector(`input[name*="${prefix}_tanggal"], #${prefix}_tanggal`) || document.getElementById(prefix + 'TanggalLahir');
-
-                            if(elNama) elNama.value = w.nama;
-                            if(elNik) elNik.value = w.nik;
-                            if(elKk) elKk.value = w.kk;
-                            if(elTempat) elTempat.value = w.tempatLahir || "PUGAAN";
-                            if(elTgl) elTgl.value = parseExcelDate(w.tanggalLahir);
-
-                            // Mendukung juga jika elemen di template berupa tag teks biasa / span / div
-                            let spanNama = document.getElementById('tmpl' + capitalizeFirst(prefix) + 'Nama');
-                            if(spanNama) spanNama.innerText = w.nama;
-                            let spanNik = document.getElementById('tmpl' + capitalizeFirst(prefix) + 'Nik');
-                            if(spanNik) spanNik.innerText = w.nik;
-                            let spanKk = document.getElementById('tmpl' + capitalizeFirst(prefix) + 'Kk');
-                            if(spanKk) spanKk.innerText = w.kk;
+                            let tables = area.querySelectorAll('table');
+                            if (tables && tables[sectionIndex]) {
+                                let cells = tables[sectionIndex].querySelectorAll('td');
+                                // Biasanya kolom kedua berisi teks/input/titik-titik untuk Nama, NIK, KK, dll.
+                                cells.forEach(td => {
+                                    let text = td.innerText.trim();
+                                    if (text.includes(':')) {
+                                        let nextCell = td.nextElementSibling;
+                                        if (nextCell) {
+                                            // Cek baris mana berdasarkan teks label sebelumnya
+                                            let label = text.toLowerCase();
+                                            if (label.includes('nama')) nextCell.innerText = `: ${w.nama}`;
+                                            else if (label.includes('nik')) nextCell.innerText = `: ${w.nik}`;
+                                            else if (label.includes('keluarga')) nextCell.innerText = `: ${w.kk}`;
+                                            else if (label.includes('kewarganegaraan')) nextCell.innerText = `: INDONESIA`;
+                                        }
+                                    }
+                                });
+                            }
                         };
 
-                        fillInputs('pelapor', terpilihPelapor);
-                        fillInputs('saksi1', terpilihSaksi1);
-                        fillInputs('saksi2', terpilihSaksi2);
-                        fillInputs('ayah', terpilihAyah);
-                        fillInputs('ibu', terpilihIbu);
-                    }, 300);
+                        // Berdasarkan urutan blok tabel di formulir F-2.01 standar
+                        // Blok 0: Data Pelapor, Blok 1: Subjek Anak, Blok 2: Ayah, Blok 3: Ibu
+                        if (terpilihPelapor) isiDataKeTemplate(0, terpilihPelapor);
+                        if (terpilihAyah) isiDataKeTemplate(2, terpilihAyah);
+                        if (terpilihIbu) isiDataKeTemplate(3, terpilihIbu);
+                    }, 350);
 
                     document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 } catch (error) {
