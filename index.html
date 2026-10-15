@@ -16,31 +16,6 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
-        .dukcapil-grid {
-            display: inline-grid;
-            grid-template-columns: repeat(28, minmax(14px, 1fr));
-            gap: 1px;
-            background-color: #000;
-            border: 1px solid #000;
-        }
-        .dukcapil-grid-16 {
-            display: inline-grid;
-            grid-template-columns: repeat(16, minmax(14px, 1fr));
-            gap: 1px;
-            background-color: #000;
-            border: 1px solid #000;
-        }
-        .dukcapil-cell {
-            background-color: #fff;
-            min-height: 18px;
-            text-align: center;
-            font-family: monospace;
-            font-size: 10px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
         @media print {
             body * { visibility: hidden; }
             #printableArea, #printableArea * { visibility: visible; }
@@ -430,7 +405,7 @@
                 <div id="view-kelahiran" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-2xl">
                         <h3 class="font-bold text-slate-900 mb-1 text-base">Catat Kelahiran Baru</h3>
-                        <p class="text-xs text-slate-400 mb-6">Otomatis gabung tepat di bawah No KK orang tua & terbitkan F-2.01.</p>
+                        <p class="text-xs text-slate-400 mb-6">Otomatis gabung tepat di bawah No KK orang tua.</p>
                         <form onsubmit="catatKelahiran(event)" class="space-y-4 text-xs">
                             <div>
                                 <label class="block font-bold text-slate-600 mb-1">Nomor Kartu Keluarga (KK) Orang Tua</label>
@@ -483,7 +458,7 @@
                                     <input type="text" id="bayiIbu" required class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Nama Ibu Kandung">
                                 </div>
                             </div>
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-4 rounded-2xl transition text-sm shadow-xl shadow-emerald-600/20">Simpan Kelahiran & Terbitkan Form F-2.01</button>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-4 rounded-2xl transition text-sm shadow-xl shadow-emerald-600/20">Simpan Kelahiran & Terbitkan Surat</button>
                         </form>
                     </div>
                 </div>
@@ -550,13 +525,13 @@
                         <button onclick="switchPindahTab('datang')" id="btnDatang" class="px-5 py-3 bg-slate-200 text-slate-600 rounded-2xl text-xs font-bold">Pindah Datang (Masuk)</button>
                     </div>
                     <div id="subview-pergi" class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-3xl">
-                        <h3 class="font-bold text-slate-900 mb-2">Pencatatan Pindah Pergi & Formulir F-1.27</h3>
+                        <h3 class="font-bold text-slate-900 mb-2">Pencatatan Pindah Pergi</h3>
                         <form onsubmit="catatPindahPergi(event)" class="space-y-4 text-xs">
                             <div>
                                 <label class="block font-bold text-slate-600 mb-1">NIK atau Nama Warga</label>
                                 <input type="text" id="pindahNik" required class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="NIK warga yang pindah">
                             </div>
-                            <button type="submit" class="bg-emerald-600 text-white font-bold py-3.5 px-5 rounded-2xl hover:bg-emerald-700 transition shadow-md">Simpan & Cetak Formulir F-1.27</button>
+                            <button type="submit" class="bg-emerald-600 text-white font-bold py-3.5 px-5 rounded-2xl hover:bg-emerald-700 transition shadow-md">Simpan & Proses Pindah</button>
                         </form>
                     </div>
                     <div id="subview-datang" class="hidden bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-3xl">
@@ -638,39 +613,70 @@
                     </div>
                 </div>
 
-                <!-- 8. LAYANAN SURAT & FORMULIR -->
+                <!-- 8. LAYANAN SURAT & FORMULIR (MENGGUNAKAN FILE EXCEL & WORD DARI GITHUB) -->
                 <div id="view-surat" class="hidden space-y-6">
-                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-4xl mx-auto">
-                        <h3 class="font-bold text-slate-900 mb-1 text-base">Pusat Layanan Surat & Formulir Kependudukan</h3>
-                        <p class="text-xs text-slate-400 mb-6">Pilih jenis formulir atau surat yang ingin dicetak, isi data lengkap sesuai blangko resmi, atau tambah bayi/anggota baru secara manual.</p>
-                        
-                        <div class="space-y-5 text-xs">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1.5">Pilih Jenis Layanan / Formulir</label>
-                                <select id="pilihJenisFormulir" onchange="gantiFormulirSurat()" class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none font-semibold text-slate-800 bg-slate-50">
-                                    <option value="permohonan_kk">Permohonan Kartu Keluarga (Formulir F-1.01)</option>
-                                    <option value="akta_kelahiran">Akta Kelahiran (Formulir F-2.01)</option>
-                                    <option value="akta_kematian">Akta Kematian (Formulir Kematian)</option>
-                                    <option value="sptjm_kelahiran">SPTJM Kebenaran Data Kelahiran</option>
-                                    <option value="sptjm_suami_istri">SPTJM Kebenaran Pasangan Suami Istri</option>
-                                    <option value="Domisili">Surat Keterangan Domisili</option>
-                                    <option value="Tidak Mampu">Surat Keterangan Tidak Mampu (SKTM)</option>
-                                </select>
-                            </div>
+                    <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-4xl mx-auto space-y-6">
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-base">Pusat Layanan Surat & Formulir Kependudukan</h3>
+                            <p class="text-xs text-slate-400 mt-1">Unduh blangko resmi format Excel (`.xlsx`) atau Word (`.docx`) yang telah diunggah ke repository GitHub Anda[cite: 9]:</p>
+                        </div>
 
-                            <div class="p-4 bg-emerald-50/70 border border-emerald-100 rounded-2xl space-y-3">
-                                <label class="block font-bold text-emerald-900">Cari Data Warga (Otomatis Mengisi Form)</label>
-                                <div class="relative">
-                                    <input type="text" id="inputCariWargaSurat" onkeyup="cariWargaUntukSurat()" class="w-full px-4 py-3 border border-emerald-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none bg-white text-xs font-semibold" placeholder="Ketik nama atau NIK warga...">
-                                    <div id="hasilCariWargaSurat" class="absolute z-30 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        <!-- DAFTAR TOMBOL UNDUH FILE ASLI DARI GITHUB -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <a href="https://raw.githubusercontent.com/desapugaan/siska/main/AKTA%20KELAHIRAN%20(2).xlsx" target="_blank" class="p-4 rounded-2xl border border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100/60 transition flex items-center justify-between group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">XLSX</div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 text-xs">AKTA KELAHIRAN (2).xlsx</h4>
+                                        <p class="text-[10px] text-slate-500">Format Excel Resmi Dukcapil</p>
+                                    </div>
                                 </div>
-                            </div>
+                                <span class="text-emerald-700 text-xs font-extrabold group-hover:translate-x-1 transition">Unduh 📥</span>
+                            </a>
 
-                            <div id="containerFormDinamis" class="space-y-4 pt-2"></div>
+                            <a href="https://raw.githubusercontent.com/desapugaan/siska/main/AKTA%20KEMATIAN.xlsx" target="_blank" class="p-4 rounded-2xl border border-red-200 bg-red-50/50 hover:bg-red-100/60 transition flex items-center justify-between group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">XLSX</div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 text-xs">AKTA KEMATIAN.xlsx</h4>
+                                        <p class="text-[10px] text-slate-500">Format Excel Resmi Kematian</p>
+                                    </div>
+                                </div>
+                                <span class="text-red-700 text-xs font-extrabold group-hover:translate-x-1 transition">Unduh 📥</span>
+                            </a>
 
-                            <button onclick="pratinjauDanCetakFormulir()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-4 rounded-2xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 text-sm">
-                                <i data-lucide="printer" class="w-4 h-4"></i> Pratinjau & Cetak Dokumen Resmi
-                            </button>
+                            <a href="https://raw.githubusercontent.com/desapugaan/siska/main/Formulir%20Kartu%20Keluarga.docx" target="_blank" class="p-4 rounded-2xl border border-blue-200 bg-blue-50/50 hover:bg-blue-100/60 transition flex items-center justify-between group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">DOCX</div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 text-xs">Formulir Kartu Keluarga.docx</h4>
+                                        <p class="text-[10px] text-slate-500">Format Word Permohonan KK</p>
+                                    </div>
+                                </div>
+                                <span class="text-blue-700 text-xs font-extrabold group-hover:translate-x-1 transition">Unduh 📥</span>
+                            </a>
+
+                            <a href="https://raw.githubusercontent.com/desapugaan/siska/main/SPTJM%20KELAHIRAN%20(2).docx" target="_blank" class="p-4 rounded-2xl border border-amber-200 bg-amber-50/50 hover:bg-amber-100/60 transition flex items-center justify-between group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">DOCX</div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 text-xs">SPTJM KELAHIRAN (2).docx</h4>
+                                        <p class="text-[10px] text-slate-500">Format Word SPTJM Kelahiran</p>
+                                    </div>
+                                </div>
+                                <span class="text-amber-700 text-xs font-extrabold group-hover:translate-x-1 transition">Unduh 📥</span>
+                            </a>
+
+                            <a href="https://raw.githubusercontent.com/desapugaan/siska/main/SPTJM%20PASANGAN%20SUAMI%20ISTERI%20(2).docx" target="_blank" class="p-4 rounded-2xl border border-purple-200 bg-purple-50/50 hover:bg-purple-100/60 transition flex items-center justify-between group col-span-1 md:col-span-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">DOCX</div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900 text-xs">SPTJM PASANGAN SUAMI ISTERI (2).docx</h4>
+                                        <p class="text-[10px] text-slate-500">Format Word SPTJM Pasangan Suami Istri</p>
+                                    </div>
+                                </div>
+                                <span class="text-purple-700 text-xs font-extrabold group-hover:translate-x-1 transition">Unduh 📥</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -706,81 +712,6 @@
         </main>
     </div>
 
-    <!-- MODAL / AREA CETAK FORMULIR F-2.01 -->
-    <div id="modalF201" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="p-5 bg-emerald-900 text-white flex justify-between items-center">
-                <div>
-                    <h3 class="font-bold text-base">Formulir F-2.01 (Surat Keterangan Kelahiran)</h3>
-                    <p class="text-xs text-emerald-200">Siap cetak atau unduh</p>
-                </div>
-                <button onclick="tutupModalF201()" class="text-white hover:text-slate-200 font-bold p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
-            </div>
-            <div id="printableArea" class="p-8 overflow-y-auto space-y-6 text-slate-900 text-xs leading-relaxed bg-white">
-                <div class="text-center border-b-2 border-slate-900 pb-4">
-                    <p class="font-bold text-sm">PEMERINTAH KABUPATEN TABALONG</p>
-                    <p class="font-bold text-sm">KECAMATAN PUGAAN • DESA PUGAAN</p>
-                    <h4 class="font-black text-base mt-2">SURAT KETERANGAN KELAHIRAN</h4>
-                    <p class="font-mono text-xs text-slate-600">Nomor Formulir: F-2.01</p>
-                </div>
-                <div class="space-y-3">
-                    <p>Yang bertanda tangan di bawah ini menerangkan bahwa telah lahir seorang anak:</p>
-                    <table class="w-full border-collapse">
-                        <tr><td class="py-1.5 font-bold w-40">1. Nama Lengkap</td><td>: <span id="pBayiNama" class="font-bold">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">2. Jenis Kelamin</td><td>: <span id="pBayiJk">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">3. Tempat, Tgl Lahir</td><td>: <span id="pBayiTTL">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">4. Agama</td><td>: <span id="pBayiAgama">ISLAM</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">5. Nomor KK Orang Tua</td><td>: <span id="pBayiKK" class="font-mono font-bold">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">6. Nama Ayah</td><td>: <span id="pBayiAyah">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">7. Nama Ibu</td><td>: <span id="pBayiIbu">-</span></td></tr>
-                    </table>
-                    <p class="pt-2">Anak tersebut di atas adalah benar anak kandung dari pasangan suami istri tersebut dan telah tercatat dalam sistem kependudukan Desa Pugaan.</p>
-                </div>
-                <div class="flex justify-between pt-12 text-center">
-                    <div>
-                        <p>Mengetahui,</p>
-                        <p class="font-bold">Kepala Desa Pugaan</p>
-                        <br><br><br>
-                        <p class="font-bold underline">HAMID</p>
-                    </div>
-                    <div>
-                        <p>Pugaan, <span id="pTglCetak"></span></p>
-                        <p class="font-bold">Pemohon / Pelapor</p>
-                        <br><br><br>
-                        <p class="font-bold underline">( ........................................ )</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-3">
-                <button onclick="tutupModalF201()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700">Tutup</button>
-                <button onclick="window.print()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 font-bold rounded-xl text-white shadow-md flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i> Cetak / Unduh F-2.01</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL CETAK LAYANAN SURAT & FORMULIR -->
-    <div id="modalCetakFormulir" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
-            <div class="p-5 bg-emerald-900 text-white flex justify-between items-center no-print">
-                <div class="flex items-center gap-3">
-                    <div>
-                        <h3 id="modalJudulFormulir" class="font-bold text-sm md:text-base">Pratinjau Dokumen Resmi</h3>
-                        <p class="text-xs text-emerald-200">Klik langsung pada teks di bawah untuk mengedit jika ada kesalahan sebelum dicetak.</p>
-                    </div>
-                </div>
-                <button onclick="tutupModalCetakFormulir()" class="text-white hover:text-slate-200 font-bold p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
-            </div>
-            <div id="printableAreaSurat" class="p-8 overflow-y-auto space-y-6 text-slate-900 text-xs leading-relaxed bg-white"></div>
-            <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center no-print">
-                <span class="text-xs text-amber-700 font-bold bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">ℹ️ Tips: Semua kotak teks di atas bisa diklik & diketik langsung untuk perbaikan!</span>
-                <div class="flex gap-3">
-                    <button onclick="tutupModalCetakFormulir()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700">Tutup</button>
-                    <button onclick="window.print()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 font-bold rounded-xl text-white shadow-md flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i> Cetak / Unduh Dokumen</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- BOTTOM NAVBAR KHUSUS HP -->
     <div id="bottomNav" class="hidden fixed bottom-0 inset-x-0 bg-white/90 backdrop-blur-xl border-t border-slate-200/80 z-30 px-4 py-2.5 flex justify-around items-center md:hidden shadow-2xl">
         <button onclick="switchTab('ringkasan')" class="flex flex-col items-center gap-1 text-emerald-600 font-bold transition transform active:scale-90" id="bnav-ringkasan">
@@ -811,7 +742,6 @@
 
         let dataPenduduk = [];
         let selectedWargaMati = null;
-        let selectedWargaSurat = null;
         let isFullscreenMode = false;
         const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
 
@@ -822,7 +752,6 @@
                 document.getElementById('bottomNav').classList.remove('hidden');
                 tarikDataDariGoogleSheets();
             }
-            gantiFormulirSurat();
         });
 
         function toggleMobileSidebar() {
@@ -1130,151 +1059,56 @@
             });
         }
 
-        // --- LAYANAN SURAT & FORMULIR ---
-        let manualAnggotaKK = [];
+        function catatKelahiran(e) {
+            e.preventDefault();
+            let kk = document.getElementById('bayiKK').value;
+            let rt = document.getElementById('bayiRT').value;
+            let nama = document.getElementById('bayiNama').value.toUpperCase();
+            let jk = document.getElementById('bayiJk').value;
+            let agama = document.getElementById('bayiAgama').value;
+            let tempatLahir = document.getElementById('bayiTempatLahir').value;
+            let tanggal = document.getElementById('bayiTanggal').value;
+            let nik = document.getElementById('bayiNik').value || ("630909" + Math.floor(1000000000 + Math.random() * 9000000000));
+            let ayah = document.getElementById('bayiAyah').value;
+            let ibu = document.getElementById('bayiIbu').value;
 
-        function gantiFormulirSurat() {
-            let jenis = document.getElementById('pilihJenisFormulir').value;
-            let container = document.getElementById('containerFormDinamis');
-            container.innerHTML = '';
+            dataPenduduk.push({
+                kk: kk, rt: rt, nik: nik, nama: nama, jk: jk, agama: agama,
+                tempatLahir: tempatLahir, tanggalLahir: tanggal, umur: hitungUmur(tanggal),
+                pendidikan: "BELUM SEKOLAH", pekerjaan: "BELUM / TIDAK BEKERJA",
+                statusPerkawinan: "BELUM KAWIN", hubunganKK: "ANAK", ayah: ayah, ibu: ibu
+            });
 
-            if (jenis === 'permohonan_kk') {
-                container.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div><label class="block font-bold text-slate-600 mb-1">Nama Kepala Keluarga</label><input type="text" id="f_kk_kepala" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Kepala Keluarga"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">Nomor Kartu Keluarga (KK)</label><input type="text" id="f_kk_nomor" class="w-full px-4 py-3 border rounded-xl" placeholder="Nomor KK"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">Nama Jalan / Dusun</label><input type="text" id="f_kk_jalan" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Jalan"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">RT</label><input type="text" id="f_kk_rt" class="w-full px-4 py-3 border rounded-xl" value="03"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">Desa / Kelurahan</label><input type="text" id="f_kk_desa" class="w-full px-4 py-3 border rounded-xl" value="PUGAAN"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">Kecamatan</label><input type="text" id="f_kk_kec" class="w-full px-4 py-3 border rounded-xl" value="PUGAAN"></div>
-                    </div>
-                    
-                    <div class="pt-4 border-t border-slate-200 space-y-3">
-                        <div class="flex justify-between items-center">
-                            <h4 class="font-bold text-slate-800 text-sm">Daftar Anggota Keluarga (Termasuk Bayi Baru Lahir / Anggota Tambahan Manual)</h4>
-                            <button type="button" onclick="tambahBarisAnggotaKK()" class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-xs hover:bg-emerald-700">+ Tambah Anggota / Bayi</button>
-                        </div>
-                        <p class="text-[11px] text-slate-400">Bayi yang baru lahir atau anggota tambahan dapat diinput manual di sini agar tercetak lengkap persis seperti blangko F-1.01.</p>
-                        <div id="listAnggotaManualContainer" class="space-y-2"></div>
-                    </div>
-                `;
-                manualAnggotaKK = [];
-                tambahBarisAnggotaKK();
-            } else if (jenis === 'akta_kelahiran') {
-                container.innerHTML = `
-                    <div><label class="block font-bold text-slate-600 mb-1">Nama Lengkap Anak / Bayi</label><input type="text" id="f_akl_nama" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Bayi" value="MUHAMMAD AL FATIH"></div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div><label class="block font-bold text-slate-600 mb-1">NIK Bayi</label><input type="text" id="f_akl_nik" class="w-full px-4 py-3 border rounded-xl" placeholder="NIK Bayi" value="6309092210260001"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">Jenis Kelamin</label><select id="f_akl_jk" class="w-full px-4 py-3 border rounded-xl"><option value="LAKI-LAKI">1. Laki-laki</option><option value="PEREMPUAN">2. Perempuan</option></select></div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div><label class="block font-bold text-slate-600 mb-1">Nama Pelapor</label><input type="text" id="f_pelapor_nama" class="w-full px-4 py-3 border rounded-xl" value="HAMID"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">NIK Pelapor</label><input type="text" id="f_pelapor_nik" class="w-full px-4 py-3 border rounded-xl" value="6309090101800001"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">No. KK Pelapor</label><input type="text" id="f_pelapor_kk" class="w-full px-4 py-3 border rounded-xl" value="6309090101800001"></div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div><label class="block font-bold text-slate-600 mb-1">Nama Ayah</label><input type="text" id="f_ayah_nama" class="w-full px-4 py-3 border rounded-xl" value="HAMID"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">NIK Ayah</label><input type="text" id="f_ayah_nik" class="w-full px-4 py-3 border rounded-xl" value="6309090101800001"></div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div><label class="block font-bold text-slate-600 mb-1">Nama Ibu</label><input type="text" id="f_ibu_nama" class="w-full px-4 py-3 border rounded-xl" value="DINI"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">NIK Ibu</label><input type="text" id="f_ibu_nik" class="w-full px-4 py-3 border rounded-xl" value="6309094505850002"></div>
-                    </div>
-                `;
-            } else if (jenis === 'akta_kematian') {
-                container.innerHTML = `
-                    <div><label class="block font-bold text-slate-600 mb-1">Nama Almarhum / Almarhumah</label><input type="text" id="f_akm_nama" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Warga yang Meninggal"></div>
-                    <div><label class="block font-bold text-slate-600 mb-1">NIK</label><input type="text" id="f_akm_nik" class="w-full px-4 py-3 border rounded-xl" placeholder="16 digit NIK"></div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div><label class="block font-bold text-slate-600 mb-1">Hari & Tanggal Kematian</label><input type="text" id="f_akm_tgl" class="w-full px-4 py-3 border rounded-xl" placeholder="Kamis, 15/10/2026"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">Tempat Meninggal</label><input type="text" id="f_akm_tempat" class="w-full px-4 py-3 border rounded-xl" value="Desa Pugaan"></div>
-                    </div>
-                `;
-            } else if (jenis === 'sptjm_kelahiran') {
-                container.innerHTML = `
-                    <div><label class="block font-bold text-slate-600 mb-1">Nama Ibu Kandung / Pemohon</label><input type="text" id="f_sptjm_ibu" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Ibu"></div>
-                    <div><label class="block font-bold text-slate-600 mb-1">NIK Ibu</label><input type="text" id="f_sptjm_nik_ibu" class="w-full px-4 py-3 border rounded-xl" placeholder="16 digit NIK"></div>
-                    <div><label class="block font-bold text-slate-600 mb-1">Nama Anak</label><input type="text" id="f_sptjm_anak" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Lengkap Anak"></div>
-                `;
-            } else if (jenis === 'sptjm_suami_istri') {
-                container.innerHTML = `
-                    <div><label class="block font-bold text-slate-600 mb-1">Nama Suami</label><input type="text" id="f_suami_nama" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Suami"></div>
-                    <div><label class="block font-bold text-slate-600 mb-1">Nama Istri</label><input type="text" id="f_istri_nama" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Istri"></div>
-                    <div><label class="block font-bold text-slate-600 mb-1">Nomor Kartu Keluarga (KK)</label><input type="text" id="f_suami_istri_kk" class="w-full px-4 py-3 border rounded-xl" placeholder="No KK"></div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <div><label class="block font-bold text-slate-600 mb-1">Nama Warga</label><input type="text" id="f_umum_nama" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Warga"></div>
-                    <div><label class="block font-bold text-slate-600 mb-1">NIK</label><input type="text" id="f_umum_nik" class="w-full px-4 py-3 border rounded-xl" placeholder="NIK Warga"></div>
-                    <div><label class="block font-bold text-slate-600 mb-1">Keperluan</label><input type="text" id="f_umum_keperluan" class="w-full px-4 py-3 border rounded-xl" value="Keperluan Administrasi Kependudukan"></div>
-                `;
-            }
+            urutkanDataBerdasarkanRT();
+            renderTabelPenduduk();
+            renderGrafikKK();
+            eksporKeGoogleSheets();
+            alert("Kelahiran berhasil dicatat dan disimpan ke database.");
+            e.target.reset();
         }
 
-        function tambahBarisAnggotaKK() {
-            let container = document.getElementById('listAnggotaManualContainer');
-            if(!container) return;
-            let index = container.children.length + 1;
-            let div = document.createElement('div');
-            div.className = "p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2 relative";
-            div.innerHTML = `
-                <div class="flex justify-between items-center font-bold text-slate-700">
-                    <span>Anggota / Bayi #${index}</span>
-                    <button type="button" onclick="this.parentElement.parentElement.remove()" class="text-red-500 font-bold text-[10px] hover:underline">Hapus Baris</button>
-                </div>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <input type="text" placeholder="Nama Lengkap" class="input-nama px-3 py-2 border rounded-lg bg-white">
-                    <select class="input-jk px-3 py-2 border rounded-lg bg-white"><option value="L">L</option><option value="P">P</option></select>
-                    <input type="text" placeholder="Tempat Lahir" class="input-tempat px-3 py-2 border rounded-lg bg-white" value="Pugaan">
-                    <input type="text" placeholder="Tanggal Lahir (DD/MM/YYYY)" class="input-tgl px-3 py-2 border rounded-lg bg-white">
-                    <input type="text" placeholder="Golongan Darah" class="input-goldarah px-3 py-2 border rounded-lg bg-white" value="-">
-                    <input type="text" placeholder="Status Perkawinan" class="input-status px-3 py-2 border rounded-lg bg-white" value="BELUM KAWIN">
-                    <input type="text" placeholder="Hubungan Keluarga" class="input-hub px-3 py-2 border rounded-lg bg-white" value="Anak">
-                    <input type="text" placeholder="Agama" class="input-agama px-3 py-2 border rounded-lg bg-white" value="ISLAM">
-                    <input type="text" placeholder="Pendidikan Terakhir" class="input-pend px-3 py-2 border rounded-lg bg-white" value="-">
-                    <input type="text" placeholder="Pekerjaan" class="input-pek px-3 py-2 border rounded-lg bg-white" value="BELUM / TIDAK BEKERJA">
-                    <input type="text" placeholder="Nama Ayah" class="input-ayah px-3 py-2 border rounded-lg bg-white" value="-">
-                    <input type="text" placeholder="Nama Ibu" class="input-ibu px-3 py-2 border rounded-lg bg-white" value="-">
-                </div>
-            `;
-            container.appendChild(div);
-        }
-
-        function cariWargaUntukSurat() {
-            let kw = document.getElementById('inputCariWargaSurat').value.toLowerCase();
-            let dropdown = document.getElementById('hasilCariWargaSurat');
+        function cariWargaMati() {
+            let kw = document.getElementById('cariMatiKeyword').value.toLowerCase();
+            let dropdown = document.getElementById('hasilPencarianMati');
             dropdown.innerHTML = '';
-            if (kw.length < 2) { dropdown.classList.add('hidden'); return; }
+            if(kw.length < 2) { dropdown.classList.add('hidden'); return; }
 
-            let matches = dataPenduduk.filter(w => w.nama.toLowerCase().includes(kw) || w.nik.toLowerCase().includes(kw));
-            if (matches.length === 0) { dropdown.classList.add('hidden'); return; }
+            let matches = dataPenduduk.filter(w => w.nama.toLowerCase().includes(kw) || w.nik.includes(kw));
+            if(matches.length === 0) { dropdown.classList.add('hidden'); return; }
 
             matches.forEach(w => {
                 let div = document.createElement('div');
-                div.className = "p-3 hover:bg-emerald-50 cursor-pointer text-xs border-b font-semibold";
+                div.className = "p-3 hover:bg-red-50 cursor-pointer text-xs border-b font-semibold";
                 div.innerHTML = `${w.nama} <span class="text-slate-400 font-mono text-[10px]">(${w.nik} - RT ${w.rt})</span>`;
                 div.onclick = function() {
-                    selectedWargaSurat = w;
-                    document.getElementById('inputCariWargaSurat').value = w.nama;
-                    
-                    let jenis = document.getElementById('pilihJenisFormulir').value;
-                    if(jenis === 'permohonan_kk') {
-                        if(document.getElementById('f_kk_kepala')) document.getElementById('f_kk_kepala').value = w.nama;
-                        if(document.getElementById('f_kk_nomor')) document.getElementById('f_kk_nomor').value = w.kk;
-                        if(document.getElementById('f_kk_rt')) document.getElementById('f_kk_rt').value = w.rt.replace(/rt\s*/gi, '').trim();
-                    } else if(jenis === 'akta_kelahiran') {
-                        if(document.getElementById('f_akl_nama')) document.getElementById('f_akl_nama').value = w.nama;
-                        if(document.getElementById('f_akl_nik')) document.getElementById('f_akl_nik').value = w.nik;
-                        if(document.getElementById('f_pelapor_nama')) document.getElementById('f_pelapor_nama').value = w.nama;
-                        if(document.getElementById('f_pelapor_nik')) document.getElementById('f_pelapor_nik').value = w.nik;
-                        if(document.getElementById('f_pelapor_kk')) document.getElementById('f_pelapor_kk').value = w.kk;
-                    } else if(jenis === 'akta_kematian') {
-                        if(document.getElementById('f_akm_nama')) document.getElementById('f_akm_nama').value = w.nama;
-                        if(document.getElementById('f_akm_nik')) document.getElementById('f_akm_nik').value = w.nik;
-                    } else {
-                        if(document.getElementById('f_umum_nama')) document.getElementById('f_umum_nama').value = w.nama;
-                        if(document.getElementById('f_umum_nik')) document.getElementById('f_umum_nik').value = w.nik;
-                    }
+                    selectedWargaMati = w;
+                    document.getElementById('cariMatiKeyword').value = w.nama;
+                    document.getElementById('previewMatiNik').innerText = w.nik;
+                    document.getElementById('previewMatiKK').innerText = w.kk;
+                    document.getElementById('previewMatiNama').innerText = w.nama;
+                    document.getElementById('previewMatiRT').innerText = w.rt;
+                    document.getElementById('previewMatiTTL').innerText = `${w.tempatLahir}, ${parseExcelDate(w.tanggalLahir)}`;
+                    document.getElementById('previewMatiOrtu').innerText = `Ayah: ${w.ayah} | Ibu: ${w.ibu}`;
                     dropdown.classList.add('hidden');
                 };
                 dropdown.appendChild(div);
@@ -1282,323 +1116,67 @@
             dropdown.classList.remove('hidden');
         }
 
-        function renderGridCells(text, count) {
-            let cleanText = String(text || "").toUpperCase();
-            let html = '<div class="dukcapil-grid">';
-            for(let i = 0; i < count; i++) {
-                let char = cleanText[i] || '';
-                html += `<div class="dukcapil-cell">${char}</div>`;
-            }
-            html += '</div>';
-            return html;
+        function catatKematian(e) {
+            e.preventDefault();
+            if(!selectedWargaMati) { alert("Pilih warga terlebih dahulu dari hasil pencarian!"); return; }
+            if(!confirm(`Yakin ingin menghapus warga ${selectedWargaMati.nama} karena meninggal? Data akan terhapus dari sistem.`)) return;
+
+            dataPenduduk = dataPenduduk.filter(w => w.nik !== selectedWargaMati.nik);
+            urutkanDataBerdasarkanRT();
+            renderTabelPenduduk();
+            renderGrafikKK();
+            eksporKeGoogleSheets();
+            alert("Data kematian berhasil dicatat & warga telah dihapus dari database.");
+            selectedWargaMati = null;
+            document.getElementById('cariMatiKeyword').value = '';
+            document.getElementById('previewMatiNik').innerText = '-';
+            document.getElementById('previewMatiKK').innerText = '-';
+            document.getElementById('previewMatiNama').innerText = '-';
+            document.getElementById('previewMatiRT').innerText = '-';
+            document.getElementById('previewMatiTTL').innerText = '-';
+            document.getElementById('previewMatiOrtu').innerText = '-';
         }
 
-        function renderGridCells16(text) {
-            let cleanText = String(text || "").replace(/\D/g, '');
-            let html = '<div class="dukcapil-grid-16">';
-            for(let i = 0; i < 16; i++) {
-                let char = cleanText[i] || '';
-                html += `<div class="dukcapil-cell">${char}</div>`;
-            }
-            html += '</div>';
-            return html;
-        }
-
-        function pratinjauDanCetakFormulir() {
-            let jenis = document.getElementById('pilihJenisFormulir').value;
-            let area = document.getElementById('printableAreaSurat');
-            let judul = document.getElementById('modalJudulFormulir');
-            let todayStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-
-            if (jenis === 'permohonan_kk') {
-                judul.innerText = "Formulir Permohonan Kartu Keluarga (Formulir F-1.01)";
-                let kepala = document.getElementById('f_kk_kepala')?.value || '-';
-                let jalan = document.getElementById('f_kk_jalan')?.value || '-';
-                let rtCleanInput = document.getElementById('f_kk_rt')?.value.replace(/rt\s*/gi, '').trim() || '03';
-                let nokk = document.getElementById('f_kk_nomor')?.value || '-';
-                let desa = document.getElementById('f_kk_desa')?.value || 'PUGAAN';
-                let kec = document.getElementById('f_kk_kec')?.value || 'PUGAAN';
-
-                let anggotaKK = dataPenduduk.filter(w => w.kk === nokk);
-                
-                let containerManual = document.getElementById('listAnggotaManualContainer');
-                if(containerManual) {
-                    let rows = containerManual.children;
-                    for(let r of rows) {
-                        let nama = r.querySelector('.input-nama')?.value;
-                        if(nama) {
-                            anggotaKK.push({
-                                nama: nama.toUpperCase(),
-                                jk: r.querySelector('.input-jk')?.value || 'L',
-                                tempatLahir: r.querySelector('.input-tempat')?.value || 'Pugaan',
-                                tanggalLahir: r.querySelector('.input-tgl')?.value || '14/10/2026',
-                                golDarah: r.querySelector('.input-goldarah')?.value || '-',
-                                statusPerkawinan: r.querySelector('.input-status')?.value || 'BELUM KAWIN',
-                                hubunganKK: r.querySelector('.input-hub')?.value || 'Anak',
-                                agama: r.querySelector('.input-agama')?.value || 'ISLAM',
-                                pendidikan: r.querySelector('.input-pend')?.value || '-',
-                                pekerjaan: r.querySelector('.input-pek')?.value || 'BELUM / TIDAK BEKERJA',
-                                ayah: r.querySelector('.input-ayah')?.value || '-',
-                                ibu: r.querySelector('.input-ibu')?.value || '-'
-                            });
-                        }
-                    }
-                }
-
-                if(anggotaKK.length === 0) {
-                    anggotaKK = [
-                        { nama: kepala, jk: 'L', tempatLahir: 'Pugaan', tanggalLahir: '01/01/1980', golDarah: '-', statusPerkawinan: 'KAWIN', hubunganKK: 'KEPALA KELUARGA', agama: 'ISLAM', pendidikan: 'TAMAT SMA', pekerjaan: 'WIRASWASTA', ayah: '-', ibu: '-' }
-                    ];
-                }
-
-                let tabel1HTML = "";
-                let tabel2HTML = "";
-
-                anggotaKK.forEach((w, idx) => {
-                    let jkText = (w.jk === 'L' || w.jk === 'LAKI-LAKI') ? 'L' : 'P';
-                    let tglF = parseExcelDate(w.tanggalLahir);
-                    let goldarah = w.golDarah || '-';
-
-                    tabel1HTML += `
-                        <tr>
-                            <td class="border border-slate-900 p-1 text-center font-bold">${idx+1}</td>
-                            <td class="border border-slate-900 p-1 font-bold" contenteditable="true">${w.nama}</td>
-                            <td class="border border-slate-900 p-1 text-center font-bold" contenteditable="true">${jkText}</td>
-                            <td class="border border-slate-900 p-1" contenteditable="true">${w.tempatLahir}</td>
-                            <td class="border border-slate-900 p-1 text-center" contenteditable="true">${tglF}</td>
-                            <td class="border border-slate-900 p-1 text-center" contenteditable="true">${goldarah}</td>
-                        </tr>
-                    `;
-
-                    tabel2HTML += `
-                        <tr>
-                            <td class="border border-slate-900 p-1 text-center font-bold">${idx+1}</td>
-                            <td class="border border-slate-900 p-1 text-center font-bold" contenteditable="true">${w.hubunganKK}</td>
-                            <td class="border border-slate-900 p-1 text-center" contenteditable="true">${w.statusPerkawinan}</td>
-                            <td class="border border-slate-900 p-1 text-center" contenteditable="true">${w.agama}</td>
-                            <td class="border border-slate-900 p-1" contenteditable="true">${w.pendidikan}</td>
-                            <td class="border border-slate-900 p-1" contenteditable="true">${w.pekerjaan}</td>
-                            <td class="border border-slate-900 p-1" contenteditable="true">${w.ayah || '-'}</td>
-                            <td class="border border-slate-900 p-1" contenteditable="true">${w.ibu || '-'}</td>
-                        </tr>
-                    `;
-                });
-
-                area.innerHTML = `
-                    <div class="text-center font-bold text-base border-b-2 border-slate-900 pb-3 tracking-wide">
-                        PERMOHONAN KARTU KELUARGA (KK)
-                    </div>
-                    <table class="w-full text-xs mt-3 space-y-1">
-                        <tr><td class="font-bold w-48">NAMA KEPALA KELUARGA</td><td>: <b contenteditable="true">${kepala}</b> (No. KK: <span contenteditable="true">${nokk}</span>)</td></tr>
-                        <tr><td class="font-bold">NAMA JALAN</td><td>: <span contenteditable="true">${jalan}</span></td></tr>
-                        <tr><td class="font-bold">DESA / KELURAHAN</td><td>: <span contenteditable="true">${desa}</span> &nbsp;&nbsp;&nbsp;&nbsp; RT: <span contenteditable="true">${rtCleanInput}</span></td></tr>
-                        <tr><td class="font-bold">KECAMATAN / KODE POS</td><td>: <span contenteditable="true">${kec}</span> / <span contenteditable="true">71554</span></td></tr>
-                    </table>
-
-                    <table class="w-full border-collapse border border-slate-900 text-[11px] mt-4">
-                        <thead>
-                            <tr class="bg-slate-100 text-center font-bold">
-                                <th class="border border-slate-900 p-1.5 w-10">NO</th>
-                                <th class="border border-slate-900 p-1.5">NAMA LENGKAP</th>
-                                <th class="border border-slate-900 p-1.5 w-24">JENIS KELAMIN</th>
-                                <th class="border border-slate-900 p-1.5">TEMPAT LAHIR</th>
-                                <th class="border border-slate-900 p-1.5 w-28">TANGGAL LAHIR</th>
-                                <th class="border border-slate-900 p-1.5 w-24">GOLONGAN DARAH</th>
-                            </tr>
-                        </thead>
-                        <tbody>${tabel1HTML}</tbody>
-                    </table>
-
-                    <table class="w-full border-collapse border border-slate-900 text-[11px] mt-3">
-                        <thead>
-                            <tr class="bg-slate-100 text-center font-bold">
-                                <th class="border border-slate-900 p-1.5 w-10">NO</th>
-                                <th class="border border-slate-900 p-1.5">STATUS HUBUNGAN DALAM KELUARGA</th>
-                                <th class="border border-slate-900 p-1.5">STATUS PERKAWINAN</th>
-                                <th class="border border-slate-900 p-1.5">AGAMA</th>
-                                <th class="border border-slate-900 p-1.5">PENDIDIKAN TERAKHIR</th>
-                                <th class="border border-slate-900 p-1.5">PEKERJAAN</th>
-                                <th class="border border-slate-900 p-1.5">NAMA LENGKAP AYAH</th>
-                                <th class="border border-slate-900 p-1.5">NAMA LENGKAP IBU</th>
-                            </tr>
-                        </thead>
-                        <tbody>${tabel2HTML}</tbody>
-                    </table>
-
-                    <div class="flex justify-between pt-12 text-center text-xs">
-                        <div>
-                            <p class="text-left"><u>Keterangan :</u></p>
-                            <p class="text-left text-[10px]">a. Tulis data penduduk yang hendak di daftar</p>
-                            <p class="text-left text-[10px]">b. Lampirkan SKPWNI bagi pendatang</p>
-                        </div>
-                        <div>
-                            <p class="font-bold">PEMOHON KARTU KELUARGA</p>
-                            <br><br><br>
-                            <p class="font-bold underline" contenteditable="true">${kepala}</p>
-                        </div>
-                    </div>
-                `;
-            } else if (jenis === 'akta_kelahiran') {
-                judul.innerText = "Formulir Pelaporan Pencatatan Sipil (Formulir F-2.01)";
-                let namaBayi = document.getElementById('f_akl_nama')?.value || 'MUHAMMAD AL FATIH';
-                let nikBayi = document.getElementById('f_akl_nik')?.value || '6309092210260001';
-                let pelaporNama = document.getElementById('f_pelapor_nama')?.value || 'HAMID';
-                let pelaporNik = document.getElementById('f_pelapor_nik')?.value || '6309090101800001';
-                let pelaporKK = document.getElementById('f_pelapor_kk')?.value || '6309090101800001';
-                let ayahNama = document.getElementById('f_ayah_nama')?.value || 'HAMID';
-                let ayahNik = document.getElementById('f_ayah_nik')?.value || '6309090101800001';
-                let ibuNama = document.getElementById('f_ibu_nama')?.value || 'DINI';
-                let ibuNik = document.getElementById('f_ibu_nik')?.value || '6309094505850002';
-
-                area.innerHTML = `
-                    <div style="font-family: Arial, sans-serif; font-size: 9px; color: #000; line-height: 1.15;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 6px;">
-                            <div>
-                                <table style="font-size: 9px;">
-                                    <tr><td style="width: 120px; font-weight: bold;">Provinsi</td><td>: KALIMANTAN SELATAN</td></tr>
-                                    <tr><td style="font-weight: bold;">Kabupaten/Kota</td><td>: TABALONG</td></tr>
-                                    <tr><td style="font-weight: bold;">Kecamatan</td><td>: PUGAAN</td></tr>
-                                    <tr><td style="font-weight: bold;">Desa/Kelurahan</td><td>: PUGAAN</td></tr>
-                                    <tr><td style="font-weight: bold;">Kode Wilayah</td><td>: <span style="display:inline-block; border:1px solid #000; padding: 1px 4px; font-family:monospace;">63.09.09.2001</span></td></tr>
-                                </table>
-                            </div>
-                            <div style="border: 2px solid #000; padding: 4px 12px; font-weight: 900; font-size: 13px;">F-2.01</div>
-                        </div>
-
-                        <div style="text-align: center; font-weight: 900; font-size: 11px; margin-bottom: 6px; background: #eee; padding: 3px; border-top: 1px solid #000; border-bottom: 1px solid #000;">
-                            FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI
-                        </div>
-
-                        <table style="width: 100%; font-size: 8.5px; border-collapse: collapse; margin-bottom: 6px;">
-                            <tr>
-                                <td style="width: 50%; vertical-align: top; border: 1px solid #000; padding: 3px;">
-                                    <b>Jenis Pelaporan Pencatatan Sipil :</b><br>
-                                    [✔] Kelahiran &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Pengakuan Anak<br>
-                                    [ &nbsp; ] Lahir Mati &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Pengesahan Anak<br>
-                                    [ &nbsp; ] Perkawinan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Perubahan Nama<br>
-                                    [ &nbsp; ] Pembatalan Perkawinan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Perubahan Status Kewarganegaraan<br>
-                                    [ &nbsp; ] Perceraian &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Pencatatan Peristiwa Penting Lainnya<br>
-                                    [ &nbsp; ] Pembatalan Perceraian &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Pembetulan Akta<br>
-                                    [ &nbsp; ] Kematian &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Pembatalan Akta<br>
-                                    [ &nbsp; ] Pengangkatan Anak &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Pelaporan Pencatatan Sipil dari Luar Wilayah NKRI
-                                </td>
-                            </tr>
-                        </table>
-
-                        <!-- DATA PELAPOR -->
-                        <div style="border: 1px solid #000; margin-bottom: 5px;">
-                            <div style="background: #ddd; font-weight: bold; padding: 2px 4px; border-bottom: 1px solid #000;">DATA PELAPOR</div>
-                            <table style="width: 100%; font-size: 8.5px; border-collapse: collapse; padding: 3px;">
-                                <tr><td style="width: 150px; font-weight: bold; padding: 1px;">1. Nama</td><td style="width: 10px;">:</td><td><span contenteditable="true">${renderGridCells(pelaporNama, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">2. NIK</td><td>:</td><td><span contenteditable="true">${renderGridCells16(pelaporNik)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">3. Nomor Dokumen Perjalanan</td><td>:</td><td>${renderGridCells16('')}</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">4. Nomor Kartu Keluarga</td><td>:</td><td><span contenteditable="true">${renderGridCells16(pelaporKK)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">5. Kewarganegaraan</td><td>:</td><td>${renderGridCells('WNI', 28)}</td></tr>
-                            </table>
-                        </div>
-
-                        <!-- DATA SUBJEK ANAK KESATU -->
-                        <div style="border: 1px solid #000; margin-bottom: 5px;">
-                            <div style="background: #ddd; font-weight: bold; padding: 2px 4px; border-bottom: 1px solid #000;">DATA SUBJEK ANAK KESATU</div>
-                            <table style="width: 100%; font-size: 8.5px; border-collapse: collapse; padding: 3px;">
-                                <tr><td style="width: 150px; font-weight: bold; padding: 1px;">1. Nama</td><td style="width: 10px;">:</td><td><span contenteditable="true">${renderGridCells(namaBayi, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">2. NIK</td><td>:</td><td><span contenteditable="true">${renderGridCells16(nikBayi)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">3. Nomor Dokumen Perjalanan</td><td>:</td><td>${renderGridCells16('')}</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">4. Nomor Kartu Keluarga</td><td>:</td><td><span contenteditable="true">${renderGridCells16(pelaporKK)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">5. Kewarganegaraan</td><td>:</td><td>${renderGridCells('WNI', 28)}</td></tr>
-                            </table>
-                        </div>
-
-                        <!-- DATA ORANG TUA -->
-                        <div style="border: 1px solid #000; margin-bottom: 5px;">
-                            <div style="background: #ddd; font-weight: bold; padding: 2px 4px; border-bottom: 1px solid #000;">DATA ORANG TUA** <i>hanya diisi untuk keperluan kelahiran, lahir mati dan kematian</i></div>
-                            <table style="width: 100%; font-size: 8.5px; border-collapse: collapse; padding: 3px;">
-                                <tr><td style="width: 150px; font-weight: bold; padding: 1px;">1. Nama Ayah</td><td style="width: 10px;">:</td><td><span contenteditable="true">${renderGridCells(ayahNama, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">2. NIK Ayah</td><td>:</td><td><span contenteditable="true">${renderGridCells16(ayahNik)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">3. Tempat Lahir Ayah</td><td>:</td><td>${renderGridCells('PUGAAN', 28)}</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">4. Tanggal Lahir Ayah</td><td>:</td><td>Tgl: <span style="display:inline-block; border:1px solid #000; width:22px; text-align:center;" contenteditable="true">01</span> Bln: <span style="display:inline-block; border:1px solid #000; width:22px; text-align:center;" contenteditable="true">01</span> Thn: <span style="display:inline-block; border:1px solid #000; width:40px; text-align:center;" contenteditable="true">1980</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">5. Kewarganegaraan Ayah</td><td>:</td><td>${renderGridCells('WNI', 28)}</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">6. Nama Ibu</td><td>:</td><td><span contenteditable="true">${renderGridCells(ibuNama, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">7. NIK Ibu</td><td>:</td><td><span contenteditable="true">${renderGridCells16(ibuNik)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">8. Tempat Lahir Ibu</td><td>:</td><td>${renderGridCells('PUGAAN', 28)}</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">9. Tanggal Lahir Ibu</td><td>:</td><td>Tgl: <span style="display:inline-block; border:1px solid #000; width:22px; text-align:center;" contenteditable="true">01</span> Bln: <span style="display:inline-block; border:1px solid #000; width:22px; text-align:center;" contenteditable="true">01</span> Thn: <span style="display:inline-block; border:1px solid #000; width:40px; text-align:center;" contenteditable="true">1982</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">10. Kewarganegaraan Ibu</td><td>:</td><td>${renderGridCells('WNI', 28)}</td></tr>
-                            </table>
-                        </div>
-
-                        <!-- DATA ANAK -->
-                        <div style="border: 1px solid #000; margin-bottom: 5px;">
-                            <div style="background: #ddd; font-weight: bold; padding: 2px 4px; border-bottom: 1px solid #000;">DATA ANAK</div>
-                            <table style="width: 100%; font-size: 8.5px; border-collapse: collapse; padding: 3px;">
-                                <tr><td style="width: 150px; font-weight: bold; padding: 1px;">1. Nama</td><td style="width: 10px;">:</td><td><span contenteditable="true">${renderGridCells(namaBayi, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">2. Jenis Kelamin</td><td>:</td><td><b>[✔] 1. Laki-laki</b> &nbsp;&nbsp;&nbsp; [ &nbsp; ] 2. Perempuan</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">3. Tempat Dilahirkan</td><td>:</td><td>[ &nbsp; ] 1. RS/RB &nbsp; [ &nbsp; ] 2. Puskesmas &nbsp; [ &nbsp; ] 3. Polindes &nbsp; <b>[✔] 4. Rumah</b> &nbsp; [ &nbsp; ] 5. Lainnya</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">4. Tempat Kelahiran</td><td>:</td><td>${renderGridCells('PUGAAN', 28)}</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">5. Hari dan Tanggal Lahir</td><td>:</td><td>Hari: <b contenteditable="true">Kamis</b>, &nbsp; Tgl: <span style="display:inline-block; border:1px solid #000; width:18px; text-align:center;" contenteditable="true">22</span> Bln: <span style="display:inline-block; border:1px solid #000; width:18px; text-align:center;" contenteditable="true">05</span> Thn: <span style="display:inline-block; border:1px solid #000; width:36px; text-align:center;" contenteditable="true">2026</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">6. Pukul</td><td>:</td><td><span style="display:inline-block; border:1px solid #000; width:26px; text-align:center;" contenteditable="true">08</span> : <span style="display:inline-block; border:1px solid #000; width:26px; text-align:center;" contenteditable="true">00</span></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">7. Jenis Kelahiran</td><td>:</td><td><b>[✔] 1. Tunggal</b> &nbsp; [ &nbsp; ] 2. Kembar 2 &nbsp; [ &nbsp; ] 3. Kembar 3</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">8. Kelahiran ke-</td><td>:</td><td><b contenteditable="true">1</b></td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">9. Penolong Kelahiran</td><td>:</td><td>[ &nbsp; ] 1. Dokter &nbsp; <b>[✔] 2. Bidan/Perawat</b> &nbsp; [ &nbsp; ] 3. Dukun &nbsp; [ &nbsp; ] 4. Lainnya</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">10. Berat Bayi</td><td>:</td><td><span style="display:inline-block; border:1px solid #000; width:35px; text-align:center;" contenteditable="true">3.0</span> Kg</td></tr>
-                                <tr><td style="font-weight: bold; padding: 1px;">11. Panjang Bayi</td><td>:</td><td><span style="display:inline-block; border:1px solid #000; width:35px; text-align:center;" contenteditable="true">48</span> CM</td></tr>
-                            </table>
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; margin-top: 8px; text-align: center; font-size: 9px;">
-                            <div>
-                                Mengetahui :<br>
-                                <b>Kepala Desa/Lurah/</b><br>
-                                <b>Pejabat Dukcapil Yang Membidangi</b><br><br><br><br>
-                                <b>( HAMID )</b>
-                            </div>
-                            <div>
-                                Tanjung, ${todayStr}<br>
-                                <b>Pelapor</b><br><br><br><br>
-                                <b>( <span contenteditable="true">${pelaporNama}</span> )</b>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (jenis === 'akta_kematian') {
-                judul.innerText = "Surat Keterangan Kematian";
-                let nama = document.getElementById('f_akm_nama')?.value || '-';
-                let nik = document.getElementById('f_akm_nik')?.value || '-';
-                let tgl = document.getElementById('f_akm_tgl')?.value || '-';
-                let tempat = document.getElementById('f_akm_tempat')?.value || '-';
-
-                area.innerHTML = `
-                    <div class="text-center font-bold text-sm border-b-2 border-slate-900 pb-3">SURAT KETERANGAN KEMATIAN</div>
-                    <table class="w-full text-xs space-y-2 mt-3">
-                        <tr><td class="font-bold w-44">Nama Almarhum/ah</td><td>: <b contenteditable="true">${nama}</b> (NIK: <span contenteditable="true">${nik}</span>)</td></tr>
-                        <tr><td class="font-bold">Tanggal / Tempat</td><td>: <span contenteditable="true">${tgl}</span> di <span contenteditable="true">${tempat}</span></td></tr>
-                    </table>
-                    <div class="flex justify-between pt-12 text-center">
-                        <div><p>Kepala Desa Pugaan</p><br><br><p class="font-bold underline">HAMID</p></div>
-                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Keluarga / Pelapor</p><br><br><p class="font-bold underline" contenteditable="true">( ........................ )</p></div>
-                    </div>
-                `;
+        function switchPindahTab(sub) {
+            if(sub === 'pergi') {
+                document.getElementById('subview-pergi').classList.remove('hidden');
+                document.getElementById('subview-datang').classList.add('hidden');
+                document.getElementById('btnPergi').className = "px-5 py-3 bg-emerald-600 text-white rounded-2xl text-xs font-bold shadow-md shadow-emerald-600/20";
+                document.getElementById('btnDatang').className = "px-5 py-3 bg-slate-200 text-slate-600 rounded-2xl text-xs font-bold";
             } else {
-                let nama = document.getElementById('f_umum_nama')?.value || '-';
-                let nik = document.getElementById('f_umum_nik')?.value || '-';
-                let keperluan = document.getElementById('f_umum_keperluan')?.value || '-';
-                area.innerHTML = `
-                    <div class="text-center border-b-2 border-slate-900 pb-4"><h4 class="font-black text-base uppercase">SURAT KETERANGAN ${jenis}</h4></div>
-                    <table class="w-full text-xs pt-3">
-                        <tr><td class="font-bold w-40">Nama</td><td>: <span contenteditable="true">${nama}</span></td></tr>
-                        <tr><td class="font-bold">NIK</td><td>: <span contenteditable="true">${nik}</span></td></tr>
-                        <tr><td class="font-bold">Keperluan</td><td>: <span contenteditable="true">${keperluan}</span></td></tr>
-                    </table>
-                    <div class="flex justify-between pt-12 text-center">
-                        <div><p>Kepala Desa Pugaan</p><br><br><p class="font-bold underline">HAMID</p></div>
-                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Pemohon</p><br><br><p class="font-bold underline" contenteditable="true">${nama}</p></div>
-                    </div>
-                `;
+                document.getElementById('subview-pergi').classList.add('hidden');
+                document.getElementById('subview-datang').classList.remove('hidden');
+                document.getElementById('btnDatang').className = "px-5 py-3 bg-emerald-600 text-white rounded-2xl text-xs font-bold shadow-md shadow-emerald-600/20";
+                document.getElementById('btnPergi').className = "px-5 py-3 bg-slate-200 text-slate-600 rounded-2xl text-xs font-bold";
             }
-
-            document.getElementById('modalCetakFormulir').classList.remove('hidden');
         }
 
-        function tutupModalCetakFormulir() { document.getElementById('modalCetakFormulir').classList.add('hidden'); }
+        function catatPindahPergi(e) {
+            e.preventDefault();
+            let nik = document.getElementById('pindahNik').value;
+            let target = dataPenduduk.find(w => w.nik === nik || w.nama.toLowerCase().includes(nik.toLowerCase()));
+            if(!target) { alert("Warga tidak ditemukan!"); return; }
+            if(!confirm(`Proses pindah untuk ${target.nama}?`)) return;
+            dataPenduduk = dataPenduduk.filter(w => w.nik !== target.nik);
+            renderTabelPenduduk(); renderGrafikKK(); eksporKeGoogleSheets();
+            alert("Warga berhasil diproses pindah dan dihapus dari database.");
+            e.target.reset();
+        }
+
+        function catatPindahDatang(e) {
+            e.preventDefault();
+            let nama = document.getElementById('datangNama').value.toUpperCase();
+            dataPenduduk.push({
+                kk: "630909" + Math.floor(1000000000 + Math.random() * 9000000000),
+                rt: "01", nik: "630909" + Math.floor(1000000000 + Math.random() * 9000000000),
+                nama: nama, jk: "L", agama: "ISLAM", tempatLahir: "PUGAAN",
+                tanggalLahir: "01/01/1990", umur: 36, pendidikan: "SLTA",
+                pekerjaan: "WIRASWASTA", statusPerkawinan: "KAWIN", hubunganKK: "KEPALA KELUARGA", ayah: "-", ibu: "-"
+            });
+            urutkanDataBerdasarkanRT(); renderTabelPenduduk(); renderGrafikKK(); eksporKeGoogleSheets();
+            alert("Penduduk datang berhasil ditambahkan!");
+            e.target.reset();
+        }
 
         function updateStatistik() {
             let total = dataPenduduk.length;
