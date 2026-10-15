@@ -18,6 +18,8 @@
             body * { visibility: hidden; }
             #printableArea, #printableArea * { visibility: visible; }
             #printableArea { position: absolute; left: 0; top: 0; width: 100%; }
+            #printableAreaSurat, #printableAreaSurat * { visibility: visible; }
+            #printableAreaSurat { position: absolute; left: 0; top: 0; width: 100%; }
         }
     </style>
 </head>
@@ -607,7 +609,7 @@
                     </div>
                 </div>
 
-                <!-- 8. LAYANAN SURAT & FORMULIR (LENGKAP DENGAN FORMULIR PERMOHONAN KK SESUAI BLANGKO RESMI F-1.01) -->
+                <!-- 8. LAYANAN SURAT & FORMULIR (PERMOHONAN KK SESUAI GAMBAR CONTOH) -->
                 <div id="view-surat" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-4xl mx-auto">
                         <h3 class="font-bold text-slate-900 mb-1 text-base">Pusat Layanan Surat & Formulir Kependudukan</h3>
@@ -1094,7 +1096,7 @@
             });
         }
 
-        // --- LAYANAN SURAT & FORMULIR (F-1.01 LENGKAP + INPUT MANUAL BAYI/ANGGOTA BARU) ---
+        // --- LAYANAN SURAT & FORMULIR (F-1.01 PERSIS SESUAI CONTOH GAMBAR) ---
         let manualAnggotaKK = [];
 
         function gantiFormulirSurat() {
@@ -1118,7 +1120,7 @@
                             <h4 class="font-bold text-slate-800 text-sm">Daftar Anggota Keluarga (Termasuk Bayi Baru Lahir / Anggota Tambahan Manual)</h4>
                             <button type="button" onclick="tambahBarisAnggotaKK()" class="bg-emerald-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold shadow-xs hover:bg-emerald-700">+ Tambah Anggota / Bayi</button>
                         </div>
-                        <p class="text-[11px] text-slate-400">Bayi yang baru lahir atau anggota tambahan dapat diinput manual di sini agar tercetak lengkap di formulir Permohonan KK (F-1.01).</p>
+                        <p class="text-[11px] text-slate-400">Bayi yang baru lahir atau anggota tambahan dapat diinput manual di sini agar tercetak lengkap persis seperti blangko F-1.01.</p>
                         <div id="listAnggotaManualContainer" class="space-y-2"></div>
                     </div>
                 `;
@@ -1179,17 +1181,17 @@
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <input type="text" placeholder="Nama Lengkap" class="input-nama px-3 py-2 border rounded-lg bg-white">
-                    <input type="text" placeholder="NIK" class="input-nik px-3 py-2 border rounded-lg bg-white">
                     <select class="input-jk px-3 py-2 border rounded-lg bg-white"><option value="LAKI-LAKI">Laki-laki</option><option value="PEREMPUAN">Perempuan</option></select>
                     <input type="text" placeholder="Tempat Lahir" class="input-tempat px-3 py-2 border rounded-lg bg-white" value="Pugaan">
                     <input type="text" placeholder="Tanggal Lahir (DD/MM/YYYY)" class="input-tgl px-3 py-2 border rounded-lg bg-white">
-                    <input type="text" placeholder="Agama" class="input-agama px-3 py-2 border rounded-lg bg-white" value="ISLAM">
-                    <input type="text" placeholder="Pendidikan" class="input-pend px-3 py-2 border rounded-lg bg-white" value="-">
-                    <input type="text" placeholder="Pekerjaan" class="input-pek px-3 py-2 border rounded-lg bg-white" value="BELUM / TIDAK BEKERJA">
+                    <input type="text" placeholder="Golongan Darah (- / A / B / AB / O)" class="input-goldarah px-3 py-2 border rounded-lg bg-white" value="-">
                     <input type="text" placeholder="Status Perkawinan" class="input-status px-3 py-2 border rounded-lg bg-white" value="BELUM KAWIN">
-                    <input type="text" placeholder="Hubungan KK (Cth: Anak)" class="input-hub px-3 py-2 border rounded-lg bg-white" value="Anak">
-                    <input type="text" placeholder="Nama Ayah" class="input-ayah px-3 py-2 border rounded-lg bg-white" value="-">
-                    <input type="text" placeholder="Nama Ibu" class="input-ibu px-3 py-2 border rounded-lg bg-white" value="-">
+                    <input type="text" placeholder="Hubungan Keluarga (Cth: Anak)" class="input-hub px-3 py-2 border rounded-lg bg-white" value="Anak">
+                    <input type="text" placeholder="Agama" class="input-agama px-3 py-2 border rounded-lg bg-white" value="ISLAM">
+                    <input type="text" placeholder="Pendidikan Terakhir" class="input-pend px-3 py-2 border rounded-lg bg-white" value="-">
+                    <input type="text" placeholder="Pekerjaan" class="input-pek px-3 py-2 border rounded-lg bg-white" value="BELUM / TIDAK BEKERJA">
+                    <input type="text" placeholder="Nama Lengkap Ayah" class="input-ayah px-3 py-2 border rounded-lg bg-white" value="-">
+                    <input type="text" placeholder="Nama Lengkap Ibu" class="input-ibu px-3 py-2 border rounded-lg bg-white" value="-">
                 </div>
             `;
             container.appendChild(div);
@@ -1246,9 +1248,10 @@
                 let desa = document.getElementById('f_kk_desa')?.value || 'PUGAAN';
                 let kec = document.getElementById('f_kk_kec')?.value || 'PUGAAN';
 
-                // Gabungkan database warga berdasarkan KK + input manual (bayi baru lahir / tambahan)
+                // Ambil data anggota dari database warga berdasarkan KK
                 let anggotaKK = dataPenduduk.filter(w => w.kk === nokk);
                 
+                // Tambahkan input manual (seperti bayi baru lahir atau anggota tambahan)
                 let containerManual = document.getElementById('listAnggotaManualContainer');
                 if(containerManual) {
                     let rows = containerManual.children;
@@ -1257,15 +1260,15 @@
                         if(nama) {
                             anggotaKK.push({
                                 nama: nama.toUpperCase(),
-                                nik: r.querySelector('.input-nik')?.value || '-',
                                 jk: r.querySelector('.input-jk')?.value || 'LAKI-LAKI',
                                 tempatLahir: r.querySelector('.input-tempat')?.value || 'Pugaan',
                                 tanggalLahir: r.querySelector('.input-tgl')?.value || '14/10/2026',
+                                golDarah: r.querySelector('.input-goldarah')?.value || '-',
+                                statusPerkawinan: r.querySelector('.input-status')?.value || 'BELUM KAWIN',
+                                hubunganKK: r.querySelector('.input-hub')?.value || 'Anak',
                                 agama: r.querySelector('.input-agama')?.value || 'ISLAM',
                                 pendidikan: r.querySelector('.input-pend')?.value || '-',
                                 pekerjaan: r.querySelector('.input-pek')?.value || 'BELUM / TIDAK BEKERJA',
-                                statusPerkawinan: r.querySelector('.input-status')?.value || 'BELUM KAWIN',
-                                hubunganKK: r.querySelector('.input-hub')?.value || 'Anak',
                                 ayah: r.querySelector('.input-ayah')?.value || '-',
                                 ibu: r.querySelector('.input-ibu')?.value || '-'
                             });
@@ -1275,7 +1278,7 @@
 
                 if(anggotaKK.length === 0) {
                     anggotaKK = [
-                        { nama: kepala, nik: '-', jk: 'LAKI-LAKI', tempatLahir: 'Pugaan', tanggalLahir: '01/01/1980', agama: 'ISLAM', pendidikan: 'TAMAT SMA', pekerjaan: 'WIRASWASTA', statusPerkawinan: 'KAWIN', hubunganKK: 'KEPALA KELUARGA', ayah: '-', ibu: '-' }
+                        { nama: kepala, jk: 'LAKI-LAKI', tempatLahir: 'Pugaan', tanggalLahir: '01/01/1980', golDarah: '-', statusPerkawinan: 'KAWIN', hubunganKK: 'KEPALA KELUARGA', agama: 'ISLAM', pendidikan: 'TAMAT SMA', pekerjaan: 'WIRASWASTA', ayah: '-', ibu: '-' }
                     ];
                 }
 
@@ -1283,28 +1286,29 @@
                 let tabel2HTML = "";
 
                 anggotaKK.forEach((w, idx) => {
+                    let jkText = (w.jk === 'L' || w.jk === 'LAKI-LAKI') ? 'L' : 'P';
+                    let tglF = parseExcelDate(w.tanggalLahir);
+                    let goldarah = w.golDarah || '-';
+
                     tabel1HTML += `
                         <tr>
                             <td class="border border-slate-900 p-1 text-center">${idx+1}</td>
                             <td class="border border-slate-900 p-1 font-bold">${w.nama}</td>
-                            <td class="border border-slate-900 p-1 font-mono">${w.nik || '-'}</td>
-                            <td class="border border-slate-900 p-1 text-center">${w.jk === 'L' || w.jk === 'LAKI-LAKI' ? 'L' : 'P'}</td>
+                            <td class="border border-slate-900 p-1 text-center">${jkText}</td>
                             <td class="border border-slate-900 p-1">${w.tempatLahir}</td>
-                            <td class="border border-slate-900 p-1 text-center">${parseExcelDate(w.tanggalLahir)}</td>
-                            <td class="border border-slate-900 p-1 text-center">${w.agama}</td>
-                            <td class="border border-slate-900 p-1">${w.pendidikan}</td>
-                            <td class="border border-slate-900 p-1">${w.pekerjaan}</td>
+                            <td class="border border-slate-900 p-1 text-center">${tglF}</td>
+                            <td class="border border-slate-900 p-1 text-center">${goldarah}</td>
                         </tr>
                     `;
 
                     tabel2HTML += `
                         <tr>
                             <td class="border border-slate-900 p-1 text-center">${idx+1}</td>
-                            <td class="border border-slate-900 p-1 font-bold">${w.nama}</td>
-                            <td class="border border-slate-900 p-1 text-center">${w.statusPerkawinan}</td>
                             <td class="border border-slate-900 p-1 text-center">${w.hubunganKK}</td>
-                            <td class="border border-slate-900 p-1">WNI</td>
-                            <td class="border border-slate-900 p-1">-</td>
+                            <td class="border border-slate-900 p-1 text-center">${w.statusPerkawinan}</td>
+                            <td class="border border-slate-900 p-1 text-center">${w.agama}</td>
+                            <td class="border border-slate-900 p-1">${w.pendidikan}</td>
+                            <td class="border border-slate-900 p-1">${w.pekerjaan}</td>
                             <td class="border border-slate-900 p-1">${w.ayah || '-'}</td>
                             <td class="border border-slate-900 p-1">${w.ibu || '-'}</td>
                         </tr>
@@ -1312,53 +1316,59 @@
                 });
 
                 area.innerHTML = `
-                    <div class="text-center font-bold text-sm border-b-2 border-slate-900 pb-2">
-                        FORMULIR PERMOHONAN KARTU KELUARGA (KK) BARU / PERUBAHAN (F-1.01)
+                    <div class="text-center font-bold text-base border-b-2 border-slate-900 pb-3 tracking-wide">
+                        PERMOHONAN KARTU KELUARGA (KK)
                     </div>
-                    <table class="w-full text-[11px] mt-3 space-y-1">
-                        <tr><td class="font-bold w-48">1. NAMA KEPALA KELUARGA</td><td>: <b>${kepala}</b></td></tr>
-                        <tr><td class="font-bold">2. NOMOR KARTU KELUARGA (KK)</td><td>: <span class="font-mono font-bold">${nokk}</span></td></tr>
-                        <tr><td class="font-bold">3. ALAMAT</td><td>: ${jalan}</td></tr>
-                        <tr><td class="font-bold">4. RT / RW / DUSUN</td><td>: ${rtrw} &nbsp;&nbsp;&nbsp;&nbsp; DESA/KELURAHAN: ${desa} &nbsp;&nbsp;&nbsp;&nbsp; KECAMATAN: ${kec}</td></tr>
+                    <table class="w-full text-xs mt-3 space-y-1">
+                        <tr><td class="font-bold w-48">NAMA KEPALA KELUARGA</td><td>: <b>${kepala}</b> (No. KK: ${nokk})</td></tr>
+                        <tr><td class="font-bold">NAMA JALAN</td><td>: ${jalan}</td></tr>
+                        <tr><td class="font-bold">DESA / KELURAHAN</td><td>: ${desa} &nbsp;&nbsp;&nbsp;&nbsp; RT: ${rtrw}</td></tr>
+                        <tr><td class="font-bold">KECAMATAN / KODE POS</td><td>: ${kec} / 71553</td></tr>
                     </table>
 
-                    <div class="mt-4 font-bold text-[11px]">DATA ANGGOTA KELUARGA:</div>
-                    <table class="w-full border-collapse border border-slate-900 text-[10px] mt-1">
+                    <!-- TABEL 1 SESUAI CONTOH GAMBAR -->
+                    <table class="w-full border-collapse border border-slate-900 text-[11px] mt-4">
                         <thead>
-                            <tr class="bg-slate-100 text-center">
-                                <th class="border border-slate-900 p-1">NO</th>
-                                <th class="border border-slate-900 p-1">NAMA LENGKAP</th>
-                                <th class="border border-slate-900 p-1">NIK</th>
-                                <th class="border border-slate-900 p-1">JK</th>
-                                <th class="border border-slate-900 p-1">TEMPAT LAHIR</th>
-                                <th class="border border-slate-900 p-1">TGL LAHIR</th>
-                                <th class="border border-slate-900 p-1">AGAMA</th>
-                                <th class="border border-slate-900 p-1">PENDIDIKAN</th>
-                                <th class="border border-slate-900 p-1">PEKERJAAN</th>
+                            <tr class="bg-slate-100 text-center font-bold">
+                                <th class="border border-slate-900 p-1.5 w-10">NO</th>
+                                <th class="border border-slate-900 p-1.5">NAMA LENGKAP</th>
+                                <th class="border border-slate-900 p-1.5 w-24">JENIS KELAMIN</th>
+                                <th class="border border-slate-900 p-1.5">TEMPAT LAHIR</th>
+                                <th class="border border-slate-900 p-1.5 w-28">TANGGAL LAHIR</th>
+                                <th class="border border-slate-900 p-1.5 w-24">GOLONGAN DARAH</th>
                             </tr>
                         </thead>
                         <tbody>${tabel1HTML}</tbody>
                     </table>
 
-                    <table class="w-full border-collapse border border-slate-900 text-[10px] mt-3">
+                    <!-- TABEL 2 SESUAI CONTOH GAMBAR -->
+                    <table class="w-full border-collapse border border-slate-900 text-[11px] mt-3">
                         <thead>
-                            <tr class="bg-slate-100 text-center">
-                                <th class="border border-slate-900 p-1">NO</th>
-                                <th class="border border-slate-900 p-1">NAMA LENGKAP</th>
-                                <th class="border border-slate-900 p-1">STATUS PERKAWINAN</th>
-                                <th class="border border-slate-900 p-1">HUBUNGAN KELUARGA</th>
-                                <th class="border border-slate-900 p-1">KEWARGANEGARAAN</th>
-                                <th class="border border-slate-900 p-1">NO. PASPOR / KITAP</th>
-                                <th class="border border-slate-900 p-1">NAMA AYAH</th>
-                                <th class="border border-slate-900 p-1">NAMA IBU</th>
+                            <tr class="bg-slate-100 text-center font-bold">
+                                <th class="border border-slate-900 p-1.5 w-10">NO</th>
+                                <th class="border border-slate-900 p-1.5">STATUS HUBUNGAN DALAM KELUARGA</th>
+                                <th class="border border-slate-900 p-1.5">STATUS PERKAWINAN</th>
+                                <th class="border border-slate-900 p-1.5">AGAMA</th>
+                                <th class="border border-slate-900 p-1.5">PENDIDIKAN TERAKHIR</th>
+                                <th class="border border-slate-900 p-1.5">PEKERJAAN</th>
+                                <th class="border border-slate-900 p-1.5">NAMA LENGKAP AYAH</th>
+                                <th class="border border-slate-900 p-1.5">NAMA LENGKAP IBU</th>
                             </tr>
                         </thead>
                         <tbody>${tabel2HTML}</tbody>
                     </table>
 
-                    <div class="flex justify-between pt-8 text-center text-[11px]">
-                        <div><p>Mengetahui,</p><p class="font-bold">Kepala Desa Pugaan</p><br><br><p class="font-bold underline">HAMID</p></div>
-                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">PEMOHON KARTU KELUARGA</p><br><br><p class="font-bold underline">${kepala}</p></div>
+                    <div class="flex justify-between pt-12 text-center text-xs">
+                        <div>
+                            <p class="text-left"><u>Keterangan :</u></p>
+                            <p class="text-left text-[10px]">a. Tulis data penduduk yang hendak di daftar</p>
+                            <p class="text-left text-[10px]">b. Lampirkan SKPWNI bagi pendatang</p>
+                        </div>
+                        <div>
+                            <p class="font-bold">PEMOHON KARTU KELUARGA</p>
+                            <br><br><br>
+                            <p class="font-bold underline">${kepala}</p>
+                        </div>
                     </div>
                 `;
             } else if (jenis === 'akta_kelahiran') {
