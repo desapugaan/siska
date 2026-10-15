@@ -1285,25 +1285,10 @@
             dropdown.classList.remove('hidden');
         }
 
-        function renderGridCells(text, count) {
-            let clean = String(text || "").toUpperCase();
-            let html = '<div class="dukcapil-grid">';
-            for(let i = 0; i < count; i++) {
-                html += `<div class="dukcapil-cell">${clean[i] || ''}</div>`;
-            }
-            return html + '</div>';
-        }
-
-        function renderGridCells16(text) {
-            let clean = String(text || "").replace(/\D/g, '');
-            let html = '<div class="dukcapil-grid-16">';
-            for(let i = 0; i < 16; i++) {
-                html += `<div class="dukcapil-cell">${clean[i] || ''}</div>`;
-            }
-            return html + '</div>';
-        }
-
-        function pratinjauDanCetakFormulir() {
+        // ==========================================
+        // PENGHUBUNG UTAMA KE aktakelahiran.html DI GITHUB
+        // ==========================================
+        async function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
             let judul = document.getElementById('modalJudulFormulir');
@@ -1311,78 +1296,20 @@
             
             let namaVal = document.getElementById('inputFormNama')?.value || (selectedWargaSurat ? selectedWargaSurat.nama : "MUHAMMAD AL FATIH");
             let nikVal = document.getElementById('inputFormNik')?.value || (selectedWargaSurat ? selectedWargaSurat.nik : "6309090101800001");
-            let pelaporVal = document.getElementById('inputFormPelapor')?.value || "HAMID";
-            let kkVal = selectedWargaSurat ? selectedWargaSurat.kk : "6309090101800001";
-            let ayahVal = selectedWargaSurat ? selectedWargaSurat.ayah : "HAMID";
-            let ibuVal = selectedWargaSurat ? selectedWargaSurat.ibu : "DINI";
 
-            if(jenis === 'akta_kelahiran') {
+            if (jenis === 'akta_kelahiran') {
                 judul.innerText = "Formulir F-2.01 (Akta Kelahiran)";
-                area.innerHTML = `
-                    <div style="font-family: Arial, sans-serif; font-size: 8.5px; color: #000; line-height: 1.15;">
-                        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 3px; margin-bottom: 5px;">
-                            <table>
-                                <tr><td style="width: 110px; font-weight: bold;">Provinsi</td><td>: KALIMANTAN SELATAN</td></tr>
-                                <tr><td style="font-weight: bold;">Kabupaten/Kota</td><td>: TABALONG</td></tr>
-                                <tr><td style="font-weight: bold;">Kecamatan</td><td>: PUGAAN</td></tr>
-                                <tr><td style="font-weight: bold;">Desa/Kelurahan</td><td>: PUGAAN</td></tr>
-                                <tr><td style="font-weight: bold;">Kode Wilayah</td><td>: <span style="border:1px solid #000; padding:1px 4px; font-family:monospace;">63.09.09.2001</span></td></tr>
-                            </table>
-                            <div style="border: 2px solid #000; padding: 3px 10px; font-weight: 900; font-size: 12px;">F-2.01</div>
-                        </div>
-
-                        <div style="text-align: center; font-weight: 900; font-size: 10.5px; margin-bottom: 5px; background: #eee; padding: 2px; border: 1px solid #000;">
-                            FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI
-                        </div>
-
-                        <div style="border: 1px solid #000; padding: 3px; margin-bottom: 4px;">
-                            <b>Jenis Pelaporan Pencatatan Sipil :</b><br>
-                            [✔] Kelahiran &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Pengakuan Anak<br>
-                            [ &nbsp; ] Lahir Mati &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Pengesahan Anak<br>
-                            [ &nbsp; ] Kematian &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Perubahan Nama
-                        </div>
-
-                        <!-- DATA PELAPOR -->
-                        <div style="border: 1px solid #000; margin-bottom: 4px;">
-                            <div style="background: #ddd; font-weight: bold; padding: 2px 4px; border-bottom: 1px solid #000;">DATA PELAPOR</div>
-                            <table style="width: 100%; border-collapse: collapse; padding: 2px;">
-                                <tr><td style="width: 140px; font-weight: bold;">1. Nama</td><td>: <span contenteditable="true">${renderGridCells(pelaporVal, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold;">2. NIK</td><td>: <span contenteditable="true">${renderGridCells16(nikVal)}</span></td></tr>
-                                <tr><td style="font-weight: bold;">3. Nomor Dokumen Perjalanan</td><td>: ${renderGridCells16('')}</td></tr>
-                                <tr><td style="font-weight: bold;">4. Nomor Kartu Keluarga</td><td>: <span contenteditable="true">${renderGridCells16(kkVal)}</span></td></tr>
-                                <tr><td style="font-weight: bold;">5. Kewarganegaraan</td><td>: ${renderGridCells('WNI', 28)}</td></tr>
-                            </table>
-                        </div>
-
-                        <!-- DATA SUBJEK ANAK KESATU -->
-                        <div style="border: 1px solid #000; margin-bottom: 4px;">
-                            <div style="background: #ddd; font-weight: bold; padding: 2px 4px; border-bottom: 1px solid #000;">DATA SUBJEK ANAK KESATU</div>
-                            <table style="width: 100%; border-collapse: collapse; padding: 2px;">
-                                <tr><td style="width: 140px; font-weight: bold;">1. Nama</td><td>: <span contenteditable="true">${renderGridCells(namaVal, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold;">2. NIK</td><td>: <span contenteditable="true">${renderGridCells16(nikVal)}</span></td></tr>
-                                <tr><td style="font-weight: bold;">3. Nomor Dokumen Perjalanan</td><td>: ${renderGridCells16('')}</td></tr>
-                                <tr><td style="font-weight: bold;">4. Nomor Kartu Keluarga</td><td>: <span contenteditable="true">${renderGridCells16(kkVal)}</span></td></tr>
-                                <tr><td style="font-weight: bold;">5. Kewarganegaraan</td><td>: ${renderGridCells('WNI', 28)}</td></tr>
-                            </table>
-                        </div>
-
-                        <!-- DATA ORANG TUA -->
-                        <div style="border: 1px solid #000; margin-bottom: 4px;">
-                            <div style="background: #ddd; font-weight: bold; padding: 2px 4px; border-bottom: 1px solid #000;">DATA ORANG TUA</div>
-                            <table style="width: 100%; border-collapse: collapse; padding: 2px;">
-                                <tr><td style="width: 140px; font-weight: bold;">1. Nama Ayah</td><td>: <span contenteditable="true">${renderGridCells(ayahVal, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold;">2. NIK Ayah</td><td>: <span contenteditable="true">${renderGridCells16('6309090101800001')}</span></td></tr>
-                                <tr><td style="font-weight: bold;">3. Nama Ibu</td><td>: <span contenteditable="true">${renderGridCells(ibuVal, 28)}</span></td></tr>
-                                <tr><td style="font-weight: bold;">4. NIK Ibu</td><td>: <span contenteditable="true">${renderGridCells16('6309094505850002')}</span></td></tr>
-                            </table>
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; margin-top: 15px; text-align: center; font-size: 8.5px;">
-                            <div>Mengetahui :<br><b>Kepala Desa Pugaan</b><br><br><br><br><b>( HAMID )</b></div>
-                            <div>Tanjung, ${todayStr}<br><b>Pelapor</b><br><br><br><br><b>( <span contenteditable="true">${pelaporVal}</span> )</b></div>
-                        </div>
-                    </div>
-                `;
+                try {
+                    // Menarik file aktakelahiran.html langsung dari repository GitHub Desa Pugaan
+                    let response = await fetch('https://raw.githubusercontent.com/desapugaan/siska/main/aktakelahiran.html');
+                    if (!response.ok) throw new Error("Gagal mengambil file template");
+                    let htmlTemplate = await response.text();
+                    
+                    area.innerHTML = htmlTemplate;
+                    document.getElementById('modalCetakFormulir').classList.remove('hidden');
+                } catch (error) {
+                    alert("Gagal memuat template aktakelahiran.html dari GitHub. Pastikan koneksi internet aktif dan file sudah ada di repository.");
+                }
             } else {
                 judul.innerText = `Surat Keterangan ${jenis}`;
                 area.innerHTML = `
@@ -1403,8 +1330,8 @@
                         <div>Pugaan, ${todayStr}<br><b>Kepala Desa Pugaan</b><br><br><br><br><b><u>HAMID</u></b></div>
                     </div>
                 `;
+                document.getElementById('modalCetakFormulir').classList.remove('hidden');
             }
-            document.getElementById('modalCetakFormulir').classList.remove('hidden');
         }
 
         function tutupModalCetakFormulir() { document.getElementById('modalCetakFormulir').classList.add('hidden'); }
