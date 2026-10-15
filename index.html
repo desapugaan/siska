@@ -238,7 +238,7 @@
                             </div>
                             <div>
                                 <label class="block font-bold text-slate-600 mb-1">RT</label>
-                                <input type="text" id="manRT" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="RT 01">
+                                <input type="text" id="manRT" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="01">
                             </div>
                             <div>
                                 <label class="block font-bold text-slate-600 mb-1">NIK</label>
@@ -414,7 +414,7 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block font-bold text-slate-600 mb-1">RT</label>
-                                    <input type="text" id="bayiRT" required class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" value="RT 01">
+                                    <input type="text" id="bayiRT" required class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" value="01">
                                 </div>
                                 <div>
                                     <label class="block font-bold text-slate-600 mb-1">NIK Bayi (Opsional)</label>
@@ -733,7 +733,7 @@
         </div>
     </div>
 
-    <!-- MODAL CETAK LAYANAN SURAT & FORMULIR (DENGAN FITUR EDIT LANGSUNG) -->
+    <!-- MODAL CETAK LAYANAN SURAT & FORMULIR -->
     <div id="modalCetakFormulir" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
             <div class="p-5 bg-emerald-900 text-white flex justify-between items-center no-print">
@@ -927,7 +927,7 @@
             let tglLahir = document.getElementById('manTglLahir').value;
             dataPenduduk.push({
                 kk: document.getElementById('manKK').value,
-                rt: document.getElementById('manRT').value,
+                rt: document.getElementById('manRT').value.replace(/rt\s*/gi, '').trim(),
                 nik: document.getElementById('manNik').value,
                 nama: document.getElementById('manNama').value.toUpperCase(),
                 jk: document.getElementById('manJk').value,
@@ -968,14 +968,14 @@
                         let r = rows[i];
                         if (!r || r.length === 0) continue;
                         let colKK = String(r[0] || "").trim();
-                        let colRT = String(r[1] || "").trim();
+                        let colRT = String(r[1] || "").replace(/rt\s*/gi, '').trim();
                         let colNik = String(r[2] || "").trim();
                         let colNama = String(r[3] || "").trim();
                         if (colKK !== "" && !colKK.toLowerCase().includes('no')) lastValidKK = colKK;
                         if ((colNik.length > 4 || colNama.length > 2) && !colNama.toLowerCase().includes('nama')) {
                             let tglF = parseExcelDate(r[6]);
                             newPendudukList.push({
-                                kk: lastValidKK, rt: colRT !== "" ? colRT : "RT 01", nik: colNik, nama: colNama.toUpperCase(),
+                                kk: lastValidKK, rt: colRT !== "" ? colRT : "01", nik: colNik, nama: colNama.toUpperCase(),
                                 jk: String(r[4] || "").trim(), agama: String(r[7] || "").trim() || "ISLAM",
                                 tempatLahir: String(r[5] || "").trim(), tanggalLahir: tglF, umur: hitungUmur(tglF),
                                 pendidikan: String(r[8] || "").trim(), pekerjaan: String(r[9] || "").trim().toUpperCase() || "TIDAK / BELUM BEKERJA",
@@ -1045,7 +1045,7 @@
             listData.forEach((w, index) => {
                 let umurVal = w.umur !== undefined && !isNaN(w.umur) ? w.umur : hitungUmur(w.tanggalLahir);
                 let rowBg = index % 2 === 0 ? 'bg-white' : 'bg-slate-50/80';
-                let rtClean = w.rt ? (w.rt.toUpperCase().includes('RT') ? w.rt.toUpperCase() : 'RT ' + w.rt) : 'RT 01';
+                let rtClean = w.rt ? 'RT ' + w.rt.replace(/rt\s*/gi, '').trim() : 'RT 01';
                 tbody.innerHTML += `
                     <tr class="${rowBg} hover:bg-emerald-50/70 transition duration-150">
                         <td class="py-4 px-5 font-mono font-bold text-slate-900 text-sm whitespace-nowrap">${w.kk}</td>
@@ -1105,7 +1105,7 @@
             });
         }
 
-        // --- LAYANAN SURAT & FORMULIR (DENGAN KEMAMPUAN EDIT LANGSUNG PADA PRATINJAU) ---
+        // --- LAYANAN SURAT & FORMULIR ---
         let manualAnggotaKK = [];
 
         function gantiFormulirSurat() {
@@ -1119,7 +1119,7 @@
                         <div><label class="block font-bold text-slate-600 mb-1">Nama Kepala Keluarga</label><input type="text" id="f_kk_kepala" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Kepala Keluarga"></div>
                         <div><label class="block font-bold text-slate-600 mb-1">Nomor Kartu Keluarga (KK)</label><input type="text" id="f_kk_nomor" class="w-full px-4 py-3 border rounded-xl" placeholder="Nomor KK"></div>
                         <div><label class="block font-bold text-slate-600 mb-1">Nama Jalan / Dusun</label><input type="text" id="f_kk_jalan" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Jalan"></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">RT / RW</label><input type="text" id="f_kk_rtrw" class="w-full px-4 py-3 border rounded-xl" value="RT 01 / RW 01"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">RT</label><input type="text" id="f_kk_rt" class="w-full px-4 py-3 border rounded-xl" value="03"></div>
                         <div><label class="block font-bold text-slate-600 mb-1">Desa / Kelurahan</label><input type="text" id="f_kk_desa" class="w-full px-4 py-3 border rounded-xl" value="PUGAAN"></div>
                         <div><label class="block font-bold text-slate-600 mb-1">Kecamatan</label><input type="text" id="f_kk_kec" class="w-full px-4 py-3 border rounded-xl" value="PUGAAN"></div>
                     </div>
@@ -1134,7 +1134,7 @@
                     </div>
                 `;
                 manualAnggotaKK = [];
-                tambahBarisAnggotaKK(); // Default 1 baris
+                tambahBarisAnggotaKK();
             } else if (jenis === 'akta_kelahiran') {
                 container.innerHTML = `
                     <div><label class="block font-bold text-slate-600 mb-1">Nama Lengkap Anak / Bayi</label><input type="text" id="f_akl_nama" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Bayi"></div>
@@ -1218,7 +1218,7 @@
             matches.forEach(w => {
                 let div = document.createElement('div');
                 div.className = "p-3 hover:bg-emerald-50 cursor-pointer text-xs border-b font-semibold";
-                div.innerHTML = `${w.nama} <span class="text-slate-400 font-mono text-[10px]">(${w.nik} - ${w.rt})</span>`;
+                div.innerHTML = `${w.nama} <span class="text-slate-400 font-mono text-[10px]">(${w.nik} - RT ${w.rt})</span>`;
                 div.onclick = function() {
                     selectedWargaSurat = w;
                     document.getElementById('inputCariWargaSurat').value = w.nama;
@@ -1227,7 +1227,7 @@
                     if(jenis === 'permohonan_kk') {
                         if(document.getElementById('f_kk_kepala')) document.getElementById('f_kk_kepala').value = w.nama;
                         if(document.getElementById('f_kk_nomor')) document.getElementById('f_kk_nomor').value = w.kk;
-                        if(document.getElementById('f_kk_rtrw')) document.getElementById('f_kk_rtrw').value = w.rt + " / RW 01";
+                        if(document.getElementById('f_kk_rt')) document.getElementById('f_kk_rt').value = w.rt.replace(/rt\s*/gi, '').trim();
                     } else if(jenis === 'akta_kematian') {
                         if(document.getElementById('f_akm_nama')) document.getElementById('f_akm_nama').value = w.nama;
                         if(document.getElementById('f_akm_nik')) document.getElementById('f_akm_nik').value = w.nik;
@@ -1252,15 +1252,13 @@
                 judul.innerText = "Formulir Permohonan Kartu Keluarga (Formulir F-1.01)";
                 let kepala = document.getElementById('f_kk_kepala')?.value || '-';
                 let jalan = document.getElementById('f_kk_jalan')?.value || '-';
-                let rtrw = document.getElementById('f_kk_rtrw')?.value || 'RT 01 / RW 01';
+                let rtCleanInput = document.getElementById('f_kk_rt')?.value.replace(/rt\s*/gi, '').trim() || '03';
                 let nokk = document.getElementById('f_kk_nomor')?.value || '-';
                 let desa = document.getElementById('f_kk_desa')?.value || 'PUGAAN';
                 let kec = document.getElementById('f_kk_kec')?.value || 'PUGAAN';
 
-                // Ambil data anggota dari database warga berdasarkan KK
                 let anggotaKK = dataPenduduk.filter(w => w.kk === nokk);
                 
-                // Tambahkan input manual (seperti bayi baru lahir atau anggota tambahan)
                 let containerManual = document.getElementById('listAnggotaManualContainer');
                 if(containerManual) {
                     let rows = containerManual.children;
@@ -1331,11 +1329,11 @@
                     <table class="w-full text-xs mt-3 space-y-1">
                         <tr><td class="font-bold w-48">NAMA KEPALA KELUARGA</td><td>: <b contenteditable="true">${kepala}</b> (No. KK: <span contenteditable="true">${nokk}</span>)</td></tr>
                         <tr><td class="font-bold">NAMA JALAN</td><td>: <span contenteditable="true">${jalan}</span></td></tr>
-                        <tr><td class="font-bold">DESA / KELURAHAN</td><td>: <span contenteditable="true">${desa}</span> &nbsp;&nbsp;&nbsp;&nbsp; RT: <span contenteditable="true">${rtrw}</span></td></tr>
-                        <tr><td class="font-bold">KECAMATAN / KODE POS</td><td>: <span contenteditable="true">${kec}</span> / <span contenteditable="true">71553</span></td></tr>
+                        <tr><td class="font-bold">DESA / KELURAHAN</td><td>: <span contenteditable="true">${desa}</span> &nbsp;&nbsp;&nbsp;&nbsp; RT: <span contenteditable="true">${rtCleanInput}</span></td></tr>
+                        <tr><td class="font-bold">KECAMATAN / KODE POS</td><td>: <span contenteditable="true">${kec}</span> / <span contenteditable="true">71554</span></td></tr>
                     </table>
 
-                    <!-- TABEL 1 BISA DIKLIK DAN DIEDIT LANGSUNG -->
+                    <!-- TABEL 1 -->
                     <table class="w-full border-collapse border border-slate-900 text-[11px] mt-4">
                         <thead>
                             <tr class="bg-slate-100 text-center font-bold">
@@ -1350,7 +1348,7 @@
                         <tbody>${tabel1HTML}</tbody>
                     </table>
 
-                    <!-- TABEL 2 BISA DIKLIK DAN DIEDIT LANGSUNG -->
+                    <!-- TABEL 2 -->
                     <table class="w-full border-collapse border border-slate-900 text-[11px] mt-3">
                         <thead>
                             <tr class="bg-slate-100 text-center font-bold">
