@@ -13,27 +13,33 @@
             margin: 0;
             padding: 8px;
         }
+        [contenteditable="true"] {
+            background-color: #fff !important;
+            outline: 1px solid #000;
+            min-height: 14px;
+            padding: 1px 3px;
+        }
         [contenteditable="true"]:hover {
-            background-color: #fef08a;
+            background-color: #fef08a !important;
             outline: 2px dashed #eab308;
             cursor: text;
         }
         [contenteditable="true"]:focus {
-            background-color: #fefde8;
+            background-color: #fefde8 !important;
             outline: 2px solid #10b981;
         }
         .dukcapil-grid {
             display: inline-grid;
             grid-template-columns: repeat(28, minmax(11px, 1fr));
             gap: 1px;
-            background-color: #000;
+            background-color: #fff;
             border: 1px solid #000;
         }
         .dukcapil-grid-16 {
             display: inline-grid;
             grid-template-columns: repeat(16, minmax(11px, 1fr));
             gap: 1px;
-            background-color: #000;
+            background-color: #fff;
             border: 1px solid #000;
         }
         .dukcapil-cell {
@@ -46,6 +52,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid #ccc;
         }
         table { width: 100%; border-collapse: collapse; }
         td { padding: 1px 2px; vertical-align: middle; }
@@ -139,11 +146,11 @@
     <div class="box-container">
         <div class="section-header">DATA PELAPOR</div>
         <table>
-            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 100%;"></div></td></tr>
-            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>3. Nomor Dokumen Perjalanan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>4. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 40%;"></div></td></tr>
+            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" style="width: 100%;"></div></td></tr>
+            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>3. Nomor Dokumen Perjalanan</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>4. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" style="width: 40%;"></div></td></tr>
         </table>
     </div>
 
@@ -151,11 +158,11 @@
     <div class="box-container">
         <div class="section-header">DATA SUBJEK ANAK KESATU</div>
         <table>
-            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 100%;"></div></td></tr>
-            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>3. Nomor Dokumen Perjalanan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>4. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 40%;"></div></td></tr>
+            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" style="width: 100%;"></div></td></tr>
+            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>3. Nomor Dokumen Perjalanan</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>4. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" style="width: 40%;"></div></td></tr>
         </table>
     </div>
 
@@ -163,11 +170,11 @@
     <div class="box-container">
         <div class="section-header">DATA SUBJEK ANAK KEDUA (JIKA ADA)</div>
         <table>
-            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 100%;"></div></td></tr>
-            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>3. Nomor Dokumen Perjalanan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>4. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 40%;"></div></td></tr>
+            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" style="width: 100%;"></div></td></tr>
+            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>3. Nomor Dokumen Perjalanan</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>4. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" style="width: 40%;"></div></td></tr>
         </table>
     </div>
 
@@ -175,10 +182,10 @@
     <div class="box-container">
         <div class="section-header">DATA SAKSI I</div>
         <table>
-            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 100%;"></div></td></tr>
-            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>3. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>4. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 40%;"></div></td></tr>
+            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" style="width: 100%;"></div></td></tr>
+            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>3. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>4. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" style="width: 40%;"></div></td></tr>
         </table>
     </div>
 
@@ -186,10 +193,11 @@
     <div class="box-container">
         <div class="section-header">DATA SAKSI II</div>
         <table>
-            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 100%;"></div></td></tr>
-            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>3. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>4. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 40%;"></div></td></tr>
+            <tr><td style="width: 140px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" style="width: 100%;"></div></td></tr>
+            <tr><td>2. NIK</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>3. Nomor Dokumen Perjalanan</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>4. Nomor Kartu Keluarga</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" style="width: 40%;"></div></td></tr>
         </table>
     </div>
 
@@ -197,16 +205,16 @@
     <div class="box-container">
         <div class="section-header">DATA ORANG TUA <span style="font-weight: normal; font-style: italic;">(** hanya diisi untuk keperluan kelahiran, lahir mati dan kematian)</span></div>
         <table>
-            <tr><td style="width: 140px;">1. Nama Ayah</td><td style="width: 10px;">:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 100%;"></div></td></tr>
-            <tr><td>2. NIK Ayah</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>3. Tempat Lahir Ayah</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 60%;"></div></td></tr>
+            <tr><td style="width: 140px;">1. Nama Ayah</td><td style="width: 10px;">:</td><td><div contenteditable="true" style="width: 100%;"></div></td></tr>
+            <tr><td>2. NIK Ayah</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>3. Tempat Lahir Ayah</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
             <tr><td>4. Tanggal Lahir Ayah</td><td>:</td><td>Tgl: <span contenteditable="true" style="border:1px solid #000; padding:1px 8px; font-family:monospace;">&nbsp;&nbsp;</span> Bln: <span contenteditable="true" style="border:1px solid #000; padding:1px 8px; font-family:monospace;">&nbsp;&nbsp;</span> Thn: <span contenteditable="true" style="border:1px solid #000; padding:1px 15px; font-family:monospace;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td></tr>
-            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 40%;"></div></td></tr>
-            <tr><td>6. Nama Ibu</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 100%;"></div></td></tr>
-            <tr><td>7. NIK Ibu</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid-16" style="width: 60%;"></div></td></tr>
-            <tr><td>8. Tempat Lahir Ibu</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 60%;"></div></td></tr>
+            <tr><td>5. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" style="width: 40%;"></div></td></tr>
+            <tr><td>6. Nama Ibu</td><td>:</td><td><div contenteditable="true" style="width: 100%;"></div></td></tr>
+            <tr><td>7. NIK Ibu</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
+            <tr><td>8. Tempat Lahir Ibu</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
             <tr><td>9. Tanggal Lahir Ibu</td><td>:</td><td>Tgl: <span contenteditable="true" style="border:1px solid #000; padding:1px 8px; font-family:monospace;">&nbsp;&nbsp;</span> Bln: <span contenteditable="true" style="border:1px solid #000; padding:1px 8px; font-family:monospace;">&nbsp;&nbsp;</span> Thn: <span contenteditable="true" style="border:1px solid #000; padding:1px 15px; font-family:monospace;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td></tr>
-            <tr><td>10. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 40%;"></div></td></tr>
+            <tr><td>10. Kewarganegaraan</td><td>:</td><td><div contenteditable="true" style="width: 40%;"></div></td></tr>
         </table>
     </div>
 
@@ -214,10 +222,10 @@
     <div class="box-container">
         <div class="section-header">DATA ANAK</div>
         <table>
-            <tr><td style="width: 150px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 100%;"></div></td></tr>
+            <tr><td style="width: 150px;">1. Nama</td><td style="width: 10px;">:</td><td><div contenteditable="true" style="width: 100%;"></div></td></tr>
             <tr><td>2. Jenis Kelamin</td><td>:</td><td><span class="checkbox-box">&nbsp;</span> 1. Laki-laki &nbsp;&nbsp;&nbsp;&nbsp; <span class="checkbox-box">&nbsp;</span> 2. Perempuan</td></tr>
             <tr><td>3. Tempat dilahirkan</td><td>:</td><td><span class="checkbox-box">&nbsp;</span> 1. RS/RB &nbsp; <span class="checkbox-box">&nbsp;</span> 2. Puskesmas &nbsp; <span class="checkbox-box">&nbsp;</span> 3. Polindes &nbsp; <span class="checkbox-box">&nbsp;</span> 4. Rumah &nbsp; <span class="checkbox-box">&nbsp;</span> 5. Lainnya</td></tr>
-            <tr><td>4. Tempat Kelahiran</td><td>:</td><td><div contenteditable="true" class="dukcapil-grid" style="width: 60%;"></div></td></tr>
+            <tr><td>4. Tempat Kelahiran</td><td>:</td><td><div contenteditable="true" style="width: 60%;"></div></td></tr>
             <tr><td>5. Hari dan Tanggal Lahir</td><td>:</td><td>Hari: <span contenteditable="true" style="border-bottom:1px solid #000; padding:0 15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Tgl: <span contenteditable="true" style="border:1px solid #000; padding:1px 8px; font-family:monospace;">&nbsp;&nbsp;</span> Bln: <span contenteditable="true" style="border:1px solid #000; padding:1px 8px; font-family:monospace;">&nbsp;&nbsp;</span> Thn: <span contenteditable="true" style="border:1px solid #000; padding:1px 12px; font-family:monospace;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td></tr>
             <tr><td>6. Pukul</td><td>:</td><td><span contenteditable="true" style="border-bottom:1px solid #000; padding:0 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td></tr>
             <tr><td>7. Jenis Kelahiran</td><td>:</td><td><span class="checkbox-box">&nbsp;</span> 1. Tunggal &nbsp; <span class="checkbox-box">&nbsp;</span> 2. Kembar 2 &nbsp; <span class="checkbox-box">&nbsp;</span> 3. Kembar 3 &nbsp; <span class="checkbox-box">&nbsp;</span> 4. Kembar 4 &nbsp; <span class="checkbox-box">&nbsp;</span> 5. Lainnya</td></tr>
@@ -244,23 +252,5 @@
             <b>( <span contenteditable="true">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> )</b>
         </div>
     </div>
-
-    <!-- Auto generate grid cells kosong -->
-    <script>
-        document.querySelectorAll('.dukcapil-grid').forEach(el => {
-            if(el.children.length === 0) {
-                let html = '';
-                for(let i=0; i<28; i++) html += '<div class="dukcapil-cell">&nbsp;</div>';
-                el.innerHTML = html;
-            }
-        });
-        document.querySelectorAll('.dukcapil-grid-16').forEach(el => {
-            if(el.children.length === 0 && !el.style.gridTemplateColumns.includes('10')) {
-                let html = '';
-                for(let i=0; i<16; i++) html += '<div class="dukcapil-cell">&nbsp;</div>';
-                el.innerHTML = html;
-            }
-        });
-    </script>
 </body>
 </html>
