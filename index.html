@@ -14,12 +14,16 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
+        [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         @media print {
             body * { visibility: hidden; }
             #printableArea, #printableArea * { visibility: visible; }
             #printableArea { position: absolute; left: 0; top: 0; width: 100%; }
             #printableAreaSurat, #printableAreaSurat * { visibility: visible; }
             #printableAreaSurat { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+            [contenteditable="true"] { outline: none !important; background: transparent !important; }
         }
     </style>
 </head>
@@ -609,7 +613,7 @@
                     </div>
                 </div>
 
-                <!-- 8. LAYANAN SURAT & FORMULIR (PERMOHONAN KK SESUAI GAMBAR CONTOH) -->
+                <!-- 8. LAYANAN SURAT & FORMULIR -->
                 <div id="view-surat" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-4xl mx-auto">
                         <h3 class="font-bold text-slate-900 mb-1 text-base">Pusat Layanan Surat & Formulir Kependudukan</h3>
@@ -729,20 +733,25 @@
         </div>
     </div>
 
-    <!-- MODAL CETAK LAYANAN SURAT & FORMULIR -->
+    <!-- MODAL CETAK LAYANAN SURAT & FORMULIR (DENGAN FITUR EDIT LANGSUNG) -->
     <div id="modalCetakFormulir" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
-            <div class="p-5 bg-emerald-900 text-white flex justify-between items-center">
-                <div>
-                    <h3 id="modalJudulFormulir" class="font-bold text-sm md:text-base">Pratinjau Dokumen Resmi</h3>
-                    <p class="text-xs text-emerald-200">Siap cetak atau unduh</p>
+            <div class="p-5 bg-emerald-900 text-white flex justify-between items-center no-print">
+                <div class="flex items-center gap-3">
+                    <div>
+                        <h3 id="modalJudulFormulir" class="font-bold text-sm md:text-base">Pratinjau Dokumen Resmi</h3>
+                        <p class="text-xs text-emerald-200">Klik langsung pada teks di bawah untuk mengedit jika ada kesalahan sebelum dicetak.</p>
+                    </div>
                 </div>
                 <button onclick="tutupModalCetakFormulir()" class="text-white hover:text-slate-200 font-bold p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
             <div id="printableAreaSurat" class="p-8 overflow-y-auto space-y-6 text-slate-900 text-xs leading-relaxed bg-white"></div>
-            <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-3">
-                <button onclick="tutupModalCetakFormulir()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700">Tutup</button>
-                <button onclick="window.print()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 font-bold rounded-xl text-white shadow-md flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i> Cetak / Unduh Dokumen</button>
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center no-print">
+                <span class="text-xs text-amber-700 font-bold bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">ℹ️ Tips: Semua kotak teks di atas bisa diklik & diketik langsung untuk perbaikan!</span>
+                <div class="flex gap-3">
+                    <button onclick="tutupModalCetakFormulir()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700">Tutup</button>
+                    <button onclick="window.print()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 font-bold rounded-xl text-white shadow-md flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i> Cetak / Unduh Dokumen</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1096,7 +1105,7 @@
             });
         }
 
-        // --- LAYANAN SURAT & FORMULIR (F-1.01 PERSIS SESUAI CONTOH GAMBAR) ---
+        // --- LAYANAN SURAT & FORMULIR (DENGAN KEMAMPUAN EDIT LANGSUNG PADA PRATINJAU) ---
         let manualAnggotaKK = [];
 
         function gantiFormulirSurat() {
@@ -1181,17 +1190,17 @@
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <input type="text" placeholder="Nama Lengkap" class="input-nama px-3 py-2 border rounded-lg bg-white">
-                    <select class="input-jk px-3 py-2 border rounded-lg bg-white"><option value="LAKI-LAKI">Laki-laki</option><option value="PEREMPUAN">Perempuan</option></select>
+                    <select class="input-jk px-3 py-2 border rounded-lg bg-white"><option value="L">L</option><option value="P">P</option></select>
                     <input type="text" placeholder="Tempat Lahir" class="input-tempat px-3 py-2 border rounded-lg bg-white" value="Pugaan">
                     <input type="text" placeholder="Tanggal Lahir (DD/MM/YYYY)" class="input-tgl px-3 py-2 border rounded-lg bg-white">
-                    <input type="text" placeholder="Golongan Darah (- / A / B / AB / O)" class="input-goldarah px-3 py-2 border rounded-lg bg-white" value="-">
+                    <input type="text" placeholder="Golongan Darah" class="input-goldarah px-3 py-2 border rounded-lg bg-white" value="-">
                     <input type="text" placeholder="Status Perkawinan" class="input-status px-3 py-2 border rounded-lg bg-white" value="BELUM KAWIN">
-                    <input type="text" placeholder="Hubungan Keluarga (Cth: Anak)" class="input-hub px-3 py-2 border rounded-lg bg-white" value="Anak">
+                    <input type="text" placeholder="Hubungan Keluarga" class="input-hub px-3 py-2 border rounded-lg bg-white" value="Anak">
                     <input type="text" placeholder="Agama" class="input-agama px-3 py-2 border rounded-lg bg-white" value="ISLAM">
                     <input type="text" placeholder="Pendidikan Terakhir" class="input-pend px-3 py-2 border rounded-lg bg-white" value="-">
                     <input type="text" placeholder="Pekerjaan" class="input-pek px-3 py-2 border rounded-lg bg-white" value="BELUM / TIDAK BEKERJA">
-                    <input type="text" placeholder="Nama Lengkap Ayah" class="input-ayah px-3 py-2 border rounded-lg bg-white" value="-">
-                    <input type="text" placeholder="Nama Lengkap Ibu" class="input-ibu px-3 py-2 border rounded-lg bg-white" value="-">
+                    <input type="text" placeholder="Nama Ayah" class="input-ayah px-3 py-2 border rounded-lg bg-white" value="-">
+                    <input type="text" placeholder="Nama Ibu" class="input-ibu px-3 py-2 border rounded-lg bg-white" value="-">
                 </div>
             `;
             container.appendChild(div);
@@ -1260,7 +1269,7 @@
                         if(nama) {
                             anggotaKK.push({
                                 nama: nama.toUpperCase(),
-                                jk: r.querySelector('.input-jk')?.value || 'LAKI-LAKI',
+                                jk: r.querySelector('.input-jk')?.value || 'L',
                                 tempatLahir: r.querySelector('.input-tempat')?.value || 'Pugaan',
                                 tanggalLahir: r.querySelector('.input-tgl')?.value || '14/10/2026',
                                 golDarah: r.querySelector('.input-goldarah')?.value || '-',
@@ -1278,7 +1287,7 @@
 
                 if(anggotaKK.length === 0) {
                     anggotaKK = [
-                        { nama: kepala, jk: 'LAKI-LAKI', tempatLahir: 'Pugaan', tanggalLahir: '01/01/1980', golDarah: '-', statusPerkawinan: 'KAWIN', hubunganKK: 'KEPALA KELUARGA', agama: 'ISLAM', pendidikan: 'TAMAT SMA', pekerjaan: 'WIRASWASTA', ayah: '-', ibu: '-' }
+                        { nama: kepala, jk: 'L', tempatLahir: 'Pugaan', tanggalLahir: '01/01/1980', golDarah: '-', statusPerkawinan: 'KAWIN', hubunganKK: 'KEPALA KELUARGA', agama: 'ISLAM', pendidikan: 'TAMAT SMA', pekerjaan: 'WIRASWASTA', ayah: '-', ibu: '-' }
                     ];
                 }
 
@@ -1292,25 +1301,25 @@
 
                     tabel1HTML += `
                         <tr>
-                            <td class="border border-slate-900 p-1 text-center">${idx+1}</td>
-                            <td class="border border-slate-900 p-1 font-bold">${w.nama}</td>
-                            <td class="border border-slate-900 p-1 text-center">${jkText}</td>
-                            <td class="border border-slate-900 p-1">${w.tempatLahir}</td>
-                            <td class="border border-slate-900 p-1 text-center">${tglF}</td>
-                            <td class="border border-slate-900 p-1 text-center">${goldarah}</td>
+                            <td class="border border-slate-900 p-1 text-center font-bold">${idx+1}</td>
+                            <td class="border border-slate-900 p-1 font-bold" contenteditable="true">${w.nama}</td>
+                            <td class="border border-slate-900 p-1 text-center font-bold" contenteditable="true">${jkText}</td>
+                            <td class="border border-slate-900 p-1" contenteditable="true">${w.tempatLahir}</td>
+                            <td class="border border-slate-900 p-1 text-center" contenteditable="true">${tglF}</td>
+                            <td class="border border-slate-900 p-1 text-center" contenteditable="true">${goldarah}</td>
                         </tr>
                     `;
 
                     tabel2HTML += `
                         <tr>
-                            <td class="border border-slate-900 p-1 text-center">${idx+1}</td>
-                            <td class="border border-slate-900 p-1 text-center">${w.hubunganKK}</td>
-                            <td class="border border-slate-900 p-1 text-center">${w.statusPerkawinan}</td>
-                            <td class="border border-slate-900 p-1 text-center">${w.agama}</td>
-                            <td class="border border-slate-900 p-1">${w.pendidikan}</td>
-                            <td class="border border-slate-900 p-1">${w.pekerjaan}</td>
-                            <td class="border border-slate-900 p-1">${w.ayah || '-'}</td>
-                            <td class="border border-slate-900 p-1">${w.ibu || '-'}</td>
+                            <td class="border border-slate-900 p-1 text-center font-bold">${idx+1}</td>
+                            <td class="border border-slate-900 p-1 text-center font-bold" contenteditable="true">${w.hubunganKK}</td>
+                            <td class="border border-slate-900 p-1 text-center" contenteditable="true">${w.statusPerkawinan}</td>
+                            <td class="border border-slate-900 p-1 text-center" contenteditable="true">${w.agama}</td>
+                            <td class="border border-slate-900 p-1" contenteditable="true">${w.pendidikan}</td>
+                            <td class="border border-slate-900 p-1" contenteditable="true">${w.pekerjaan}</td>
+                            <td class="border border-slate-900 p-1" contenteditable="true">${w.ayah || '-'}</td>
+                            <td class="border border-slate-900 p-1" contenteditable="true">${w.ibu || '-'}</td>
                         </tr>
                     `;
                 });
@@ -1320,13 +1329,13 @@
                         PERMOHONAN KARTU KELUARGA (KK)
                     </div>
                     <table class="w-full text-xs mt-3 space-y-1">
-                        <tr><td class="font-bold w-48">NAMA KEPALA KELUARGA</td><td>: <b>${kepala}</b> (No. KK: ${nokk})</td></tr>
-                        <tr><td class="font-bold">NAMA JALAN</td><td>: ${jalan}</td></tr>
-                        <tr><td class="font-bold">DESA / KELURAHAN</td><td>: ${desa} &nbsp;&nbsp;&nbsp;&nbsp; RT: ${rtrw}</td></tr>
-                        <tr><td class="font-bold">KECAMATAN / KODE POS</td><td>: ${kec} / 71553</td></tr>
+                        <tr><td class="font-bold w-48">NAMA KEPALA KELUARGA</td><td>: <b contenteditable="true">${kepala}</b> (No. KK: <span contenteditable="true">${nokk}</span>)</td></tr>
+                        <tr><td class="font-bold">NAMA JALAN</td><td>: <span contenteditable="true">${jalan}</span></td></tr>
+                        <tr><td class="font-bold">DESA / KELURAHAN</td><td>: <span contenteditable="true">${desa}</span> &nbsp;&nbsp;&nbsp;&nbsp; RT: <span contenteditable="true">${rtrw}</span></td></tr>
+                        <tr><td class="font-bold">KECAMATAN / KODE POS</td><td>: <span contenteditable="true">${kec}</span> / <span contenteditable="true">71553</span></td></tr>
                     </table>
 
-                    <!-- TABEL 1 SESUAI CONTOH GAMBAR -->
+                    <!-- TABEL 1 BISA DIKLIK DAN DIEDIT LANGSUNG -->
                     <table class="w-full border-collapse border border-slate-900 text-[11px] mt-4">
                         <thead>
                             <tr class="bg-slate-100 text-center font-bold">
@@ -1341,7 +1350,7 @@
                         <tbody>${tabel1HTML}</tbody>
                     </table>
 
-                    <!-- TABEL 2 SESUAI CONTOH GAMBAR -->
+                    <!-- TABEL 2 BISA DIKLIK DAN DIEDIT LANGSUNG -->
                     <table class="w-full border-collapse border border-slate-900 text-[11px] mt-3">
                         <thead>
                             <tr class="bg-slate-100 text-center font-bold">
@@ -1367,7 +1376,7 @@
                         <div>
                             <p class="font-bold">PEMOHON KARTU KELUARGA</p>
                             <br><br><br>
-                            <p class="font-bold underline">${kepala}</p>
+                            <p class="font-bold underline" contenteditable="true">${kepala}</p>
                         </div>
                     </div>
                 `;
@@ -1381,14 +1390,14 @@
                 area.innerHTML = `
                     <div class="text-center font-bold text-sm border-b-2 border-slate-900 pb-3">SURAT KETERANGAN KELAHIRAN (FORMULIR F-2.01)</div>
                     <table class="w-full text-xs space-y-2 mt-3">
-                        <tr><td class="font-bold w-44">Nama Bayi</td><td>: <b>${nama}</b></td></tr>
-                        <tr><td class="font-bold">Jenis Kelamin</td><td>: ${jk}</td></tr>
-                        <tr><td class="font-bold">Tempat, Tanggal Lahir</td><td>: ${ttl}</td></tr>
-                        <tr><td class="font-bold">Ayah / Ibu</td><td>: ${ayah} / ${ibu}</td></tr>
+                        <tr><td class="font-bold w-44">Nama Bayi</td><td>: <b contenteditable="true">${nama}</b></td></tr>
+                        <tr><td class="font-bold">Jenis Kelamin</td><td>: <span contenteditable="true">${jk}</span></td></tr>
+                        <tr><td class="font-bold">Tempat, Tanggal Lahir</td><td>: <span contenteditable="true">${ttl}</span></td></tr>
+                        <tr><td class="font-bold">Ayah / Ibu</td><td>: <span contenteditable="true">${ayah}</span> / <span contenteditable="true">${ibu}</span></td></tr>
                     </table>
                     <div class="flex justify-between pt-12 text-center">
                         <div><p>Kepala Desa Pugaan</p><br><br><p class="font-bold underline">HAMID</p></div>
-                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Pelapor</p><br><br><p class="font-bold underline">${ayah}</p></div>
+                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Pelapor</p><br><br><p class="font-bold underline" contenteditable="true">${ayah}</p></div>
                     </div>
                 `;
             } else if (jenis === 'akta_kematian') {
@@ -1400,12 +1409,12 @@
                 area.innerHTML = `
                     <div class="text-center font-bold text-sm border-b-2 border-slate-900 pb-3">SURAT KETERANGAN KEMATIAN</div>
                     <table class="w-full text-xs space-y-2 mt-3">
-                        <tr><td class="font-bold w-44">Nama Almarhum/ah</td><td>: <b>${nama}</b> (NIK: ${nik})</td></tr>
-                        <tr><td class="font-bold">Tanggal / Tempat</td><td>: ${tgl} di ${tempat}</td></tr>
+                        <tr><td class="font-bold w-44">Nama Almarhum/ah</td><td>: <b contenteditable="true">${nama}</b> (NIK: <span contenteditable="true">${nik}</span>)</td></tr>
+                        <tr><td class="font-bold">Tanggal / Tempat</td><td>: <span contenteditable="true">${tgl}</span> di <span contenteditable="true">${tempat}</span></td></tr>
                     </table>
                     <div class="flex justify-between pt-12 text-center">
                         <div><p>Kepala Desa Pugaan</p><br><br><p class="font-bold underline">HAMID</p></div>
-                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Keluarga / Pelapor</p><br><br><p class="font-bold underline">( ........................ )</p></div>
+                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Keluarga / Pelapor</p><br><br><p class="font-bold underline" contenteditable="true">( ........................ )</p></div>
                     </div>
                 `;
             } else {
@@ -1415,13 +1424,13 @@
                 area.innerHTML = `
                     <div class="text-center border-b-2 border-slate-900 pb-4"><h4 class="font-black text-base uppercase">SURAT KETERANGAN ${jenis}</h4></div>
                     <table class="w-full text-xs pt-3">
-                        <tr><td class="font-bold w-40">Nama</td><td>: ${nama}</td></tr>
-                        <tr><td class="font-bold">NIK</td><td>: ${nik}</td></tr>
-                        <tr><td class="font-bold">Keperluan</td><td>: ${keperluan}</td></tr>
+                        <tr><td class="font-bold w-40">Nama</td><td>: <span contenteditable="true">${nama}</span></td></tr>
+                        <tr><td class="font-bold">NIK</td><td>: <span contenteditable="true">${nik}</span></td></tr>
+                        <tr><td class="font-bold">Keperluan</td><td>: <span contenteditable="true">${keperluan}</span></td></tr>
                     </table>
                     <div class="flex justify-between pt-12 text-center">
                         <div><p>Kepala Desa Pugaan</p><br><br><p class="font-bold underline">HAMID</p></div>
-                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Pemohon</p><br><br><p class="font-bold underline">${nama}</p></div>
+                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Pemohon</p><br><br><p class="font-bold underline" contenteditable="true">${nama}</p></div>
                     </div>
                 `;
             }
