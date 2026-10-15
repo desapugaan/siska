@@ -1242,22 +1242,85 @@
         function gantiFormulirSurat() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let container = document.getElementById('containerFormDinamis');
-            container.innerHTML = `
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1 text-xs">Nama Lengkap Subjek / Warga</label>
-                    <input type="text" id="inputFormNama" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" placeholder="Nama lengkap warga...">
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1 text-xs">NIK</label>
-                        <input type="text" id="inputFormNik" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" placeholder="16 digit NIK...">
+            
+            if (jenis === 'akta_kelahiran') {
+                container.innerHTML = `
+                    <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-3">
+                        <p class="font-bold"><b>Petunjuk Formulir F-2.01 (Akta Kelahiran):</b></p>
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li>Data Pelapor, Saksi I & II, serta Orang Tua (Ayah/Ibu) akan terisi otomatis saat Anda memilih nama warga dari database.</li>
+                            <li>Kewarganegaraan otomatis diatur menjadi <b>INDONESIA</b>.</li>
+                            <li>Data Anak baru lahir diisi secara manual langsung pada formulir pratinjau.</li>
+                        </ul>
                     </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1 text-xs">Nama Pelapor / Pemohon</label>
-                        <input type="text" id="inputFormPelapor" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" value="HAMID">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Pelapor dari Database</label>
+                            <select id="formPelaporSelect" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
+                                <option value="">-- Pilih Pelapor --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Saksi I</label>
+                            <select id="formSaksi1Select" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
+                                <option value="">-- Pilih Saksi I --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Saksi II</label>
+                            <select id="formSaksi2Select" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
+                                <option value="">-- Pilih Saksi II --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Ayah</label>
+                            <select id="formAyahSelect" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
+                                <option value="">-- Pilih Ayah --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Ibu</label>
+                            <select id="formIbuSelect" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
+                                <option value="">-- Pilih Ibu --</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+                isiDropdownFormAkta();
+            } else {
+                container.innerHTML = `
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1 text-xs">Nama Lengkap Subjek / Warga</label>
+                        <input type="text" id="inputFormNama" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" placeholder="Nama lengkap warga...">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1 text-xs">NIK</label>
+                            <input type="text" id="inputFormNik" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" placeholder="16 digit NIK...">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1 text-xs">Nama Pelapor / Pemohon</label>
+                            <input type="text" id="inputFormPelapor" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" value="HAMID">
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function isiDropdownFormAkta() {
+            const dropdowns = ['formPelaporSelect', 'formSaksi1Select', 'formSaksi2Select', 'formAyahSelect', 'formIbuSelect'];
+            dropdowns.forEach(id => {
+                let el = document.getElementById(id);
+                if(el) {
+                    el.innerHTML = '<option value="">-- Pilih dari Database --</option>';
+                    dataPenduduk.forEach(w => {
+                        let opt = document.createElement('option');
+                        opt.value = w.nik;
+                        opt.text = `${w.nama} (NIK: ${w.nik})`;
+                        el.appendChild(opt);
+                    });
+                }
+            });
         }
 
         function cariWargaUntukSurat() {
@@ -1300,12 +1363,54 @@
             if (jenis === 'akta_kelahiran') {
                 judul.innerText = "Formulir F-2.01 (Akta Kelahiran)";
                 try {
-                    // Menarik file aktakelahiran.html langsung dari repository GitHub Desa Pugaan
                     let response = await fetch('https://raw.githubusercontent.com/desapugaan/siska/main/aktakelahiran.html');
                     if (!response.ok) throw new Error("Gagal mengambil file template");
                     let htmlTemplate = await response.text();
                     
                     area.innerHTML = htmlTemplate;
+
+                    // Mengisi otomatis data dari pilihan database
+                    let pNik = document.getElementById('formPelaporSelect')?.value;
+                    let s1Nik = document.getElementById('formSaksi1Select')?.value;
+                    let s2Nik = document.getElementById('formSaksi2Select')?.value;
+                    let aNik = document.getElementById('formAyahSelect')?.value;
+                    let iNik = document.getElementById('formIbuSelect')?.value;
+
+                    setTimeout(() => {
+                        if(pNik) {
+                            let w = dataPenduduk.find(x => x.nik === pNik);
+                            if(w && document.getElementById('tmplPelaporNama')) document.getElementById('tmplPelaporNama').innerText = w.nama;
+                            if(w && document.getElementById('tmplPelaporNik')) document.getElementById('tmplPelaporNik').innerText = w.nik;
+                            if(w && document.getElementById('tmplPelaporKk')) document.getElementById('tmplPelaporKk').innerText = w.kk;
+                        }
+                        if(s1Nik) {
+                            let w = dataPenduduk.find(x => x.nik === s1Nik);
+                            if(w && document.getElementById('tmplSaksi1Nama')) document.getElementById('tmplSaksi1Nama').innerText = w.nama;
+                            if(w && document.getElementById('tmplSaksi1Nik')) document.getElementById('tmplSaksi1Nik').innerText = w.nik;
+                            if(w && document.getElementById('tmplSaksi1Kk')) document.getElementById('tmplSaksi1Kk').innerText = w.kk;
+                        }
+                        if(s2Nik) {
+                            let w = dataPenduduk.find(x => x.nik === s2Nik);
+                            if(w && document.getElementById('tmplSaksi2Nama')) document.getElementById('tmplSaksi2Nama').innerText = w.nama;
+                            if(w && document.getElementById('tmplSaksi2Nik')) document.getElementById('tmplSaksi2Nik').innerText = w.nik;
+                            if(w && document.getElementById('tmplSaksi2Kk')) document.getElementById('tmplSaksi2Kk').innerText = w.kk;
+                        }
+                        if(aNik) {
+                            let w = dataPenduduk.find(x => x.nik === aNik);
+                            if(w && document.getElementById('tmplAyahNama')) document.getElementById('tmplAyahNama').innerText = w.nama;
+                            if(w && document.getElementById('tmplAyahNik')) document.getElementById('tmplAyahNik').innerText = w.nik;
+                            if(w && document.getElementById('tmplAyahTmplahir')) document.getElementById('tmplAyahTmplahir').innerText = w.tempatLahir;
+                            if(w && document.getElementById('tmplAyahTgllahir')) document.getElementById('tmplAyahTgllahir').innerText = parseExcelDate(w.tanggalLahir);
+                        }
+                        if(iNik) {
+                            let w = dataPenduduk.find(x => x.nik === iNik);
+                            if(w && document.getElementById('tmplIbuNama')) document.getElementById('tmplIbuNama').innerText = w.nama;
+                            if(w && document.getElementById('tmplIbuNik')) document.getElementById('tmplIbuNik').innerText = w.nik;
+                            if(w && document.getElementById('tmplIbuTmplahir')) document.getElementById('tmplIbuTmplahir').innerText = w.tempatLahir;
+                            if(w && document.getElementById('tmplIbuTgllahir')) document.getElementById('tmplIbuTgllahir').innerText = parseExcelDate(w.tanggalLahir);
+                        }
+                    }, 200);
+
                     document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 } catch (error) {
                     alert("Gagal memuat template aktakelahiran.html dari GitHub. Pastikan koneksi internet aktif dan file sudah ada di repository.");
