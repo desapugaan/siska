@@ -1323,7 +1323,7 @@
                 };
                 dropdown.appendChild(div);
             });
-            dropdown.classList.add('hidden');
+            dropdown.classList.remove('hidden');
         }
 
         async function pratinjauDanCetakFormulir() {
@@ -1335,59 +1335,33 @@
             let namaVal = document.getElementById('inputFormNama')?.value || (selectedWargaSurat ? selectedWargaSurat.nama : "MUHAMMAD AL FATIH");
             let nikVal = document.getElementById('inputFormNik')?.value || (selectedWargaSurat ? selectedWargaSurat.nik : "6309090101800001");
 
-            if (jenis === 'akta_kelahiran') {
-                judul.innerText = "Formulir F-2.01 (Akta Kelahiran)";
+            let namaFileMd = "AKTA KELAHIRAN (2).md";
+            if (jenis === 'permohonan_kk') namaFileMd = "Formulir Kartu Keluarga.md";
+            else if (jenis === 'akta_kematian') namaFileMd = "AKTA KEMATIAN.md";
+            else if (jenis === 'Domisili') namaFileMd = "SURAT KETERANGAN MENINGGAL BADERI RT....md";
+
+            if (jenis === 'akta_kelahiran' || jenis === 'permohonan_kk' || jenis === 'akta_kematian') {
+                judul.innerText = `Pratinjau Formulir Resmi (${jenis})`.toUpperCase();
                 try {
-                    let response = await fetch('https://raw.githubusercontent.com/desapugaan/siska/main/aktakelahiran.html');
-                    if (!response.ok) throw new Error("Gagal mengambil file template");
-                    let htmlTemplate = await response.text();
+                    let urlFile = `https://raw.githubusercontent.com/desapugaan/siska/main/${encodeURIComponent(namaFileMd)}`;
+                    let response = await fetch(urlFile);
+                    if (!response.ok) throw new Error("Gagal mengambil file template markdown");
+                    let markdownText = await response.text();
                     
-                    area.innerHTML = htmlTemplate;
+                    let formattedHtml = markdownText
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/\n/g, "<br>");
 
-                    setTimeout(() => {
-                        let tables = area.querySelectorAll('table');
-                        if (tables && tables.length > 0) {
-                            // Fungsi pintar mencari label spesifik di dalam tabel F-2.01 agar tidak salah kolom
-                            let isiBarisBerdasarkanLabelTabel = (tableEl, warga) => {
-                                if (!tableEl || !warga) return;
-                                let rows = tableEl.querySelectorAll('tr');
-                                rows.forEach(r => {
-                                    let cells = r.querySelectorAll('td');
-                                    if (cells.length >= 2) {
-                                        let labelText = cells[0].innerText.toLowerCase().trim();
-                                        let targetCell = cells[1] || cells[2];
-                                        if (targetCell) {
-                                            if (labelText.includes('1. nama') || labelText === '1. nama' || (labelText.includes('nama') && !labelText.includes('orang'))) {
-                                                targetCell.innerHTML = `: <b>${warga.nama || ''}</b>`;
-                                            } else if (labelText.includes('2. nik') || labelText === '2. nik') {
-                                                targetCell.innerHTML = `: ${warga.nik || ''}`;
-                                            } else if (labelText.includes('4. nomor kartu keluarga') || labelText.includes('kartu keluarga')) {
-                                                targetCell.innerHTML = `: ${warga.kk || ''}`;
-                                            } else if (labelText.includes('5. kewarganegaraan') || labelText.includes('kewarganegaraan')) {
-                                                targetCell.innerHTML = `: INDONESIA`;
-                                            }
-                                        }
-                                    }
-                                });
-                            };
-
-                            // Petakan masing-masing tabel section berdasarkan judul heading tabelnya
-                            tables.forEach(tbl => {
-                                let headerText = tbl.innerText.toUpperCase();
-                                if (headerText.includes('DATA PELAPOR') && terpilihPelapor) {
-                                    isiBarisBerdasarkanLabelTabel(tbl, terpilihPelapor);
-                                } else if (headerText.includes('DATA AYAH') && terpilihAyah) {
-                                    isiBarisBerdasarkanLabelTabel(tbl, terpilihAyah);
-                                } else if (headerText.includes('DATA IBU') && terpilihIbu) {
-                                    isiBarisBerdasarkanLabelTabel(tbl, terpilihIbu);
-                                }
-                            });
-                        }
-                    }, 400);
+                    area.innerHTML = `
+                        <div style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; padding: 10px;">
+                            <div style="white-space: pre-wrap; font-size: 10px; color: #1e293b;">${formattedHtml}</div>
+                        </div>
+                    `;
 
                     document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 } catch (error) {
-                    alert("Gagal memuat template aktakelahiran.html dari GitHub. Pastikan koneksi internet aktif.");
+                    alert("Gagal memuat file template dari GitHub. Pastikan nama file sesuai.");
                 }
             } else {
                 judul.innerText = `Surat Keterangan ${jenis}`;
