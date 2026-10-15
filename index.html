@@ -160,8 +160,8 @@
                         </div>
                         <div class="relative z-10">
                             <span class="inline-block px-3.5 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-bold rounded-xl mb-3 tracking-wide">Desa Mandiri & Terintegrasi</span>
-                            <h3 class="text-xl md:text-2xl font-black tracking-tight">Selamat Datang di SISKAPUGA </h3>
-                            <p class="text-xs md:text-sm text-emerald-100 mt-2 font-medium"><b>Sistem Informasi Kependudukan Adminidtrasi Desa Pugaan</b> • PUGAAN SMART: <b></b></p>
+                            <h3 class="text-xl md:text-2xl font-black tracking-tight">Selamat Datang di SISKAPUGA</h3>
+                            <p class="text-xs md:text-sm text-emerald-100 mt-2 font-medium"><b>Sistem Informasi Kependudukan Administrasi Desa Pugaan</b> • PUGAAN SMART</p>
                         </div>
                         <div class="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl text-left md:text-right shrink-0 shadow-lg">
                             <p class="text-[11px] text-emerald-200 uppercase tracking-widest font-bold">Wilayah</p>
@@ -671,7 +671,6 @@
                 <button onclick="tutupModalCetakFormulir()" class="text-white p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
             
-            <!-- Area cetak dengan latar putih utuh memanjang penuh ke bawah -->
             <div class="flex-1 w-full bg-slate-200 overflow-y-auto p-4 md:p-8 flex justify-center">
                 <div id="printableAreaSurat" class="bg-white p-8 shadow-2xl w-[210mm] min-h-[315mm] text-slate-900 text-[9px] relative space-y-4 rounded-xl">
                     <!-- Konten dinamis surat -->
@@ -1327,9 +1326,6 @@
             dropdown.classList.remove('hidden');
         }
 
-        // ==========================================
-        // PRATINJAU & KONEKSI KE aktakelahiran.html DI GITHUB
-        // ==========================================
         async function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
