@@ -691,41 +691,7 @@
                 </div>
                 <button onclick="tutupModalF201()" class="text-white hover:text-slate-200 font-bold p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
-            <div id="printableArea" class="p-8 overflow-y-auto space-y-6 text-slate-900 text-xs leading-relaxed bg-white">
-                <div class="text-center border-b-2 border-slate-900 pb-4">
-                    <p class="font-bold text-sm">PEMERINTAH KABUPATEN TABALONG</p>
-                    <p class="font-bold text-sm">KECAMATAN PUGAAN • DESA PUGAAN</p>
-                    <h4 class="font-black text-base mt-2">SURAT KETERANGAN KELAHIRAN</h4>
-                    <p class="font-mono text-xs text-slate-600">Nomor Formulir: F-2.01</p>
-                </div>
-                <div class="space-y-3">
-                    <p>Yang bertanda tangan di bawah ini menerangkan bahwa telah lahir seorang anak:</p>
-                    <table class="w-full border-collapse">
-                        <tr><td class="py-1.5 font-bold w-40">1. Nama Lengkap</td><td>: <span id="pBayiNama" class="font-bold">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">2. Jenis Kelamin</td><td>: <span id="pBayiJk">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">3. Tempat, Tgl Lahir</td><td>: <span id="pBayiTTL">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">4. Agama</td><td>: <span id="pBayiAgama">ISLAM</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">5. Nomor KK Orang Tua</td><td>: <span id="pBayiKK" class="font-mono font-bold">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">6. Nama Ayah</td><td>: <span id="pBayiAyah">-</span></td></tr>
-                        <tr><td class="py-1.5 font-bold">7. Nama Ibu</td><td>: <span id="pBayiIbu">-</span></td></tr>
-                    </table>
-                    <p class="pt-2">Anak tersebut di atas adalah benar anak kandung dari pasangan suami istri tersebut dan telah tercatat dalam sistem kependudukan Desa Pugaan.</p>
-                </div>
-                <div class="flex justify-between pt-12 text-center">
-                    <div>
-                        <p>Mengetahui,</p>
-                        <p class="font-bold">Kepala Desa Pugaan</p>
-                        <br><br><br>
-                        <p class="font-bold underline">HAMID</p>
-                    </div>
-                    <div>
-                        <p>Pugaan, <span id="pTglCetak"></span></p>
-                        <p class="font-bold">Pemohon / Pelapor</p>
-                        <br><br><br>
-                        <p class="font-bold underline">( ........................................ )</p>
-                    </div>
-                </div>
-            </div>
+            <div id="printableArea" class="p-8 overflow-y-auto space-y-6 text-slate-900 text-xs leading-relaxed bg-white"></div>
             <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-3">
                 <button onclick="tutupModalF201()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700">Tutup</button>
                 <button onclick="window.print()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 font-bold rounded-xl text-white shadow-md flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i> Cetak / Unduh F-2.01</button>
@@ -1137,14 +1103,23 @@
                 tambahBarisAnggotaKK();
             } else if (jenis === 'akta_kelahiran') {
                 container.innerHTML = `
-                    <div><label class="block font-bold text-slate-600 mb-1">Nama Lengkap Anak / Bayi</label><input type="text" id="f_akl_nama" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Bayi"></div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div><label class="block font-bold text-slate-600 mb-1">Jenis Kelamin</label><select id="f_akl_jk" class="w-full px-4 py-3 border rounded-xl"><option value="LAKI-LAKI">Laki-laki</option><option value="PEREMPUAN">Perempuan</option></select></div>
-                        <div><label class="block font-bold text-slate-600 mb-1">Tempat, Tanggal Lahir</label><input type="text" id="f_akl_ttl" class="w-full px-4 py-3 border rounded-xl" placeholder="Pugaan, 14/10/2026"></div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block font-bold text-slate-600 mb-1">Nama Lengkap Bayi</label><input type="text" id="f_akl_nama" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Bayi"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">NIK Bayi</label><input type="text" id="f_akl_nik" class="w-full px-4 py-3 border rounded-xl" placeholder="16 Digit NIK Bayi"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Jenis Kelamin</label><select id="f_akl_jk" class="w-full px-4 py-3 border rounded-xl"><option value="LAKI-LAKI">1. Laki-laki</option><option value="PEREMPUAN">2. Perempuan</option></select></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Tempat Dilahirkan</label><select id="f_akl_tempatdilahirkan" class="w-full px-4 py-3 border rounded-xl"><option value="1. RS/RB">1. RS/RB</option><option value="2. Puskesmas">2. Puskesmas</option><option value="3. Polindes">3. Polindes</option><option value="4. Rumah" selected>4. Rumah</option><option value="5. Lainnya">5. Lainnya</option></select></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Tempat Kelahiran</label><input type="text" id="f_akl_tempat" class="w-full px-4 py-3 border rounded-xl" value="Pugaan"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Hari & Tanggal Lahir</label><input type="text" id="f_akl_tgl" class="w-full px-4 py-3 border rounded-xl" placeholder="Kamis, 22/05/2026"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Pukul</label><input type="text" id="f_akl_pukul" class="w-full px-4 py-3 border rounded-xl" placeholder="08:00"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Jenis Kelahiran</label><select id="f_akl_jeniskelahiran" class="w-full px-4 py-3 border rounded-xl"><option value="1. Tunggal">1. Tunggal</option><option value="2. Kembar 2">2. Kembar 2</option><option value="3. Kembar 3">3. Kembar 3</option></select></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Kelahiran Ke-</label><input type="text" id="f_akl_anakke" class="w-full px-4 py-3 border rounded-xl" value="1"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Penolong Kelahiran</label><select id="f_akl_penolong" class="w-full px-4 py-3 border rounded-xl"><option value="1. Dokter">1. Dokter</option><option value="2. Bidan/Perawat" selected>2. Bidan/Perawat</option><option value="3. Dukun">3. Dukun</option><option value="4. Lainnya">4. Lainnya</option></select></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Berat Bayi (Kg)</label><input type="text" id="f_akl_berat" class="w-full px-4 py-3 border rounded-xl" value="3.0"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">Panjang Bayi (Cm)</label><input type="text" id="f_akl_panjang" class="w-full px-4 py-3 border rounded-xl" value="48"></div>
                         <div><label class="block font-bold text-slate-600 mb-1">Nama Ayah</label><input type="text" id="f_akl_ayah" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Ayah"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">NIK Ayah</label><input type="text" id="f_akl_nikayah" class="w-full px-4 py-3 border rounded-xl" placeholder="NIK Ayah"></div>
                         <div><label class="block font-bold text-slate-600 mb-1">Nama Ibu</label><input type="text" id="f_akl_ibu" class="w-full px-4 py-3 border rounded-xl" placeholder="Nama Ibu"></div>
+                        <div><label class="block font-bold text-slate-600 mb-1">NIK Ibu</label><input type="text" id="f_akl_nikibu" class="w-full px-4 py-3 border rounded-xl" placeholder="NIK Ibu"></div>
                     </div>
                 `;
             } else if (jenis === 'akta_kematian') {
@@ -1228,6 +1203,9 @@
                         if(document.getElementById('f_kk_kepala')) document.getElementById('f_kk_kepala').value = w.nama;
                         if(document.getElementById('f_kk_nomor')) document.getElementById('f_kk_nomor').value = w.kk;
                         if(document.getElementById('f_kk_rt')) document.getElementById('f_kk_rt').value = w.rt.replace(/rt\s*/gi, '').trim();
+                    } else if(jenis === 'akta_kelahiran') {
+                        if(document.getElementById('f_akl_nama')) document.getElementById('f_akl_nama').value = w.nama;
+                        if(document.getElementById('f_akl_nik')) document.getElementById('f_akl_nik').value = w.nik;
                     } else if(jenis === 'akta_kematian') {
                         if(document.getElementById('f_akm_nama')) document.getElementById('f_akm_nama').value = w.nama;
                         if(document.getElementById('f_akm_nik')) document.getElementById('f_akm_nik').value = w.nik;
@@ -1333,7 +1311,6 @@
                         <tr><td class="font-bold">KECAMATAN / KODE POS</td><td>: <span contenteditable="true">${kec}</span> / <span contenteditable="true">71554</span></td></tr>
                     </table>
 
-                    <!-- TABEL 1 -->
                     <table class="w-full border-collapse border border-slate-900 text-[11px] mt-4">
                         <thead>
                             <tr class="bg-slate-100 text-center font-bold">
@@ -1348,7 +1325,6 @@
                         <tbody>${tabel1HTML}</tbody>
                     </table>
 
-                    <!-- TABEL 2 -->
                     <table class="w-full border-collapse border border-slate-900 text-[11px] mt-3">
                         <thead>
                             <tr class="bg-slate-100 text-center font-bold">
@@ -1379,23 +1355,79 @@
                     </div>
                 `;
             } else if (jenis === 'akta_kelahiran') {
+                judul.innerText = "Formulir Pelaporan Pencatatan Sipil - F-2.01 (Akta Kelahiran)";
                 let nama = document.getElementById('f_akl_nama')?.value || '-';
-                let jk = document.getElementById('f_akl_jk')?.value || '-';
-                let ttl = document.getElementById('f_akl_ttl')?.value || '-';
+                let nik = document.getElementById('f_akl_nik')?.value || '-';
+                let jk = document.getElementById('f_akl_jk')?.value || '1. Laki-laki';
+                let tempatdilahirkan = document.getElementById('f_akl_tempatdilahirkan')?.value || '4. Rumah';
+                let tempat = document.getElementById('f_akl_tempat')?.value || 'Pugaan';
+                let tgl = document.getElementById('f_akl_tgl')?.value || '22/05/2026';
+                let pukul = document.getElementById('f_akl_pukul')?.value || '08:00';
+                let jeniskelahiran = document.getElementById('f_akl_jeniskelahiran')?.value || '1. Tunggal';
+                let anakke = document.getElementById('f_akl_anakke')?.value || '1';
+                let penolong = document.getElementById('f_akl_penolong')?.value || '2. Bidan/Perawat';
+                let berat = document.getElementById('f_akl_berat')?.value || '3.0';
+                let panjang = document.getElementById('f_akl_panjang')?.value || '48';
                 let ayah = document.getElementById('f_akl_ayah')?.value || '-';
+                let nikayah = document.getElementById('f_akl_nikayah')?.value || '-';
                 let ibu = document.getElementById('f_akl_ibu')?.value || '-';
+                let nikibu = document.getElementById('f_akl_nikibu')?.value || '-';
 
                 area.innerHTML = `
-                    <div class="text-center font-bold text-sm border-b-2 border-slate-900 pb-3">SURAT KETERANGAN KELAHIRAN (FORMULIR F-2.01)</div>
-                    <table class="w-full text-xs space-y-2 mt-3">
-                        <tr><td class="font-bold w-44">Nama Bayi</td><td>: <b contenteditable="true">${nama}</b></td></tr>
-                        <tr><td class="font-bold">Jenis Kelamin</td><td>: <span contenteditable="true">${jk}</span></td></tr>
-                        <tr><td class="font-bold">Tempat, Tanggal Lahir</td><td>: <span contenteditable="true">${ttl}</span></td></tr>
-                        <tr><td class="font-bold">Ayah / Ibu</td><td>: <span contenteditable="true">${ayah}</span> / <span contenteditable="true">${ibu}</span></td></tr>
-                    </table>
-                    <div class="flex justify-between pt-12 text-center">
-                        <div><p>Kepala Desa Pugaan</p><br><br><p class="font-bold underline">HAMID</p></div>
-                        <div><p>Pugaan, ${todayStr}</p><p class="font-bold">Pelapor</p><br><br><p class="font-bold underline" contenteditable="true">${ayah}</p></div>
+                    <div class="flex justify-between items-center border-b-2 border-slate-900 pb-2">
+                        <div>
+                            <p class="font-bold text-xs">PEMERINTAH KABUPATEN TABALONG</p>
+                            <p class="font-bold text-xs">KECAMATAN PUGAAN • DESA PUGAAN</p>
+                        </div>
+                        <div class="border-2 border-slate-900 px-3 py-1 font-black text-sm">F-2.01</div>
+                    </div>
+                    <div class="text-center font-black text-sm mt-3 tracking-wide">
+                        FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI
+                    </div>
+                    <p class="font-bold text-[11px] mt-2 border-b border-slate-300 pb-1">Jenis Pelaporan Pencatatan Sipil : <b>[✔] Kelahiran</b></p>
+
+                    <!-- TABEL DATA ORANG TUA -->
+                    <div class="mt-4 border border-slate-900 text-[11px]">
+                        <div class="bg-slate-200 font-bold p-1 border-b border-slate-900">DATA ORANG TUA</div>
+                        <table class="w-full">
+                            <tr><td class="p-1 border-b border-r w-48 font-bold">1. Nama Ayah</td><td class="p-1 border-b" contenteditable="true">${ayah}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">2. NIK Ayah</td><td class="p-1 border-b font-mono font-bold" contenteditable="true">${nikayah}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">3. Nama Ibu</td><td class="p-1 border-b" contenteditable="true">${ibu}</td></tr>
+                            <tr><td class="p-1 border-r font-bold">4. NIK Ibu</td><td class="p-1 font-mono font-bold" contenteditable="true">${nikibu}</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- TABEL DATA ANAK -->
+                    <div class="mt-4 border border-slate-900 text-[11px]">
+                        <div class="bg-slate-200 font-bold p-1 border-b border-slate-900">DATA ANAK (YANG DILAHIRKAN)</div>
+                        <table class="w-full">
+                            <tr><td class="p-1 border-b border-r w-48 font-bold">1. Nama Lengkap</td><td class="p-1 border-b font-bold uppercase" contenteditable="true">${nama}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">2. NIK Bayi</td><td class="p-1 border-b font-mono" contenteditable="true">${nik}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">3. Jenis Kelamin</td><td class="p-1 border-b" contenteditable="true">${jk}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">4. Tempat Dilahirkan</td><td class="p-1 border-b" contenteditable="true">${tempatdilahirkan}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">5. Tempat Kelahiran</td><td class="p-1 border-b" contenteditable="true">${tempat}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">6. Hari dan Tanggal Lahir</td><td class="p-1 border-b" contenteditable="true">${tgl} (Pukul: ${pukul})</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">7. Jenis Kelahiran</td><td class="p-1 border-b" contenteditable="true">${jeniskelahiran}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">8. Kelahiran Ke-</td><td class="p-1 border-b" contenteditable="true">${anakke}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">9. Penolong Kelahiran</td><td class="p-1 border-b" contenteditable="true">${penolong}</td></tr>
+                            <tr><td class="p-1 border-b border-r font-bold">10. Berat Bayi</td><td class="p-1 border-b" contenteditable="true">${berat} Kg</td></tr>
+                            <tr><td class="p-1 border-r font-bold">11. Panjang Bayi</td><td class="p-1" contenteditable="true">${panjang} Cm</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="flex justify-between pt-12 text-center text-xs">
+                        <div>
+                            <p>Mengetahui :</p>
+                            <p class="font-bold">Kepala Desa Pugaan</p>
+                            <br><br><br>
+                            <p class="font-bold underline">HAMID</p>
+                        </div>
+                        <div>
+                            <p>Tanjung, ${todayStr}</p>
+                            <p class="font-bold">Pelapor</p>
+                            <br><br><br>
+                            <p class="font-bold underline" contenteditable="true">${ayah || ibu || 'Pelapor'}</p>
+                        </div>
                     </div>
                 `;
             } else if (jenis === 'akta_kematian') {
