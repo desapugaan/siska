@@ -14,6 +14,11 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        @media print {
+            body * { visibility: hidden; }
+            #printableArea, #printableArea * { visibility: visible; }
+            #printableArea { position: absolute; left: 0; top: 0; width: 100%; }
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased selection:bg-emerald-500 selection:text-white">
@@ -535,7 +540,7 @@
                     </div>
                 </div>
 
-                <!-- 7. STATISTIK & GRAFIK (LENGKAP SEMUA UMUR & PEKERJAAN) -->
+                <!-- 7. STATISTIK & GRAFIK -->
                 <div id="view-statistik" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl space-y-8">
                         <div>
@@ -588,20 +593,16 @@
                             </div>
                         </div>
 
-                        <!-- GRAFIK BERDASARKAN UMUR LENGKAP SEMUA UMUR -->
+                        <!-- GRAFIK BERDASARKAN UMUR LENGKAP -->
                         <div class="pt-6 border-t border-slate-100 space-y-4">
                             <h4 class="font-bold text-slate-800 text-sm">2. Statistik Lengkap Jumlah Penduduk Berdasarkan Umur (0 Tahun sampai Umur Tertua)</h4>
-                            <div id="containerStatistikUmur" class="space-y-3 max-h-[450px] overflow-y-auto pr-2 border border-slate-100 p-4 rounded-3xl bg-slate-50/50">
-                                <!-- Diisi otomatis via JavaScript -->
-                            </div>
+                            <div id="containerStatistikUmur" class="space-y-3 max-h-[450px] overflow-y-auto pr-2 border border-slate-100 p-4 rounded-3xl bg-slate-50/50"></div>
                         </div>
 
                         <!-- GRAFIK BERDASARKAN PEKERJAAN -->
                         <div class="pt-6 border-t border-slate-100 space-y-4">
                             <h4 class="font-bold text-slate-800 text-sm">3. Statistik Berdasarkan Jenis Pekerjaan (Petani, PNS, Wiraswasta, dll.)</h4>
-                            <div id="containerStatistikPekerjaan" class="space-y-3 max-h-[400px] overflow-y-auto pr-2 border border-slate-100 p-4 rounded-3xl bg-slate-50/50">
-                                <!-- Diisi otomatis via JavaScript -->
-                            </div>
+                            <div id="containerStatistikPekerjaan" class="space-y-3 max-h-[400px] overflow-y-auto pr-2 border border-slate-100 p-4 rounded-3xl bg-slate-50/50"></div>
                         </div>
                     </div>
                 </div>
@@ -658,6 +659,58 @@
         </main>
     </div>
 
+    <!-- MODAL / AREA CETAK FORMULIR F-2.01 -->
+    <div id="modalF201" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-5 bg-emerald-900 text-white flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-base">Formulir F-2.01 (Surat Keterangan Kelahiran)</h3>
+                    <p class="text-xs text-emerald-200">Siap cetak atau unduh</p>
+                </div>
+                <button onclick="tutupModalF201()" class="text-white hover:text-slate-200 font-bold p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            <div id="printableArea" class="p-8 overflow-y-auto space-y-6 text-slate-900 text-xs leading-relaxed bg-white">
+                <div class="text-center border-b-2 border-slate-900 pb-4">
+                    <p class="font-bold text-sm">PEMERINTAH KABUPATEN TABALONG</p>
+                    <p class="font-bold text-sm">KECAMATAN PUGAAN • DESA PUGAAN</p>
+                    <h4 class="font-black text-base mt-2">SURAT KETERANGAN KELAHIRAN</h4>
+                    <p class="font-mono text-xs text-slate-600">Nomor Formulir: F-2.01</p>
+                </div>
+                <div class="space-y-3">
+                    <p>Yang bertanda tangan di bawah ini menerangkan bahwa telah lahir seorang anak:</p>
+                    <table class="w-full border-collapse">
+                        <tr><td class="py-1.5 font-bold w-40">1. Nama Lengkap</td><td>: <span id="pBayiNama" class="font-bold">-</span></td></tr>
+                        <tr><td class="py-1.5 font-bold">2. Jenis Kelamin</td><td>: <span id="pBayiJk">-</span></td></tr>
+                        <tr><td class="py-1.5 font-bold">3. Tempat, Tgl Lahir</td><td>: <span id="pBayiTTL">-</span></td></tr>
+                        <tr><td class="py-1.5 font-bold">4. Agama</td><td>: <span id="pBayiAgama">ISLAM</span></td></tr>
+                        <tr><td class="py-1.5 font-bold">5. Nomor KK Orang Tua</td><td>: <span id="pBayiKK" class="font-mono font-bold">-</span></td></tr>
+                        <tr><td class="py-1.5 font-bold">6. Nama Ayah</td><td>: <span id="pBayiAyah">-</span></td></tr>
+                        <tr><td class="py-1.5 font-bold">7. Nama Ibu</td><td>: <span id="pBayiIbu">-</span></td></tr>
+                    </table>
+                    <p class="pt-2">Anak tersebut di atas adalah benar anak kandung dari pasangan suami istri tersebut dan telah tercatat dalam sistem kependudukan Desa Pugaan.</p>
+                </div>
+                <div class="flex justify-between pt-12 text-center">
+                    <div>
+                        <p>Mengetahui,</p>
+                        <p class="font-bold">Kepala Desa Pugaan</p>
+                        <br><br><br>
+                        <p class="font-bold underline">HAMID</p>
+                    </div>
+                    <div>
+                        <p>Pugaan, <span id="pTglCetak"></span></p>
+                        <p class="font-bold">Pemohon / Pelapor</p>
+                        <br><br><br>
+                        <p class="font-bold underline">( ........................................ )</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-end gap-3">
+                <button onclick="tutupModalF201()" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700">Tutup</button>
+                <button onclick="window.print()" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 font-bold rounded-xl text-white shadow-md flex items-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i> Cetak / Unduh F-2.01</button>
+            </div>
+        </div>
+    </div>
+
     <!-- BOTTOM NAVBAR KHUSUS HP -->
     <div id="bottomNav" class="hidden fixed bottom-0 inset-x-0 bg-white/90 backdrop-blur-xl border-t border-slate-200/80 z-30 px-4 py-2.5 flex justify-around items-center md:hidden shadow-2xl">
         <button onclick="switchTab('ringkasan')" class="flex flex-col items-center gap-1 text-emerald-600 font-bold transition transform active:scale-90" id="bnav-ringkasan">
@@ -691,7 +744,6 @@
         let isFullscreenMode = false;
         const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
 
-        // Cek status login saat halaman dimuat/di-refresh
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('siskapuga_logged_in') === 'true') {
                 document.getElementById('loginPage').classList.add('hidden');
@@ -710,9 +762,7 @@
 
         function geserTabel(amount) {
             const container = document.getElementById('tabelContainerScroll');
-            if (container) {
-                container.scrollBy({ left: amount, behavior: 'smooth' });
-            }
+            if (container) container.scrollBy({ left: amount, behavior: 'smooth' });
         }
 
         function toggleFullscreenTabel() {
@@ -834,23 +884,17 @@
         }
 
         async function eksporKeGoogleSheets() {
-            if (dataPenduduk.length === 0) {
-                alert("Belum ada data penduduk untuk disimpan!");
-                return;
-            }
+            if (dataPenduduk.length === 0) return;
             urutkanDataBerdasarkanRT();
             try {
-                alert("Menyimpan data ke Google Sheets...");
                 await fetch(urlWebApps, {
                     method: "POST",
                     mode: "no-cors",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(dataPenduduk)
                 });
-                alert("Berhasil! Data tersimpan rapi dan terurut di Google Sheets.");
             } catch (error) {
                 console.error("Error:", error);
-                alert("Terjadi kesalahan saat menyimpan ke Google Sheets.");
             }
         }
 
@@ -1023,17 +1067,9 @@
             eksporKeGoogleSheets();
 
             alert(`Data kematian ${namaMeninggal} berhasil dicatat & otomatis terhapus dari sistem.`);
-            
             selectedWargaMati = null;
             document.getElementById('cariMatiKeyword').value = '';
-            document.getElementById('previewMatiNik').innerText = '-';
-            document.getElementById('previewMatiKK').innerText = '-';
-            document.getElementById('previewMatiNama').innerText = '-';
-            document.getElementById('previewMatiRT').innerText = '-';
-            document.getElementById('previewMatiTTL').innerText = '-';
-            document.getElementById('previewMatiOrtu').innerText = '-';
             document.getElementById('matiTanggal').value = '';
-            
             switchTab('penduduk');
         }
 
@@ -1200,6 +1236,7 @@
             });
         }
 
+        // FUNGSI CATAT KELAHIRAN DAN OTOMATIS BUKA PREVIEW FORMULIR F-2.01
         function catatKelahiran(e) {
             e.preventDefault();
             const kkInput = document.getElementById('bayiKK').value.trim();
@@ -1207,6 +1244,9 @@
             const tglLahir = document.getElementById('bayiTanggal').value;
             const customNik = document.getElementById('bayiNik').value;
             const nikBayi = customNik ? customNik : "630909" + Math.floor(10000000 + Math.random() * 90000000);
+            const jk = document.getElementById('bayiJk').value === 'L' ? 'Laki-laki' : 'Perempuan';
+            const ayah = document.getElementById('bayiAyah').value.toUpperCase();
+            const ibu = document.getElementById('bayiIbu').value.toUpperCase();
 
             dataPenduduk.push({
                 kk: kkInput,
@@ -1222,8 +1262,8 @@
                 pekerjaan: "BELUM/TIDAK BEKERJA",
                 statusPerkawinan: "BELUM KAWIN",
                 hubunganKK: "ANAK",
-                ayah: document.getElementById('bayiAyah').value.toUpperCase(),
-                ibu: document.getElementById('bayiIbu').value.toUpperCase()
+                ayah: ayah,
+                ibu: ibu
             });
 
             urutkanDataBerdasarkanRT();
@@ -1231,9 +1271,25 @@
             renderGrafikKK();
             eksporKeGoogleSheets();
 
-            alert(`Kelahiran ${nama} berhasil dicatat & otomatis tergabung di bawah No KK ${kkInput}!`);
+            // Isi data ke Modal Preview Formulir F-2.01
+            document.getElementById('pBayiNama').innerText = nama;
+            document.getElementById('pBayiJk').innerText = jk;
+            document.getElementById('pBayiTTL').innerText = `${document.getElementById('bayiTempatLahir').value.toUpperCase()}, ${tglLahir}`;
+            document.getElementById('pBayiAgama').innerText = document.getElementById('bayiAgama').value;
+            document.getElementById('pBayiKK').innerText = kkInput;
+            document.getElementById('pBayiAyah').innerText = ayah;
+            document.getElementById('pBayiIbu').innerText = ibu;
+            
+            let todayStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('pTglCetak').innerText = todayStr;
+
+            // Tampilkan Modal Formulir F-2.01
+            document.getElementById('modalF201').classList.remove('hidden');
+        }
+
+        function tutupModalF201() {
+            document.getElementById('modalF201').classList.add('hidden');
             switchTab('penduduk');
-            e.target.reset();
         }
 
         function catatPindahPergi(e) {
@@ -1281,11 +1337,7 @@
             dataPenduduk.forEach(w => {
                 let u = w.umur !== undefined && !isNaN(w.umur) ? w.umur : hitungUmur(w.tanggalLahir);
                 totalUmur += u;
-
-                // Rekap umur
                 umurMap[u] = (umurMap[u] || 0) + 1;
-
-                // Rekap pekerjaan
                 let pek = (w.pekerjaan && w.pekerjaan.trim() !== "") ? w.pekerjaan.trim().toUpperCase() : "TIDAK / BELUM BEKERJA";
                 pekerjaanMap[pek] = (pekerjaanMap[pek] || 0) + 1;
             });
@@ -1306,10 +1358,8 @@
             document.getElementById('labelGrafikPerempuan').innerText = `${perempuan} orang (${persenPerempuan}%)`;
             document.getElementById('barGrafikPerempuan').style.width = persenPerempuan + '%';
 
-            // Render Statistik Berdasarkan Umur (LENGKAP DARI 0 SAMPAI TERTUA)
             const containerUmur = document.getElementById('containerStatistikUmur');
             containerUmur.innerHTML = '';
-            
             let maxUmur = Math.max(...Object.keys(umurMap).map(Number), 0);
             for (let age = 0; age <= maxUmur; age++) {
                 let count = umurMap[age] || 0;
@@ -1327,7 +1377,6 @@
                 `;
             }
 
-            // Render Statistik Berdasarkan Pekerjaan
             const containerPekerjaan = document.getElementById('containerStatistikPekerjaan');
             containerPekerjaan.innerHTML = '';
             let sortedPekerjaan = Object.keys(pekerjaanMap).sort((a, b) => pekerjaanMap[b] - pekerjaanMap[a]);
