@@ -1345,49 +1345,68 @@
                     area.innerHTML = htmlTemplate;
 
                     setTimeout(() => {
-                        let tables = area.querySelectorAll('table');
-                        if (tables && tables.length > 0) {
-                            let isiDataTabelBerdasarkanLabel = (tableElement, warga) => {
-                                if (!tableElement || !warga) return;
-                                let rows = tableElement.querySelectorAll('tr');
-                                rows.forEach(row => {
-                                    let cells = row.querySelectorAll('td');
-                                    if (cells.length >= 2) {
-                                        let label = cells[0].innerText.toLowerCase();
-                                        let targetCell = cells[1] || cells[2];
-                                        if (targetCell) {
-                                            if (label.includes('nama')) {
-                                                targetCell.innerHTML = `: <b>${warga.nama || ''}</b>`;
-                                            } else if (label.includes('nik')) {
-                                                targetCell.innerHTML = `: ${warga.nik || ''}`;
-                                            } else if (label.includes('nomor kartu keluarga') || label.includes('kk')) {
-                                                targetCell.innerHTML = `: ${warga.kk || ''}`;
-                                            } else if (label.includes('kewarganegaraan')) {
-                                                targetCell.innerHTML = `: INDONESIA`;
+                        let isiBarisTabel = (labelKunci, warga) => {
+                            if (!warga) return;
+                            let allRows = area.querySelectorAll('tr');
+                            let targetDitemukan = false;
+
+                            allRows.forEach(row => {
+                                let cells = row.querySelectorAll('td');
+                                if (cells.length >= 2) {
+                                    let labelText = cells[0].innerText.toLowerCase();
+                                    if (labelText.includes(labelKunci) && !targetDitemukan) {
+                                        let kolomIsi = cells[1] || cells[2];
+                                        if (kolomIsi) {
+                                            let kotakHuruf = kolomIsi.querySelectorAll('input, td, span');
+                                            if (kotakHuruf.length > 5) {
+                                                let gabungTeks = (warga.nama || warga.nik || "").toUpperCase();
+                                                for (let i = 0; i < Math.min(kotakHuruf.length, gabungTeks.length); i++) {
+                                                    kotakHuruf[i].innerText = gabungTeks[i];
+                                                }
+                                            } else {
+                                                kolomIsi.innerHTML = `: <b>${warga.nama || ''}</b><br><span style="font-size:7px;">NIK: ${warga.nik || ''} | KK: ${warga.kk || ''}</span>`;
                                             }
+                                            targetDitemukan = true;
                                         }
                                     }
-                                });
-                            };
-
-                            tables.forEach(tbl => {
-                                let textTbl = tbl.innerText.toUpperCase();
-                                if (textTbl.includes('DATA PELAPOR') && terpilihPelapor) {
-                                    isiDataTabelBerdasarkanLabel(tbl, terpilihPelapor);
-                                }
-                                if ((textTbl.includes('DATA AYAH') || textTbl.includes('AYAH')) && terpilihAyah) {
-                                    isiDataTabelBerdasarkanLabel(tbl, terpilihAyah);
-                                }
-                                if ((textTbl.includes('DATA IBU') || textTbl.includes('IBU')) && terpilihIbu) {
-                                    isiDataTabelBerdasarkanLabel(tbl, terpilihIbu);
                                 }
                             });
+                        };
+
+                        let tables = area.querySelectorAll('table');
+                        if (tables.length > 0) {
+                            let setCellText = (tblIdx, rowIdx, cellIdx, textValue) => {
+                                try {
+                                    if (tables[tblIdx] && tables[tblIdx].rows[rowIdx] && tables[tblIdx].rows[rowIdx].cells[cellIdx]) {
+                                        tables[tblIdx].rows[rowIdx].cells[cellIdx].innerHTML = textValue;
+                                    }
+                                } catch (e) {}
+                            };
+
+                            if (terpilihPelapor) {
+                                setCellText(0, 0, 1, `: ${terpilihPelapor.nama}`);
+                                setCellText(0, 1, 1, `: ${terpilihPelapor.nik}`);
+                                setCellText(0, 3, 1, `: ${terpilihPelapor.kk}`);
+                                setCellText(0, 4, 1, `: INDONESIA`);
+                            }
+                            if (terpilihAyah) {
+                                setCellText(2, 0, 1, `: ${terpilihAyah.nama}`);
+                                setCellText(2, 1, 1, `: ${terpilihAyah.nik}`);
+                                setCellText(2, 3, 1, `: ${terpilihAyah.kk}`);
+                                setCellText(2, 4, 1, `: INDONESIA`);
+                            }
+                            if (terpilihIbu) {
+                                setCellText(3, 0, 1, `: ${terpilihIbu.nama}`);
+                                setCellText(3, 1, 1, `: ${terpilihIbu.nik}`);
+                                setCellText(3, 3, 1, `: ${terpilihIbu.kk}`);
+                                setCellText(3, 4, 1, `: INDONESIA`);
+                            }
                         }
                     }, 400);
 
                     document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 } catch (error) {
-                    alert("Gagal memuat template aktakelahiran.html dari GitHub. Pastikan koneksi internet aktif.");
+                    alert("Gagal memuat template aktakelahiran.html dari GitHub. Pastikan koneksi internet aktif dan file sudah ada di repository.");
                 }
             } else {
                 judul.innerText = `Surat Keterangan ${jenis}`;
