@@ -1345,35 +1345,66 @@
                     area.innerHTML = htmlTemplate;
 
                     setTimeout(() => {
-                        let isiDataKeTemplate = (sectionIndex, w) => {
-                            if (!w) return;
-                            let tables = area.querySelectorAll('table');
-                            if (tables && tables[sectionIndex]) {
-                                let cells = tables[sectionIndex].querySelectorAll('td');
-                                // Biasanya kolom kedua berisi teks/input/titik-titik untuk Nama, NIK, KK, dll.
-                                cells.forEach(td => {
-                                    let text = td.innerText.trim();
-                                    if (text.includes(':')) {
-                                        let nextCell = td.nextElementSibling;
-                                        if (nextCell) {
-                                            // Cek baris mana berdasarkan teks label sebelumnya
-                                            let label = text.toLowerCase();
-                                            if (label.includes('nama')) nextCell.innerText = `: ${w.nama}`;
-                                            else if (label.includes('nik')) nextCell.innerText = `: ${w.nik}`;
-                                            else if (label.includes('keluarga')) nextCell.innerText = `: ${w.kk}`;
-                                            else if (label.includes('kewarganegaraan')) nextCell.innerText = `: INDONESIA`;
+                        let isiBarisTabel = (labelKunci, warga) => {
+                            if (!warga) return;
+                            let allRows = area.querySelectorAll('tr');
+                            let targetDitemukan = false;
+
+                            allRows.forEach(row => {
+                                let cells = row.querySelectorAll('td');
+                                if (cells.length >= 2) {
+                                    let labelText = cells[0].innerText.toLowerCase();
+                                    if (labelText.includes(labelKunci) && !targetDitemukan) {
+                                        let kolomIsi = cells[1] || cells[2];
+                                        if (kolomIsi) {
+                                            let kotakHuruf = kolomIsi.querySelectorAll('input, td, span');
+                                            if (kotakHuruf.length > 5) {
+                                                let gabungTeks = (warga.nama || warga.nik || "").toUpperCase();
+                                                for (let i = 0; i < Math.min(kotakHuruf.length, gabungTeks.length); i++) {
+                                                    kotakHuruf[i].innerText = gabungTeks[i];
+                                                }
+                                            } else {
+                                                kolomIsi.innerHTML = `: <b>${warga.nama || ''}</b><br><span style="font-size:7px;">NIK: ${warga.nik || ''} | KK: ${warga.kk || ''}</span>`;
+                                            }
+                                            targetDitemukan = true;
                                         }
                                     }
-                                });
-                            }
+                                }
+                            });
                         };
 
-                        // Berdasarkan urutan blok tabel di formulir F-2.01 standar
-                        // Blok 0: Data Pelapor, Blok 1: Subjek Anak, Blok 2: Ayah, Blok 3: Ibu
-                        if (terpilihPelapor) isiDataKeTemplate(0, terpilihPelapor);
-                        if (terpilihAyah) isiDataKeTemplate(2, terpilihAyah);
-                        if (terpilihIbu) isiDataKeTemplate(3, terpilihIbu);
-                    }, 350);
+                        if (terpilihPelapor) isiBarisTabel('nama', terpilihPelapor);
+                        
+                        let tables = area.querySelectorAll('table');
+                        if (tables.length > 0) {
+                            let setCellText = (tblIdx, rowIdx, cellIdx, textValue) => {
+                                try {
+                                    if (tables[tblIdx] && tables[tblIdx].rows[rowIdx] && tables[tblIdx].rows[rowIdx].cells[cellIdx]) {
+                                        tables[tblIdx].rows[rowIdx].cells[cellIdx].innerHTML = textValue;
+                                    }
+                                } catch (e) {}
+                            };
+
+                            if (terpilihPelapor) {
+                                setCellText(0, 0, 1, `: ${terpilihPelapor.nama}`);
+                                setCellText(0, 1, 1, `: ${terpilihPelapor.nik}`);
+                                setCellText(0, 3, 1, `: ${terpilihPelapor.kk}`);
+                                setCellText(0, 4, 1, `: INDONESIA`);
+                            }
+                            if (terpilihAyah) {
+                                setCellText(2, 0, 1, `: ${terpilihAyah.nama}`);
+                                setCellText(2, 1, 1, `: ${terpilihAyah.nik}`);
+                                setCellText(2, 3, 1, `: ${terpilihAyah.kk}`);
+                                setCellText(2, 4, 1, `: INDONESIA`);
+                            }
+                            if (terpilihIbu) {
+                                setCellText(3, 0, 1, `: ${terpilihIbu.nama}`);
+                                setCellText(3, 1, 1, `: ${terpilihIbu.nik}`);
+                                setCellText(3, 3, 1, `: ${terpilihIbu.kk}`);
+                                setCellText(3, 4, 1, `: INDONESIA`);
+                            }
+                        }
+                    }, 400);
 
                     document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 } catch (error) {
