@@ -21,7 +21,7 @@
             #printableArea, #printableArea * { visibility: visible; }
             #printableArea { position: absolute; left: 0; top: 0; width: 100%; }
             #printableAreaSurat, #printableAreaSurat * { visibility: visible; }
-            #printableAreaSurat { position: absolute; left: 0; top: 0; width: 100%; font-size: 8px !important; }
+            #printableAreaSurat { position: absolute; left: 0; top: 0; width: 100%; height: auto !important; font-size: 8px !important; }
             .no-print { display: none !important; }
             [contenteditable="true"] { outline: none !important; background: transparent !important; }
         }
@@ -160,8 +160,8 @@
                         </div>
                         <div class="relative z-10">
                             <span class="inline-block px-3.5 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-bold rounded-xl mb-3 tracking-wide">Desa Mandiri & Terintegrasi</span>
-                            <h3 class="text-xl md:text-2xl font-black tracking-tight">Selamat Datang di Sistem Informasi Kependudukan Desa Pugaan</h3>
-                            <p class="text-xs md:text-sm text-emerald-100 mt-2 font-medium"><b>PUGAAN SMART</b> • Administrator Aktif: <b>Hamid</b></p>
+                            <h3 class="text-xl md:text-2xl font-black tracking-tight">Selamat Datang di SISKAPUGA </h3>
+                            <p class="text-xs md:text-sm text-emerald-100 mt-2 font-medium"><b>Sistem Informasi Kependudukan Adminidtrasi Desa Pugaan</b> • PUGAAN SMART: <b></b></p>
                         </div>
                         <div class="relative z-10 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl text-left md:text-right shrink-0 shadow-lg">
                             <p class="text-[11px] text-emerald-200 uppercase tracking-widest font-bold">Wilayah</p>
@@ -605,7 +605,7 @@
                     </div>
                 </div>
 
-                <!-- 8. LAYANAN SURAT & FORMULIR (DIPERBARUI DENGAN PENCARIAN LANGSUNG DI KOTAK MASING-MASING) -->
+                <!-- 8. LAYANAN SURAT & FORMULIR -->
                 <div id="view-surat" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-4xl mx-auto space-y-6">
                         <div>
@@ -665,14 +665,15 @@
 
     <!-- MODAL PRATINJAU & CETAK SURAT -->
     <div id="modalCetakFormulir" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[92vh]">
+        <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[94vh]">
             <div class="p-4 bg-emerald-900 text-white flex justify-between items-center no-print">
                 <h3 id="modalJudulFormulir" class="font-bold text-sm">Pratinjau Dokumen Resmi Desa Pugaan</h3>
                 <button onclick="tutupModalCetakFormulir()" class="text-white p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
             
-            <div class="flex-1 w-full bg-slate-100 overflow-y-auto p-6 md:p-10 flex justify-center">
-                <div id="printableAreaSurat" class="bg-white p-8 shadow-xl w-[210mm] min-h-[297mm] text-slate-900 text-[9px] relative space-y-4">
+            <!-- Area cetak dengan latar putih utuh memanjang penuh ke bawah -->
+            <div class="flex-1 w-full bg-slate-200 overflow-y-auto p-4 md:p-8 flex justify-center">
+                <div id="printableAreaSurat" class="bg-white p-8 shadow-2xl w-[210mm] min-h-[315mm] text-slate-900 text-[9px] relative space-y-4 rounded-xl">
                     <!-- Konten dinamis surat -->
                 </div>
             </div>
@@ -720,7 +721,6 @@
         let isFullscreenMode = false;
         const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
 
-        // Variabel penyimpanan data yang dipilih pada form akta
         let terpilihPelapor = null;
         let terpilihSaksi1 = null;
         let terpilihSaksi2 = null;
@@ -782,7 +782,7 @@
                 document.getElementById('bottomNav').classList.remove('hidden');
                 tarikDataDariGoogleSheets();
             } else {
-                alert("Username atau kata sandi salah. Gunakan username: hamid dan sandi yang benar.");
+                alert("Username atau kata sandi salah.");
             }
         }
 
@@ -1204,7 +1204,6 @@
             });
         }
 
-        // FUNGSI PENCARIAN DINAMIS DI MASING-MASING KOLOM NAMA PELAPOR/SAKSI/ORANG TUA
         function gantiFormulirSurat() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let container = document.getElementById('containerFormDinamis');
@@ -1350,39 +1349,36 @@
                     area.innerHTML = htmlTemplate;
 
                     setTimeout(() => {
-                        // Hubungkan data pelapor terpilih ke template
+                        let setTxt = (id, val) => { let el = document.getElementById(id); if(el) el.innerText = val; };
+
                         if(terpilihPelapor) {
-                            if(document.getElementById('tmplPelaporNama')) document.getElementById('tmplPelaporNama').innerText = terpilihPelapor.nama;
-                            if(document.getElementById('tmplPelaporNik')) document.getElementById('tmplPelaporNik').innerText = terpilihPelapor.nik;
-                            if(document.getElementById('tmplPelaporKk')) document.getElementById('tmplPelaporKk').innerText = terpilihPelapor.kk;
+                            setTxt('tmplPelaporNama', terpilihPelapor.nama);
+                            setTxt('tmplPelaporNik', terpilihPelapor.nik);
+                            setTxt('tmplPelaporKk', terpilihPelapor.kk);
                         }
-                        // Hubungkan data saksi 1
                         if(terpilihSaksi1) {
-                            if(document.getElementById('tmplSaksi1Nama')) document.getElementById('tmplSaksi1Nama').innerText = terpilihSaksi1.nama;
-                            if(document.getElementById('tmplSaksi1Nik')) document.getElementById('tmplSaksi1Nik').innerText = terpilihSaksi1.nik;
-                            if(document.getElementById('tmplSaksi1Kk')) document.getElementById('tmplSaksi1Kk').innerText = terpilihSaksi1.kk;
+                            setTxt('tmplSaksi1Nama', terpilihSaksi1.nama);
+                            setTxt('tmplSaksi1Nik', terpilihSaksi1.nik);
+                            setTxt('tmplSaksi1Kk', terpilihSaksi1.kk);
                         }
-                        // Hubungkan data saksi 2
                         if(terpilihSaksi2) {
-                            if(document.getElementById('tmplSaksi2Nama')) document.getElementById('tmplSaksi2Nama').innerText = terpilihSaksi2.nama;
-                            if(document.getElementById('tmplSaksi2Nik')) document.getElementById('tmplSaksi2Nik').innerText = terpilihSaksi2.nik;
-                            if(document.getElementById('tmplSaksi2Kk')) document.getElementById('tmplSaksi2Kk').innerText = terpilihSaksi2.kk;
+                            setTxt('tmplSaksi2Nama', terpilihSaksi2.nama);
+                            setTxt('tmplSaksi2Nik', terpilihSaksi2.nik);
+                            setTxt('tmplSaksi2Kk', terpilihSaksi2.kk);
                         }
-                        // Hubungkan data Ayah
                         if(terpilihAyah) {
-                            if(document.getElementById('tmplAyahNama')) document.getElementById('tmplAyahNama').innerText = terpilihAyah.nama;
-                            if(document.getElementById('tmplAyahNik')) document.getElementById('tmplAyahNik').innerText = terpilihAyah.nik;
-                            if(document.getElementById('tmplAyahTmplahir')) document.getElementById('tmplAyahTmplahir').innerText = terpilihAyah.tempatLahir;
-                            if(document.getElementById('tmplAyahTgllahir')) document.getElementById('tmplAyahTgllahir').innerText = parseExcelDate(terpilihAyah.tanggalLahir);
+                            setTxt('tmplAyahNama', terpilihAyah.nama);
+                            setTxt('tmplAyahNik', terpilihAyah.nik);
+                            setTxt('tmplAyahTmplahir', terpilihAyah.tempatLahir);
+                            setTxt('tmplAyahTgllahir', parseExcelDate(terpilihAyah.tanggalLahir));
                         }
-                        // Hubungkan data Ibu
                         if(terpilihIbu) {
-                            if(document.getElementById('tmplIbuNama')) document.getElementById('tmplIbuNama').innerText = terpilihIbu.nama;
-                            if(document.getElementById('tmplIbuNik')) document.getElementById('tmplIbuNik').innerText = terpilihIbu.nik;
-                            if(document.getElementById('tmplIbuTmplahir')) document.getElementById('tmplIbuTmplahir').innerText = terpilihIbu.tempatLahir;
-                            if(document.getElementById('tmplIbuTgllahir')) document.getElementById('tmplIbuTgllahir').innerText = parseExcelDate(terpilihIbu.tanggalLahir);
+                            setTxt('tmplIbuNama', terpilihIbu.nama);
+                            setTxt('tmplIbuNik', terpilihIbu.nik);
+                            setTxt('tmplIbuTmplahir', terpilihIbu.tempatLahir);
+                            setTxt('tmplIbuTgllahir', parseExcelDate(terpilihIbu.tanggalLahir));
                         }
-                    }, 200);
+                    }, 250);
 
                     document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 } catch (error) {
