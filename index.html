@@ -16,31 +16,6 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
-        .dukcapil-grid {
-            display: inline-grid;
-            grid-template-columns: repeat(28, minmax(13px, 1fr));
-            gap: 1px;
-            background-color: #000;
-            border: 1px solid #000;
-        }
-        .dukcapil-grid-16 {
-            display: inline-grid;
-            grid-template-columns: repeat(16, minmax(13px, 1fr));
-            gap: 1px;
-            background-color: #000;
-            border: 1px solid #000;
-        }
-        .dukcapil-cell {
-            background-color: #fff;
-            min-height: 16px;
-            text-align: center;
-            font-family: monospace;
-            font-size: 9px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
         @media print {
             body * { visibility: hidden; }
             #printableArea, #printableArea * { visibility: visible; }
@@ -91,7 +66,7 @@
         
         <aside id="sidebarNav" class="fixed md:static inset-y-0 left-0 w-72 bg-white border-r border-slate-200/80 flex flex-col justify-between shrink-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 shadow-2xl md:shadow-none">
             <div>
-                <!-- HEADER SIDEBAR DENGAN LOGO TABALONG -->
+                <!-- HEADER SIDEBAR -->
                 <div class="p-5 flex items-center gap-3.5 border-b border-slate-100 bg-gradient-to-r from-emerald-50/60 to-transparent">
                     <img src="logotabalong.jpeg" alt="Logo Tabalong" class="w-10 h-10 object-contain rounded-xl shadow-sm border border-emerald-200 bg-white p-0.5 shrink-0">
                     <div>
@@ -154,13 +129,11 @@
 
         <!-- MAIN CONTENT -->
         <main class="flex-1 flex flex-col h-screen overflow-y-auto pb-20 md:pb-0">
-            <!-- HEADER UTAMA RESPONSIF -->
             <header class="h-18 bg-white/80 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-4 md:px-8 shrink-0 sticky top-0 z-30 shadow-xs">
                 <div class="flex items-center gap-3">
                     <button onclick="toggleMobileSidebar()" class="md:hidden text-slate-600 p-2 rounded-xl hover:bg-slate-100 transition">
                         <i data-lucide="menu" class="w-5 h-5"></i>
                     </button>
-                    <!-- LOGO TABALONG DI HEADER HP & LAPTOP -->
                     <div class="flex items-center gap-3">
                         <img src="logotabalong.jpeg" alt="Logo Tabalong" class="w-9 h-9 object-contain rounded-xl shadow-xs border border-emerald-200 bg-white p-0.5 shrink-0">
                         <div>
@@ -322,7 +295,7 @@
                         </form>
                     </div>
 
-                    <!-- DAFTAR PENDUDUK DENGAN FITUR FULLSCREEN -->
+                    <!-- DAFTAR PENDUDUK -->
                     <div id="cardDaftarPenduduk" class="bg-white rounded-3xl border border-slate-200/80 shadow-xl overflow-hidden transition-all duration-300">
                         <div class="p-6 md:p-8 bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
                             <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
@@ -334,7 +307,6 @@
                                 <p class="text-xs text-emerald-200/80 mt-0.5">Terurut otomatis berdasarkan RT dan No. Kartu Keluarga</p>
                             </div>
                             
-                            <!-- PENCARIAN, TOMBOL GESER & FULLSCREEN -->
                             <div class="flex items-center gap-3 w-full md:w-auto relative z-10 flex-wrap">
                                 <div class="relative w-full md:w-64">
                                     <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-emerald-300">
@@ -349,7 +321,6 @@
                                     <button onclick="geserTabel(300)" class="bg-white/20 hover:bg-white/30 text-white px-3.5 py-3.5 rounded-2xl border border-white/20 transition shadow-sm flex items-center gap-1 text-xs font-bold cursor-pointer backdrop-blur-md" title="Geser Kanan">
                                         Kanan <i data-lucide="chevron-right" class="w-4 h-4"></i>
                                     </button>
-                                    <!-- TOMBOL FULLSCREEN / LAYAR PENUH -->
                                     <button onclick="toggleFullscreenTabel()" id="btnFullscreen" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-3.5 rounded-2xl border border-amber-400 transition shadow-md flex items-center gap-1.5 text-xs font-extrabold cursor-pointer" title="Tampilkan Layar Penuh">
                                         <i data-lucide="maximize" class="w-4 h-4" id="iconFullscreen"></i> <span id="textFullscreen">Layar Penuh</span>
                                     </button>
@@ -579,7 +550,6 @@
                             <p class="text-xs text-slate-500 mt-1">Data dihitung secara otomatis dan real-time langsung dari database kependudukan.</p>
                         </div>
 
-                        <!-- KARTU RINGKASAN UTAMA -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="p-5 bg-emerald-50/70 rounded-3xl border border-emerald-100 shadow-xs">
                                 <p class="text-xs text-emerald-600 font-bold uppercase">Total Penduduk Aktif</p>
@@ -599,7 +569,6 @@
                             </div>
                         </div>
 
-                        <!-- GRAFIK JENIS KELAMIN -->
                         <div class="pt-6 border-t border-slate-100 space-y-4">
                             <h4 class="font-bold text-slate-800 text-sm">1. Grafik Perbandingan Penduduk Berdasarkan Jenis Kelamin</h4>
                             <div class="space-y-4">
@@ -624,46 +593,35 @@
                             </div>
                         </div>
 
-                        <!-- GRAFIK BERDASARKAN UMUR LENGKAP -->
                         <div class="pt-6 border-t border-slate-100 space-y-4">
-                            <h4 class="font-bold text-slate-800 text-sm">2. Statistik Lengkap Jumlah Penduduk Berdasarkan Umur (0 Tahun sampai Umur Tertua)</h4>
+                            <h4 class="font-bold text-slate-800 text-sm">2. Statistik Lengkap Jumlah Penduduk Berdasarkan Umur</h4>
                             <div id="containerStatistikUmur" class="space-y-3 max-h-[450px] overflow-y-auto pr-2 border border-slate-100 p-4 rounded-3xl bg-slate-50/50"></div>
                         </div>
 
-                        <!-- GRAFIK BERDASARKAN PEKERJAAN -->
                         <div class="pt-6 border-t border-slate-100 space-y-4">
-                            <h4 class="font-bold text-slate-800 text-sm">3. Statistik Berdasarkan Jenis Pekerjaan (Petani, PNS, Wiraswasta, dll.)</h4>
+                            <h4 class="font-bold text-slate-800 text-sm">3. Statistik Berdasarkan Jenis Pekerjaan</h4>
                             <div id="containerStatistikPekerjaan" class="space-y-3 max-h-[400px] overflow-y-auto pr-2 border border-slate-100 p-4 rounded-3xl bg-slate-50/50"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 8. LAYANAN SURAT & FORMULIR -->
+                <!-- 8. LAYANAN SURAT & FORMULIR (DIPERBARUI DENGAN PENCARIAN LANGSUNG DI KOTAK MASING-MASING) -->
                 <div id="view-surat" class="hidden space-y-6">
                     <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl max-w-4xl mx-auto space-y-6">
                         <div>
                             <h3 class="font-bold text-slate-900 text-base">Pusat Layanan Surat & Formulir Kependudukan</h3>
-                            <p class="text-xs text-slate-400 mt-1">Pilih jenis formulir, ketik atau cari nama warga dari database, dan cetak dokumen resmi berstandar Dukcapil.</p>
+                            <p class="text-xs text-slate-400 mt-1">Pilih jenis formulir, ketik nama atau NIK warga langsung di setiap kolom untuk mencari dan mengisi data secara otomatis.</p>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1.5 text-xs">Pilih Jenis Formulir / Surat</label>
-                                <select id="pilihJenisFormulir" onchange="gantiFormulirSurat()" class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none font-semibold text-slate-800 bg-slate-50 text-xs">
-                                    <option value="permohonan_kk">Permohonan Kartu Keluarga (Formulir F-1.01)</option>
-                                    <option value="akta_kelahiran">Akta Kelahiran (Formulir F-2.01)</option>
-                                    <option value="akta_kematian">Akta Kematian</option>
-                                    <option value="Domisili">Surat Keterangan Domisili</option>
-                                    <option value="Tidak Mampu">Surat Keterangan Tidak Mampu (SKTM)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-1.5 text-xs">Cari Data Warga dari Database</label>
-                                <div class="relative">
-                                    <input type="text" id="cariWargaSuratKeyword" onkeyup="cariWargaUntukSurat()" class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none font-semibold text-slate-800 text-xs" placeholder="Ketik nama / NIK warga...">
-                                    <div id="hasilPencarianWargaSurat" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-2xl max-h-48 overflow-y-auto hidden"></div>
-                                </div>
-                            </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1.5 text-xs">Pilih Jenis Formulir / Surat</label>
+                            <select id="pilihJenisFormulir" onchange="gantiFormulirSurat()" class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none font-semibold text-slate-800 bg-slate-50 text-xs">
+                                <option value="permohonan_kk">Permohonan Kartu Keluarga (Formulir F-1.01)</option>
+                                <option value="akta_kelahiran">Akta Kelahiran (Formulir F-2.01)</option>
+                                <option value="akta_kematian">Akta Kematian</option>
+                                <option value="Domisili">Surat Keterangan Domisili</option>
+                                <option value="Tidak Mampu">Surat Keterangan Tidak Mampu (SKTM)</option>
+                            </select>
                         </div>
 
                         <div id="containerFormDinamis" class="space-y-4 pt-2"></div>
@@ -761,6 +719,13 @@
         let selectedWargaSurat = null;
         let isFullscreenMode = false;
         const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
+
+        // Variabel penyimpanan data yang dipilih pada form akta
+        let terpilihPelapor = null;
+        let terpilihSaksi1 = null;
+        let terpilihSaksi2 = null;
+        let terpilihAyah = null;
+        let terpilihIbu = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('siskapuga_logged_in') === 'true') {
@@ -1239,89 +1204,104 @@
             });
         }
 
+        // FUNGSI PENCARIAN DINAMIS DI MASING-MASING KOLOM NAMA PELAPOR/SAKSI/ORANG TUA
         function gantiFormulirSurat() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let container = document.getElementById('containerFormDinamis');
             
+            terpilihPelapor = null;
+            terpilihSaksi1 = null;
+            terpilihSaksi2 = null;
+            terpilihAyah = null;
+            terpilihIbu = null;
+            selectedWargaSurat = null;
+
             if (jenis === 'akta_kelahiran') {
                 container.innerHTML = `
-                    <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-3">
+                    <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2">
                         <p class="font-bold"><b>Petunjuk Formulir F-2.01 (Akta Kelahiran):</b></p>
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li>Data Pelapor, Saksi I & II, serta Orang Tua (Ayah/Ibu) akan terisi otomatis saat Anda memilih nama warga dari database.</li>
-                            <li>Kewarganegaraan otomatis diatur menjadi <b>INDONESIA</b>.</li>
-                            <li>Data Anak baru lahir diisi secara manual langsung pada formulir pratinjau.</li>
-                        </ul>
+                        <p>Ketik Nama atau NIK warga langsung di setiap kotak di bawah ini untuk mencari. Data KK, NIK, tempat/tanggal lahir, dan kewarganegaraan INDONESIA akan otomatis terisi dan terhubung ke pratinjau surat cetak.</p>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Pelapor dari Database</label>
-                            <select id="formPelaporSelect" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
-                                <option value="">-- Pilih Pelapor --</option>
-                            </select>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Pelapor</label>
+                            <input type="text" id="inputPelapor" onkeyup="cariWargaField('pelapor')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK pelapor...">
+                            <div id="dropdownPelapor" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Saksi I</label>
-                            <select id="formSaksi1Select" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
-                                <option value="">-- Pilih Saksi I --</option>
-                            </select>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Saksi I</label>
+                            <input type="text" id="inputSaksi1" onkeyup="cariWargaField('saksi1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK saksi 1...">
+                            <div id="dropdownSaksi1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Saksi II</label>
-                            <select id="formSaksi2Select" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
-                                <option value="">-- Pilih Saksi II --</option>
-                            </select>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Saksi II</label>
+                            <input type="text" id="inputSaksi2" onkeyup="cariWargaField('saksi2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK saksi 2...">
+                            <div id="dropdownSaksi2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Ayah</label>
-                            <select id="formAyahSelect" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
-                                <option value="">-- Pilih Ayah --</option>
-                            </select>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Ayah</label>
+                            <input type="text" id="inputAyah" onkeyup="cariWargaField('ayah')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK ayah...">
+                            <div id="dropdownAyah" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1 text-xs">Pilih Nama Ibu</label>
-                            <select id="formIbuSelect" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white">
-                                <option value="">-- Pilih Ibu --</option>
-                            </select>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Ibu</label>
+                            <input type="text" id="inputIbu" onkeyup="cariWargaField('ibu')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK ibu...">
+                            <div id="dropdownIbu" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
                     </div>
                 `;
-                isiDropdownFormAkta();
             } else {
                 container.innerHTML = `
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1 text-xs">Nama Lengkap Subjek / Warga</label>
-                        <input type="text" id="inputFormNama" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" placeholder="Nama lengkap warga...">
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1 text-xs">NIK</label>
-                            <input type="text" id="inputFormNik" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" placeholder="16 digit NIK...">
+                    <div class="space-y-3 text-xs">
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Cari Nama Warga dari Database</label>
+                            <input type="text" id="cariWargaSuratKeyword" onkeyup="cariWargaUntukSurat()" class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK warga...">
+                            <div id="hasilPencarianWargaSurat" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1 text-xs">Nama Pelapor / Pemohon</label>
-                            <input type="text" id="inputFormPelapor" class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-xs font-semibold bg-white" value="HAMID">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Nama Lengkap Subjek</label>
+                                <input type="text" id="inputFormNama" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">NIK</label>
+                                <input type="text" id="inputFormNik" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white">
+                            </div>
                         </div>
                     </div>
                 `;
             }
         }
 
-        function isiDropdownFormAkta() {
-            const dropdowns = ['formPelaporSelect', 'formSaksi1Select', 'formSaksi2Select', 'formAyahSelect', 'formIbuSelect'];
-            dropdowns.forEach(id => {
-                let el = document.getElementById(id);
-                if(el) {
-                    el.innerHTML = '<option value="">-- Pilih dari Database --</option>';
-                    dataPenduduk.forEach(w => {
-                        let opt = document.createElement('option');
-                        opt.value = w.nik;
-                        opt.text = `${w.nama} (NIK: ${w.nik})`;
-                        el.appendChild(opt);
-                    });
-                }
+        function cariWargaField(fieldKey) {
+            let kw = document.getElementById('input' + capitalizeFirst(fieldKey)).value.toLowerCase();
+            let dropdown = document.getElementById('dropdown' + capitalizeFirst(fieldKey));
+            dropdown.innerHTML = '';
+            if(kw.length < 2) { dropdown.classList.add('hidden'); return; }
+
+            let matches = dataPenduduk.filter(w => w.nama.toLowerCase().includes(kw) || w.nik.includes(kw));
+            if(matches.length === 0) { dropdown.classList.add('hidden'); return; }
+
+            matches.forEach(w => {
+                let div = document.createElement('div');
+                div.className = "p-3 hover:bg-emerald-50 cursor-pointer text-xs border-b font-semibold";
+                div.innerHTML = `${w.nama} <span class="text-slate-400 font-mono text-[10px]">(${w.nik} - KK: ${w.kk})</span>`;
+                div.onclick = function() {
+                    if(fieldKey === 'pelapor') terpilihPelapor = w;
+                    if(fieldKey === 'saksi1') terpilihSaksi1 = w;
+                    if(fieldKey === 'saksi2') terpilihSaksi2 = w;
+                    if(fieldKey === 'ayah') terpilihAyah = w;
+                    if(fieldKey === 'ibu') terpilihIbu = w;
+
+                    document.getElementById('input' + capitalizeFirst(fieldKey)).value = w.nama;
+                    dropdown.classList.add('hidden');
+                };
+                dropdown.appendChild(div);
             });
+            dropdown.classList.remove('hidden');
         }
+
+        function capitalizeFirst(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
 
         function cariWargaUntukSurat() {
             let kw = document.getElementById('cariWargaSuratKeyword').value.toLowerCase();
@@ -1349,7 +1329,7 @@
         }
 
         // ==========================================
-        // PENGHUBUNG UTAMA KE aktakelahiran.html DI GITHUB
+        // PRATINJAU & KONEKSI KE aktakelahiran.html DI GITHUB
         // ==========================================
         async function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
@@ -1369,45 +1349,38 @@
                     
                     area.innerHTML = htmlTemplate;
 
-                    // Mengisi otomatis data dari pilihan database
-                    let pNik = document.getElementById('formPelaporSelect')?.value;
-                    let s1Nik = document.getElementById('formSaksi1Select')?.value;
-                    let s2Nik = document.getElementById('formSaksi2Select')?.value;
-                    let aNik = document.getElementById('formAyahSelect')?.value;
-                    let iNik = document.getElementById('formIbuSelect')?.value;
-
                     setTimeout(() => {
-                        if(pNik) {
-                            let w = dataPenduduk.find(x => x.nik === pNik);
-                            if(w && document.getElementById('tmplPelaporNama')) document.getElementById('tmplPelaporNama').innerText = w.nama;
-                            if(w && document.getElementById('tmplPelaporNik')) document.getElementById('tmplPelaporNik').innerText = w.nik;
-                            if(w && document.getElementById('tmplPelaporKk')) document.getElementById('tmplPelaporKk').innerText = w.kk;
+                        // Hubungkan data pelapor terpilih ke template
+                        if(terpilihPelapor) {
+                            if(document.getElementById('tmplPelaporNama')) document.getElementById('tmplPelaporNama').innerText = terpilihPelapor.nama;
+                            if(document.getElementById('tmplPelaporNik')) document.getElementById('tmplPelaporNik').innerText = terpilihPelapor.nik;
+                            if(document.getElementById('tmplPelaporKk')) document.getElementById('tmplPelaporKk').innerText = terpilihPelapor.kk;
                         }
-                        if(s1Nik) {
-                            let w = dataPenduduk.find(x => x.nik === s1Nik);
-                            if(w && document.getElementById('tmplSaksi1Nama')) document.getElementById('tmplSaksi1Nama').innerText = w.nama;
-                            if(w && document.getElementById('tmplSaksi1Nik')) document.getElementById('tmplSaksi1Nik').innerText = w.nik;
-                            if(w && document.getElementById('tmplSaksi1Kk')) document.getElementById('tmplSaksi1Kk').innerText = w.kk;
+                        // Hubungkan data saksi 1
+                        if(terpilihSaksi1) {
+                            if(document.getElementById('tmplSaksi1Nama')) document.getElementById('tmplSaksi1Nama').innerText = terpilihSaksi1.nama;
+                            if(document.getElementById('tmplSaksi1Nik')) document.getElementById('tmplSaksi1Nik').innerText = terpilihSaksi1.nik;
+                            if(document.getElementById('tmplSaksi1Kk')) document.getElementById('tmplSaksi1Kk').innerText = terpilihSaksi1.kk;
                         }
-                        if(s2Nik) {
-                            let w = dataPenduduk.find(x => x.nik === s2Nik);
-                            if(w && document.getElementById('tmplSaksi2Nama')) document.getElementById('tmplSaksi2Nama').innerText = w.nama;
-                            if(w && document.getElementById('tmplSaksi2Nik')) document.getElementById('tmplSaksi2Nik').innerText = w.nik;
-                            if(w && document.getElementById('tmplSaksi2Kk')) document.getElementById('tmplSaksi2Kk').innerText = w.kk;
+                        // Hubungkan data saksi 2
+                        if(terpilihSaksi2) {
+                            if(document.getElementById('tmplSaksi2Nama')) document.getElementById('tmplSaksi2Nama').innerText = terpilihSaksi2.nama;
+                            if(document.getElementById('tmplSaksi2Nik')) document.getElementById('tmplSaksi2Nik').innerText = terpilihSaksi2.nik;
+                            if(document.getElementById('tmplSaksi2Kk')) document.getElementById('tmplSaksi2Kk').innerText = terpilihSaksi2.kk;
                         }
-                        if(aNik) {
-                            let w = dataPenduduk.find(x => x.nik === aNik);
-                            if(w && document.getElementById('tmplAyahNama')) document.getElementById('tmplAyahNama').innerText = w.nama;
-                            if(w && document.getElementById('tmplAyahNik')) document.getElementById('tmplAyahNik').innerText = w.nik;
-                            if(w && document.getElementById('tmplAyahTmplahir')) document.getElementById('tmplAyahTmplahir').innerText = w.tempatLahir;
-                            if(w && document.getElementById('tmplAyahTgllahir')) document.getElementById('tmplAyahTgllahir').innerText = parseExcelDate(w.tanggalLahir);
+                        // Hubungkan data Ayah
+                        if(terpilihAyah) {
+                            if(document.getElementById('tmplAyahNama')) document.getElementById('tmplAyahNama').innerText = terpilihAyah.nama;
+                            if(document.getElementById('tmplAyahNik')) document.getElementById('tmplAyahNik').innerText = terpilihAyah.nik;
+                            if(document.getElementById('tmplAyahTmplahir')) document.getElementById('tmplAyahTmplahir').innerText = terpilihAyah.tempatLahir;
+                            if(document.getElementById('tmplAyahTgllahir')) document.getElementById('tmplAyahTgllahir').innerText = parseExcelDate(terpilihAyah.tanggalLahir);
                         }
-                        if(iNik) {
-                            let w = dataPenduduk.find(x => x.nik === iNik);
-                            if(w && document.getElementById('tmplIbuNama')) document.getElementById('tmplIbuNama').innerText = w.nama;
-                            if(w && document.getElementById('tmplIbuNik')) document.getElementById('tmplIbuNik').innerText = w.nik;
-                            if(w && document.getElementById('tmplIbuTmplahir')) document.getElementById('tmplIbuTmplahir').innerText = w.tempatLahir;
-                            if(w && document.getElementById('tmplIbuTgllahir')) document.getElementById('tmplIbuTgllahir').innerText = parseExcelDate(w.tanggalLahir);
+                        // Hubungkan data Ibu
+                        if(terpilihIbu) {
+                            if(document.getElementById('tmplIbuNama')) document.getElementById('tmplIbuNama').innerText = terpilihIbu.nama;
+                            if(document.getElementById('tmplIbuNik')) document.getElementById('tmplIbuNik').innerText = terpilihIbu.nik;
+                            if(document.getElementById('tmplIbuTmplahir')) document.getElementById('tmplIbuTmplahir').innerText = terpilihIbu.tempatLahir;
+                            if(document.getElementById('tmplIbuTgllahir')) document.getElementById('tmplIbuTgllahir').innerText = parseExcelDate(terpilihIbu.tanggalLahir);
                         }
                     }, 200);
 
