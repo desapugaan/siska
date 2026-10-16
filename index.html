@@ -1169,7 +1169,7 @@
             dropdown.classList.remove('hidden');
         }
 
-      // --- PRATINJAU FORMULIR KK & AKTA KELAHIRAN STANDAR DUKCAPIL ---
+        // --- PRATINJAU FORMULIR KK & AKTA KELAHIRAN STANDAR DUKCAPIL ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1438,35 +1438,7 @@
                 document.getElementById('modalCetakFormulir').classList.remove('hidden');
             }
         }
-                `;
-                document.getElementById('modalCetakFormulir').classList.remove('hidden');
-            } else {
-                panelTambahBaris.classList.add('hidden');
-                judul.innerText = `Surat Keterangan ${jenis}`;
-                area.innerHTML = `
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.4; font-size: 12px; height: 100%; box-sizing: border-box; outline: none; padding: 15px;">
-                        <div style="text-align: center; font-weight: bold; font-size: 15px; text-transform: uppercase; margin-bottom: 15px;">
-                            PEMERINTAH KABUPATEN TABALONG<br>KECAMATAN PUGAAN<br>KANTOR KEPALA DESA PUGAAN<br>KODE POS 71554
-                        </div>
-                        <hr style="border: 1px solid #000; margin-bottom: 12px;">
-                        <div style="text-align: center; font-weight: bold; font-size: 13px; text-decoration: underline; margin-bottom: 12px;">SURAT KETERANGAN ${jenis.toUpperCase()}</div>
-                        <p style="margin-bottom: 8px;">Yang bertanda tangan di bawah ini Kepala Desa Pugaan, Kecamatan Pugaan, Kabupaten Tabalong, menerangkan bahwa:</p>
-                        <table style="width: 100%; margin-left: 15px; margin-bottom: 15px; border: none !important;">
-                            <tr style="border: none !important;"><td style="width: 140px; font-weight: bold; border: none !important;">Nama Lengkap</td><td style="border: none !important;">: <b>${namaVal}</b></td></tr>
-                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">NIK</td><td style="border: none !important;">: ${nikVal}</td></tr>
-                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">RT / Wilayah</td><td style="border: none !important;">: ${rtVal} Desa Pugaan</td></tr>
-                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">Keperluan</td><td style="font-weight: bold; border: none !important;">: Keperluan Administrasi Kependudukan Desa Pugaan</td></tr>
-                        </table>
-                        <p style="margin-bottom: 30px;">Demikian surat keterangan ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.</p>
-                        <div style="display: flex; justify-content: space-between; margin-top: 25px; text-align: center;">
-                            <div></div>
-                            <div>Pugaan,<br><b>Kepala Desa Pugaan</b><br><br><br><br><b><u>HAMID</u></b></div>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('modalCetakFormulir').classList.remove('hidden');
-            }
-        }
+
         // --- FUNGSI TAMBAH BARIS ANGGOTA KELUARGA / BAYI BARU LAHIR SEBELUM CETAK ---
         function tambahBarisAnggotaKK() {
             let area = document.getElementById('printableAreaSurat');
