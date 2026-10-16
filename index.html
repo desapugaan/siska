@@ -616,9 +616,11 @@
                         <div>
                             <label class="block font-bold text-slate-700 mb-1.5 text-xs">Pilih Jenis Formulir / Surat</label>
                             <select id="pilihJenisFormulir" onchange="gantiFormulirSurat()" class="w-full px-4 py-3.5 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:outline-none font-semibold text-slate-800 bg-slate-50 text-xs">
-                                <option value="permohonan_kk">Permohonan Kartu Keluarga (Formulir F-1.01)</option>
-                                <option value="akta_kelahiran">Akta Kelahiran (Formulir F-2.01)</option>
-                                <option value="akta_kematian">Akta Kematian</option>
+                                <option value="form_kk">Permohonan Kartu Keluarga (FORMULIR KK.html)</option>
+                                <option value="akta_lahir">Akta Kelahiran (AKTA KELAHIRAN .html)</option>
+                                <option value="akta_mati">Akta Kematian (AKTA KEMATIAN.html)</option>
+                                <option value="sptjm_lahir">SPTJM Kelahiran (SPTJM KELAHIRAN .html)</option>
+                                <option value="sptjm_nikah">SPTJM Suami Istri (SPTJM PASANGAN SUAMI ISTERI .html)</option>
                                 <option value="Domisili">Surat Keterangan Domisili</option>
                                 <option value="Tidak Mampu">Surat Keterangan Tidak Mampu (SKTM)</option>
                             </select>
@@ -1214,11 +1216,11 @@
             terpilihIbu = null;
             selectedWargaSurat = null;
 
-            if (jenis === 'akta_kelahiran') {
+            if (jenis === 'akta_lahir') {
                 container.innerHTML = `
                     <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2">
                         <p class="font-bold"><b>Petunjuk Formulir F-2.01 (Akta Kelahiran):</b></p>
-                        <p>Ketik Nama atau NIK warga langsung di setiap kotak di bawah ini untuk mencari. Data KK, NIK, tempat/tanggal lahir, dan kewarganegaraan INDONESIA akan otomatis terisi dan terhubung ke pratinjau surat cetak.</p>
+                        <p>Ketik Nama atau NIK warga langsung di setiap kotak di bawah ini untuk mencari. Data dari database akan otomatis terhubung ke pratinjau surat cetak.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                         <div class="relative">
@@ -1246,6 +1248,13 @@
                             <input type="text" id="inputIbu" onkeyup="cariWargaField('ibu')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK ibu...">
                             <div id="dropdownIbu" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
+                    </div>
+                `;
+            } else if (jenis === 'form_kk' || jenis === 'akta_mati' || jenis === 'sptjm_lahir' || jenis === 'sptjm_nikah') {
+                container.innerHTML = `
+                    <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2">
+                        <p class="font-bold"><b>Petunjuk Formulir Sistem:</b></p>
+                        <p>Template surat HTML resmi akan dimuat langsung dari repositori GitHub Anda dan dapat disesuaikan sebelum dicetak.</p>
                     </div>
                 `;
             } else {
@@ -1335,33 +1344,30 @@
             let namaVal = document.getElementById('inputFormNama')?.value || (selectedWargaSurat ? selectedWargaSurat.nama : "MUHAMMAD AL FATIH");
             let nikVal = document.getElementById('inputFormNik')?.value || (selectedWargaSurat ? selectedWargaSurat.nik : "6309090101800001");
 
-            let namaFileMd = "AKTA KELAHIRAN (2).md";
-            if (jenis === 'permohonan_kk') namaFileMd = "Formulir Kartu Keluarga.md";
-            else if (jenis === 'akta_kematian') namaFileMd = "AKTA KEMATIAN.md";
-            else if (jenis === 'Domisili') namaFileMd = "SURAT KETERANGAN MENINGGAL BADERI RT....md";
+            let namaFileHtml = "AKTA KELAHIRAN .html";
+            if (jenis === 'form_kk') namaFileHtml = "FORMULIR KK.html";
+            else if (jenis === 'akta_lahir') namaFileHtml = "AKTA KELAHIRAN .html";
+            else if (jenis === 'akta_mati') namaFileHtml = "AKTA KEMATIAN.html";
+            else if (jenis === 'sptjm_lahir') namaFileHtml = "SPTJM KELAHIRAN .html";
+            else if (jenis === 'sptjm_nikah') namaFileHtml = "SPTJM PASANGAN SUAMI ISTERI .html";
 
-            if (jenis === 'akta_kelahiran' || jenis === 'permohonan_kk' || jenis === 'akta_kematian') {
+            if (['form_kk', 'akta_lahir', 'akta_mati', 'sptjm_lahir', 'sptjm_nikah'].includes(jenis)) {
                 judul.innerText = `Pratinjau Formulir Resmi (${jenis})`.toUpperCase();
                 try {
-                    let urlFile = `https://raw.githubusercontent.com/desapugaan/siska/main/${encodeURIComponent(namaFileMd)}`;
+                    let urlFile = `https://raw.githubusercontent.com/desapugaan/siska/main/${encodeURIComponent(namaFileHtml)}`;
                     let response = await fetch(urlFile);
-                    if (!response.ok) throw new Error("Gagal mengambil file template markdown");
-                    let markdownText = await response.text();
-                    
-                    let formattedHtml = markdownText
-                        .replace(/</g, "&lt;")
-                        .replace(/>/g, "&gt;")
-                        .replace(/\n/g, "<br>");
+                    if (!response.ok) throw new Error("Gagal mengambil file template HTML");
+                    let htmlText = await response.text();
 
                     area.innerHTML = `
                         <div style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.6; padding: 10px;">
-                            <div style="white-space: pre-wrap; font-size: 10px; color: #1e293b;">${formattedHtml}</div>
+                            ${htmlText}
                         </div>
                     `;
 
                     document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 } catch (error) {
-                    alert("Gagal memuat file template dari GitHub. Pastikan nama file sesuai.");
+                    alert("Gagal memuat file template dari GitHub. Pastikan nama file dan koneksi Anda benar.");
                 }
             } else {
                 judul.innerText = `Surat Keterangan ${jenis}`;
