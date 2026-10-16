@@ -18,7 +18,7 @@
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
         /* Styling tabel formulir KK ala Dukcapil */
-        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 3px; margin-bottom: 3px; font-size: 7px; }
+        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 3px; margin-bottom: 3px; font-size: 7.5px; }
         #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 2px 3px !important; text-align: left; }
         #printableAreaSurat th { background-color: #f8fafc !important; text-align: center; }
 
@@ -37,7 +37,7 @@
                 background: white !important; 
                 padding: 6mm !important; 
                 margin: 0 !important;
-                font-size: 7px !important;
+                font-size: 7.5px !important;
                 box-shadow: none !important;
             }
             .no-print { display: none !important; }
@@ -547,7 +547,7 @@
             </div>
 
             <div class="flex-1 w-full bg-slate-200 overflow-y-auto p-4 md:p-8 flex justify-center">
-                <div id="printableAreaSurat" class="bg-white p-6 shadow-2xl w-[210mm] min-h-[297mm] max-h-[297mm] overflow-hidden text-slate-900 text-[7px] relative space-y-2 rounded-xl box-border">
+                <div id="printableAreaSurat" class="bg-white p-6 shadow-2xl w-[210mm] min-h-[297mm] max-h-[297mm] overflow-hidden text-slate-900 text-[12px] relative space-y-2 rounded-xl box-border">
                     <!-- Konten dinamis surat -->
                 </div>
             </div>
@@ -982,9 +982,9 @@
                 container.innerHTML = `
                     <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2 w-full">
                         <p class="font-bold"><b>FORMULIR PERMOHONAN KARTU KELUARGA (F-1.01):</b></p>
-                        <p>Ketik Nama atau NIK Kepala Keluarga. Data Kepala Keluarga, Nama Jalan/Dusun, RT/RW, dan anggota keluarga akan terisi otomatis.</p>
+                        <p>Ketik Nama atau NIK Kepala Keluarga. RT otomatis menyesuaikan database, Nama Jalan terisi A.Yani, dan anggota keluarga terisi otomatis.</p>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs w-full">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs w-full">
                         <div class="relative">
                             <label class="block font-bold text-slate-700 mb-1">Cari Kepala Keluarga</label>
                             <input type="text" id="inputPemohon" onkeyup="cariWargaField('pemohon')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK kepala keluarga...">
@@ -992,11 +992,7 @@
                         </div>
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Nama Jalan / Dusun</label>
-                            <input type="text" id="inputJalan" value="DESA PUGAAN" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white">
-                        </div>
-                        <div>
-                            <label class="block font-bold text-slate-700 mb-1">RT / RW</label>
-                            <input type="text" id="inputRtRw" value="RT 03 / RW 01" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white">
+                            <input type="text" id="inputJalan" value="A.YANI" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white">
                         </div>
                     </div>
                 `;
@@ -1173,19 +1169,17 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- PRATINJAU & PENGISIAN OTOMATIS TEMPLATE GITHUB DENGAN KOREKSI KOLOM & TOMBOL TAMBAH BARIS ---
+        // --- PRATINJAU & PENGISIAN OTOMATIS TEMPLATE GITHUB SESUAI PERMINTAAN ---
         async function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
             let judul = document.getElementById('modalJudulFormulir');
             let panelTambahBaris = document.getElementById('panelTambahBarisKK');
-            let todayStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             
             let namaVal = document.getElementById('inputFormNama')?.value || (selectedWargaSurat ? selectedWargaSurat.nama : (terpilihPemohon ? terpilihPemohon.nama : "WARGA DESA PUGAAN"));
             let nikVal = document.getElementById('inputFormNik')?.value || (selectedWargaSurat ? selectedWargaSurat.nik : (terpilihPemohon ? terpilihPemohon.nik : "6309090101800001"));
-            let jalanVal = document.getElementById('inputJalan')?.value || "DESA PUGAAN";
-            let rtRwVal = document.getElementById('inputRtRw')?.value || "RT 03 / RW 01";
-            let rtVal = terpilihPemohon ? terpilihPemohon.rt : (selectedWargaSurat ? selectedWargaSurat.rt : "03");
+            let jalanVal = document.getElementById('inputJalan')?.value || "A.YANI";
+            let rtVal = terpilihPemohon ? (terpilihPemohon.rt.startsWith('RT') ? terpilihPemohon.rt : 'RT ' + terpilihPemohon.rt) : "RT 03";
 
             let namaFileHtml = "AKTA KELAHIRAN .html";
             if (jenis === 'form_kk') {
@@ -1218,20 +1212,31 @@
                         }
                     });
 
+                    // Hapus bagian Keterangan a, b, c, d jika ada di file HTML
+                    let allPs = doc.querySelectorAll('p, div, span');
+                    allPs.forEach(el => {
+                        let txt = el.innerText.toLowerCase();
+                        if (txt.includes('keterangan') || txt.includes('a. tulis') || txt.includes('b. lampirkan') || txt.includes('c. lampirkan') || txt.includes('d. lampirkn')) {
+                            el.remove();
+                        }
+                    });
+
                     let bodyHtml = doc.body.innerHTML;
 
-                    // HAPUS TITIK-TITIK & BERSIHKAN DI BAWAH KEPALA KELUarga SESUAI FOTO
                     if (jenis === 'form_kk') {
                         if (terpilihPemohon) {
                             let anggotaKeluarga = dataPenduduk.filter(w => w.kk === terpilihPemohon.kk);
                             
-                            // Ganti header form KK secara bersih tanpa sisa titik-titik
+                            // Ganti header form KK bersih tanpa titik-titik dan sesuai data
                             bodyHtml = bodyHtml.replace(/NAMA KEPALA KELUARGA\s*[:\.]*\s*[^\n<]*/gi, `NAMA KEPALA KELUARGA : <b contenteditable="true">${terpilihPemohon.nama}</b>`);
                             bodyHtml = bodyHtml.replace(/NAMA JALAN\s*[:\.]*\s*[^\n<]*/gi, `NAMA JALAN : <b contenteditable="true">${jalanVal}</b>`);
-                            bodyHtml = bodyHtml.replace(/DESA\/KELURAHAN\s*[:\.]*\s*[^\n<]*/gi, `DESA/KELURAHAN : <b contenteditable="true">PUGAAN</b> &nbsp;&nbsp;&nbsp; RT / RW : <b contenteditable="true">${rtRwVal}</b>`);
-                            bodyHtml = bodyHtml.replace(/KECAMATAN\s*[\/\.]*\s*KODE POS\s*[:\.]*\s*[^\n<]*/gi, `KECAMATAN / KODE POS : <b contenteditable="true">KECAMATAN PUGAAN / 71554</b>`);
+                            bodyHtml = bodyHtml.replace(/DESA\/KELURAHAN\s*[:\.]*\s*[^\n<]*/gi, `DESA/KELURAHAN : <b contenteditable="true">PUGAAN</b> &nbsp;&nbsp;&nbsp; RT : <b contenteditable="true">${rtVal}</b>`);
+                            bodyHtml = bodyHtml.replace(/KECAMATAN\s*[\/\.]*\s*KODE POS\s*[:\.]*\s*[^\n<]*/gi, `KECAMATAN / KODE POS : <b contenteditable="true">PUGAAN / 71554</b>`);
 
-                            // Buat baris tabel dengan pemetaan akurat sesuai kolom asli Dukcapil
+                            // Pemohon Kartu Keluarga diisi otomatis nama Kepala Keluarga, hapus titik-titik dibawahnya
+                            bodyHtml = bodyHtml.replace(/PEMOHON KARTU KELUARGA[\s\S]*?<\/div>/gi, `PEMOHON KARTU KELUARGA<br><br><br><b><u>${terpilihPemohon.nama}</u></b></div>`);
+
+                            // Buat baris tabel anggota keluarga
                             let rowsTable1 = "";
                             let rowsTable2 = "";
                             for (let i = 0; i < Math.max(anggotaKeluarga.length, 6); i++) {
@@ -1247,7 +1252,6 @@
                                 }
                             }
                             
-                            // Ganti isi tabel pada HTML template
                             let tables = doc.querySelectorAll('table');
                             if (tables.length >= 2) {
                                 tables[0].querySelector('tbody').innerHTML = rowsTable1;
@@ -1258,7 +1262,7 @@
                     }
 
                     area.innerHTML = `
-                        <div id="editableContainerKK" contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.2; font-size: 7px; height: 100%; box-sizing: border-box; overflow: auto; outline: none;">
+                        <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.25; font-size: 12px; height: 100%; box-sizing: border-box; overflow: auto; outline: none;">
                             ${bodyHtml}
                         </div>
                     `;
@@ -1271,23 +1275,23 @@
                 panelTambahBaris.classList.add('hidden');
                 judul.innerText = `Surat Keterangan ${jenis}`;
                 area.innerHTML = `
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.4; font-size: 9px; height: 100%; box-sizing: border-box; outline: none;">
-                        <div style="text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; margin-bottom: 15px;">
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.4; font-size: 12px; height: 100%; box-sizing: border-box; outline: none;">
+                        <div style="text-align: center; font-weight: bold; font-size: 15px; text-transform: uppercase; margin-bottom: 15px;">
                             PEMERINTAH KABUPATEN TABALONG<br>KECAMATAN PUGAAN<br>KANTOR KEPALA DESA PUGAAN<br>KODE POS 71554
                         </div>
                         <hr style="border: 1px solid #000; margin-bottom: 12px;">
-                        <div style="text-align: center; font-weight: bold; font-size: 11px; text-decoration: underline; margin-bottom: 12px;">SURAT KETERANGAN ${jenis.toUpperCase()}</div>
+                        <div style="text-align: center; font-weight: bold; font-size: 13px; text-decoration: underline; margin-bottom: 12px;">SURAT KETERANGAN ${jenis.toUpperCase()}</div>
                         <p style="margin-bottom: 8px;">Yang bertanda tangan di bawah ini Kepala Desa Pugaan, Kecamatan Pugaan, Kabupaten Tabalong, menerangkan bahwa:</p>
                         <table style="width: 100%; margin-left: 15px; margin-bottom: 15px;">
                             <tr><td style="width: 140px; font-weight: bold;">Nama Lengkap</td><td>: <b>${namaVal}</b></td></tr>
                             <tr><td style="font-weight: bold;">NIK</td><td>: ${nikVal}</td></tr>
-                            <tr><td style="font-weight: bold;">RT / Wilayah</td><td>: RT ${rtVal} Desa Pugaan</td></tr>
+                            <tr><td style="font-weight: bold;">RT / Wilayah</td><td>: ${rtVal} Desa Pugaan</td></tr>
                             <tr><td style="font-weight: bold;">Keperluan</td><td>: Keperluan Administrasi Kependudukan Desa Pugaan</td></tr>
                         </table>
                         <p style="margin-bottom: 30px;">Demikian surat keterangan ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.</p>
                         <div style="display: flex; justify-content: space-between; margin-top: 25px; text-align: center;">
                             <div></div>
-                            <div>Pugaan, ${todayStr}<br><b>Kepala Desa Pugaan</b><br><br><br><br><b><u>HAMID</u></b></div>
+                            <div>Pugaan,<br><b>Kepala Desa Pugaan</b><br><br><br><br><b><u>HAMID</u></b></div>
                         </div>
                     </div>
                 `;
