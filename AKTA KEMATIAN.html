@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulir Pelaporan Pencatatan Sipil - Kematian</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 900px;
+      margin: 18px auto;
+      color: #000;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 14px;
+    }
+    td {
+      border: 1px solid #000;
+      padding: 6px 8px;
+      vertical-align: top;
+      font-size: 13px;
+    }
+    .label {
+      width: 240px;
+      white-space: nowrap;
+    }
+    .colon {
+      width: 18px;
+      text-align: center;
+      border-left: 0;
+      border-right: 0;
+    }
+    .value {
+      border-left: 0;
+    }
+    .header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 16px 0 10px;
+    }
+    .title {
+      font-weight: bold;
+      margin: 12px 0 8px;
+      font-size: 13px;
+    }
+    .small {
+      font-size: 11px;
+      font-weight: normal;
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      font-size: 13px;
+      margin: 8px 0 16px;
+    }
+    .option {
+      white-space: nowrap;
+    }
+    input {
+      border: none;
+      border-bottom: 1px dotted #000;
+      background: transparent;
+      font: inherit;
+      padding: 2px 4px;
+      outline: none;
+    }
+    .full { width: 98%; }
+    .mid { width: 120px; }
+    .short { width: 70px; }
+    .small-input { width: 50px; }
+    .checkbox {
+      width: 12px;
+      height: 12px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .signature-wrap {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 26px;
+      font-size: 13px;
+    }
+    .signature-box {
+      width: 42%;
+      text-align: center;
+    }
+    .signature-space {
+      height: 90px;
+    }
+    @media print {
+      body {
+        width: 100%;
+        margin: 0;
+        padding: 12mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align:right; font-weight:bold; margin-top:8px;">F-2.01</div>
+
+  <table>
+    <tr>
+      <td class="label">Provinsi</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Kabupaten/Kota</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Kecamatan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Desa/Kelurahan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Kode Wilayah</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+  </table>
+
+  <div class="header">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
+
+  <div class="title">Jenis Pelaporan Pencatatan Sipil</div>
+  <div class="options">
+    <label class="option"><input type="checkbox" class="checkbox" /> Kelahiran</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Lahir Mati</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Perkawinan</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Pembatalan Perkawinan</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Perceraian</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Pembatalan Perceraian</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Kematian</label>
+
+    <label class="option"><input type="checkbox" class="checkbox" /> Pengakuan Anak</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Pengesahan Anak</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Perubahan Nama</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Perubahan Status Kewarganegaraan</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Pencatatan Peristiwa Penting Lainnya</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Pembetulan Akta</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Pembatalan Akta</label>
+
+    <label class="option"><input type="checkbox" class="checkbox" /> Pengangkatan Anak</label>
+    <label class="option"><input type="checkbox" class="checkbox" /> Pelaporan Pencatatan Sipil dari Luar Wilayah NKRI</label>
+  </div>
+
+  <div class="title">DATA PELAPOR</div>
+  <table>
+    <tr>
+      <td class="label">Nama</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">NIK</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nomor Dokumen Perjalanan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nomor Kartu Keluarga</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Kewarganegaraan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+  </table>
+
+  <div class="title">DATA SUBJEK ANAK KESATU</div>
+  <table>
+    <tr>
+      <td class="label">Nama</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">NIK</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nomor Dokumen Perjalanan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nomor Kartu Keluarga</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Kewarganegaraan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+  </table>
+
+  <div class="title">DATA SUBJEK ANAK KEDUA (JIKA ADA)</div>
+  <table>
+    <tr>
+      <td class="label">Nama</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">NIK</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nomor Dokumen Perjalanan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nomor Kartu Keluarga</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Kewarganegaraan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+  </table>
+
+  <div class="title">DATA SAKSI I</div>
+  <table>
+    <tr>
+      <td class="label">Nama</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">NIK</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nomor Kartu Keluarga</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Kewarganegaraan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+  </table>
+
+  <div class="title">DATA SAKSI II</div>
+  <table>
+    <tr>
+      <td class="label">Nama</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">NIK</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nomor Kartu Keluarga</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Kewarganegaraan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+  </table>
+
+  <div class="title">DATA ORANG TUA <span class="small">(hanya diisi untuk keperluan kelahiran, lahir mati dan kematian)</span></div>
+  <table>
+    <tr>
+      <td class="label">Nama Ayah</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">NIK Ayah</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Tempat Lahir Ayah</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Tanggal Lahir Ayah</td>
+      <td class="colon">:</td>
+      <td class="value">
+        Tgl: <input type="text" class="short" />
+        Bln: <input type="text" class="short" />
+        Thn: <input type="text" class="short" />
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Kewarganegaraan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Nama Ibu</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">NIK Ibu</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Tempat Lahir Ibu</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">Tanggal Lahir Ibu</td>
+      <td class="colon">:</td>
+      <td class="value">
+        Tgl: <input type="text" class="short" />
+        Bln: <input type="text" class="short" />
+        Thn: <input type="text" class="short" />
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Kewarganegaraan</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+  </table>
+
+  <div class="title">KEMATIAN</div>
+  <table>
+    <tr>
+      <td class="label">1. NIK</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">2. Nama Lengkap</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">3. Tanggal Kematian</td>
+      <td class="colon">:</td>
+      <td class="value">
+        Tgl: <input type="text" class="short" />
+        Bln: <input type="text" class="short" />
+        Thn: <input type="text" class="short" />
+      </td>
+    </tr>
+    <tr>
+      <td class="label">4. Pukul</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">5. Sebab Kematian</td>
+      <td class="colon">:</td>
+      <td class="value">
+        <label><input type="checkbox" class="checkbox" /> 1. Sakit Biasa / Tua</label><br />
+        <label><input type="checkbox" class="checkbox" /> 2. Wabah Penyakit</label><br />
+        <label><input type="checkbox" class="checkbox" /> 3. Kecelakaan</label><br />
+        <label><input type="checkbox" class="checkbox" /> 4. Kriminalitas</label><br />
+        <label><input type="checkbox" class="checkbox" /> 5. Bunuh Diri</label><br />
+        <label><input type="checkbox" class="checkbox" /> 6. Lainnya</label>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">6. Tempat Kematian</td>
+      <td class="colon">:</td>
+      <td class="value"><input type="text" class="full" /></td>
+    </tr>
+    <tr>
+      <td class="label">8. Yang Menerangkan</td>
+      <td class="colon">:</td>
+      <td class="value">
+        <label><input type="checkbox" class="checkbox" /> 1. Dokter</label>
+        <label><input type="checkbox" class="checkbox" /> 2. Tenaga Kesehatan</label>
+        <label><input type="checkbox" class="checkbox" /> 3. Kepolisian</label>
+        <label><input type="checkbox" class="checkbox" /> 4. Lainnya</label>
+      </td>
+    </tr>
+  </table>
+
+  <div style="text-align:right; margin-top:20px; font-size:13px;">
+    Pugaan, <input type="text" class="mid" /> 20 <input type="text" class="small-input" />
+  </div>
+
+  <div class="signature-wrap">
+    <div class="signature-box">
+      Mengetahui :<br />
+      Kepala Desa/Lurah/<br />
+      Pejabat Dukcapil Yang Membidangi
+      <div class="signature-space"></div>
+      (<input type="text" class="mid" />)
+    </div>
+
+    <div class="signature-box">
+      Pelapor
+      <div class="signature-space"></div>
+      (<input type="text" class="mid" />)
+    </div>
+  </div>
+</body>
+</html>
