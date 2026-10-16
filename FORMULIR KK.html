@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permohonan Kartu Keluarga</title>
+    <!-- Tailwind CSS for modern layout structure -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Styling khusus untuk menyerupai dokumen resmi pemerintah (formulir kependudukan) */
+        body {
+            font-family: "Times New Roman", Times, serif;
+            color: #000;
+            background-color: #555;
+            margin: 0;
+            padding: 20px;
+        }
+        .page-container {
+            width: 297mm; /* Ukuran Lanskap A4 agar muat semua kolom tabel dengan leluasa */
+            min-height: 210mm;
+            padding: 15mm 20mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+            position: relative;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1rem;
+            font-size: 11pt;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 6px 4px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        th {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+        .identity-row {
+            display: flex;
+            margin-bottom: 4px;
+            font-size: 12pt;
+        }
+        .identity-label {
+            width: 240px;
+            font-weight: normal;
+        }
+        .identity-colon {
+            width: 20px;
+            text-align: center;
+        }
+        .identity-dots {
+            flex-grow: 1;
+            letter-spacing: 1px;
+            color: #444;
+        }
+        /* Tombol Aksi Cetak yang hanya muncul di layar */
+        .action-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .print-btn {
+            background-color: #2563eb;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            padding: 10px 24px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+        }
+        .print-btn:hover {
+            background-color: #1d4ed8;
+        }
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .page-container {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                padding: 10mm;
+            }
+            .action-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tombol Cetak / Ekspor PDF -->
+    <div class="action-bar">
+        <button class="print-btn" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+    </div>
+
+    <!-- Lembar Dokumen Formulir -->
+    <div class="page-container">
+        
+        <!-- Judul Utama -->
+        <div class="text-center font-bold text-xl tracking-wide mb-6">
+            PERMOHONAN KARTU KELUARGA
+        </div>
+
+        <!-- Bagian Identitas Kepala Keluarga & Alamat -->
+        <div class="mb-6">
+            <div class="identity-row">
+                <div class="identity-label">NAMA KEPALA KELUARGA</div>
+                <div class="identity-colon">:</div>
+                <div class="identity-dots">....................................................................................</div>
+            </div>
+            <div class="identity-row">
+                <div class="identity-label">NAMA JALAN</div>
+                <div class="identity-colon">:</div>
+                <div class="identity-dots">....................................................................................</div>
+            </div>
+            <div class="identity-row">
+                <div class="identity-label">DESA/KELURAHAN</div>
+                <div class="identity-colon">:</div>
+                <div class="identity-dots">....................................................RT........RW........</div>
+            </div>
+            <div class="identity-row">
+                <div class="identity-label">KECAMATAN/KODE POS</div>
+                <div class="identity-colon">:</div>
+                <div class="identity-dots">..................................../....................................</div>
+            </div>
+        </div>
+
+        <!-- Tabel Bagian 1: Data Anggota Keluarga I -->
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 4%;">NO</th>
+                    <th style="width: 32%;">NAMA LENGKAP</th>
+                    <th style="width: 16%;">JENIS KELAMIN</th>
+                    <th style="width: 18%;">TEMPAT LAHIR</th>
+                    <th style="width: 16%;">TANGGAL LAHIR</th>
+                    <th style="width: 14%;">GOLONGAN DARAH</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 6 Baris Kosong Sesuai Contoh Formulir -->
+                <tr><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>6</td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+
+        <!-- Tabel Bagian 2: Data Anggota Keluarga II (Kelanjutan) -->
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 4%;">NO</th>
+                    <th style="width: 17%;">STATUS HUBUNGAN DALAM KELUARGA</th>
+                    <th style="width: 14%;">STATUS PERKAWINAN</th>
+                    <th style="width: 11%;">AGAMA</th>
+                    <th style="width: 14%;">PENDIDIKAN TERAKHIR</th>
+                    <th style="width: 14%;">PEKERJAAN</th>
+                    <th style="width: 13%;">NAMA LENGKAP AYAH</th>
+                    <th style="width: 13%;">NAMA LENGKAP IBU</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 6 Baris Kosong Sejajar dengan Bagian 1 -->
+                <tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+
+        <!-- Bagian Bawah: Keterangan & Tanda Tangan -->
+        <div class="flex justify-between items-start mt-6 text-[11pt]">
+            <!-- Keterangan -->
+            <div class="w-3/5">
+                <div class="font-bold underline mb-1">Keterangan :</div>
+                <div class="leading-snug space-y-0.5">
+                    <div>a. Tulis data penduduk yang hendak di daftar</div>
+                    <div>b. Lampirkan SKPWNI bagi pendatang</div>
+                    <div>c. Lampirkan Surat Keterangan Kelahiran</div>
+                    <div>d. Lampirakn Srt Pernyataan Tanggung Jawab Mutlak<br>&nbsp;&nbsp;&nbsp;&nbsp;(Bagi yang tidak memiliki Surat Keterangan)</div>
+                </div>
+            </div>
+
+            <!-- Tanda Tangan Pemohon -->
+            <div class="w-2/5 text-center">
+                <div class="mb-16 font-normal">PEMOHON KARTU KELUARGA</div>
+                <div class="text-xs">.............................................................................</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
