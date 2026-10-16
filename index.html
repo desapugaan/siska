@@ -17,20 +17,22 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         @media print {
+            @page { size: auto; margin: 5mm; }
             body * { visibility: hidden; }
             #printableAreaSurat, #printableAreaSurat * { visibility: visible; }
             #printableAreaSurat { 
-                position: fixed; 
+                position: absolute; 
                 left: 0; 
                 top: 0; 
-                width: 100vw; 
-                height: 100vh; 
-                max-height: 100vh; 
-                overflow: hidden !important; 
+                width: 100% !important; 
+                height: auto !important; 
+                max-height: none !important;
+                overflow: visible !important; 
                 background: white !important; 
-                padding: 15mm !important; 
+                padding: 10mm !important; 
                 margin: 0 !important;
                 font-size: 8.5px !important;
+                box-shadow: none !important;
             }
             .no-print { display: none !important; }
             [contenteditable="true"] { outline: none !important; background: transparent !important; }
@@ -461,7 +463,7 @@
                     </div>
                 </div>
 
-                <!-- 5. LAYANAN SURAT & FORMULIR (Disesuaikan Input Otomatis Per Jenis Formulir) -->
+                <!-- 5. LAYANAN SURAT & FORMULIR -->
                 <div id="view-surat" class="hidden space-y-6 w-full">
                     <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl w-full mx-auto space-y-6">
                         <div>
@@ -522,7 +524,7 @@
         </main>
     </div>
 
-    <!-- MODAL PRATINJAU & CETAK SURAT (DIPASTIKAN 1 HALAMAN PAS) -->
+    <!-- MODAL PRATINJAU & CETAK SURAT -->
     <div id="modalCetakFormulir" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[94vh]">
             <div class="p-4 bg-emerald-900 text-white flex justify-between items-center no-print">
@@ -537,7 +539,7 @@
             </div>
 
             <div class="p-4 bg-slate-50 border-t flex justify-between items-center no-print">
-                <span class="text-xs text-amber-700 font-bold bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">ℹ️ Dokumen diatur pas untuk dicetak dalam 1 halaman!</span>
+                <span class="text-xs text-amber-700 font-bold bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">ℹ️ Dokumen diatur pas untuk dicetak dalam 1 halaman (klik teks untuk edit manual jika perlu).</span>
                 <div class="flex gap-3">
                     <button onclick="tutupModalCetakFormulir()" class="px-5 py-2.5 bg-slate-200 font-bold rounded-xl text-slate-700 text-xs">Tutup</button>
                     <button onclick="window.print()" class="px-6 py-2.5 bg-emerald-600 font-bold rounded-xl text-white shadow-md flex items-center gap-2 text-xs"><i data-lucide="printer" class="w-4 h-4"></i> Cetak / Simpan PDF (1 Halaman)</button>
@@ -579,7 +581,6 @@
         let isFullscreenMode = false;
         const urlWebApps = "https://script.google.com/macros/s/AKfycbxggeHaRr1LRuTdoyF7O6fuQ2qygcq-Ltuew4Jm7AfG6ef37lUtB6kHr4uTEnO--as1Dw/exec";
 
-        // Variabel penyimpanan data warga terpilih untuk form dinamis surat
         let terpilihPemohon = null;
         let terpilihPelapor = null;
         let terpilihSaksi1 = null;
@@ -1154,15 +1155,16 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- PRATINJAU & CETAK DOKUMEN 1 HALAMAN PAS ---
+        // --- PRATINJAU & PENGISIAN OTOMATIS TEMPLATE GITHUB ---
         async function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
             let judul = document.getElementById('modalJudulFormulir');
             let todayStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             
-            let namaVal = document.getElementById('inputFormNama')?.value || (selectedWargaSurat ? selectedWargaSurat.nama : "WARGA DESA PUGAAN");
-            let nikVal = document.getElementById('inputFormNik')?.value || (selectedWargaSurat ? selectedWargaSurat.nik : "6309090101800001");
+            let namaVal = document.getElementById('inputFormNama')?.value || (selectedWargaSurat ? selectedWargaSurat.nama : (terpilihPemohon ? terpilihPemohon.nama : "WARGA DESA PUGAAN"));
+            let nikVal = document.getElementById('inputFormNik')?.value || (selectedWargaSurat ? selectedWargaSurat.nik : (terpilihPemohon ? terpilihPemohon.nik : "6309090101800001"));
+            let rtVal = terpilihPemohon ? terpilihPemohon.rt : (selectedWargaSurat ? selectedWargaSurat.rt : "01");
 
             let namaFileHtml = "AKTA KELAHIRAN .html";
             if (jenis === 'form_kk') namaFileHtml = "FORMULIR KK.html";
@@ -1179,9 +1181,24 @@
                     if (!response.ok) throw new Error("Gagal mengambil file template HTML");
                     let htmlText = await response.text();
 
+                    // Buat elemen sementara untuk memparsing dan mengisi data otomatis ke template GitHub
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(htmlText, 'text/html');
+
+                    // Injeksi otomatis data ke dalam template HTML GitHub berdasarkan elemen/input yang tersedia
+                    if (jenis === 'form_kk') {
+                        // Cari baris/elemen Nama Kepala Keluarga atau ganti titik-titik pertama
+                        let bodyHtml = doc.body.innerHTML;
+                        if (terpilihPemohon) {
+                            bodyHtml = bodyHtml.replace(/NAMA KEPALA KELUARGA\s*[:\.]+\s*([^\n<]+)/gi, `NAMA KEPALA KELUARGA : <b contenteditable="true">${terpilihPemohon.nama}</b>`);
+                            bodyHtml = bodyHtml.replace(/DESA\/KELURAHAN\s*[:\.]+\s*([^\n<]+)/gi, `DESA/KELURAHAN : <b contenteditable="true">PUGAAN</b> &nbsp;&nbsp;&nbsp; RT : <b contenteditable="true">${terpilihPemohon.rt}</b>`);
+                        }
+                        doc.body.innerHTML = bodyHtml;
+                    }
+
                     area.innerHTML = `
-                        <div style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.3; font-size: 8.5px; height: 100%; box-sizing: border-box; overflow: hidden;">
-                            ${htmlText}
+                        <div style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.25; font-size: 8px; height: 100%; box-sizing: border-box; overflow: hidden;">
+                            ${doc.body.innerHTML}
                         </div>
                     `;
 
@@ -1192,19 +1209,20 @@
             } else {
                 judul.innerText = `Surat Keterangan ${jenis}`;
                 area.innerHTML = `
-                    <div style="text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; margin-bottom: 15px;">
+                    <div style="text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; margin-bottom: 12px;">
                         PEMERINTAH KABUPATEN TABALONG<br>KECAMATAN PUGAAN<br>KANTOR KEPALA DESA PUGAAN
                     </div>
-                    <hr style="border: 1px solid #000; margin-bottom: 12px;">
-                    <div style="text-align: center; font-weight: bold; font-size: 11px; text-decoration: underline; margin-bottom: 12px;">SURAT KETERANGAN ${jenis.toUpperCase()}</div>
-                    <p style="margin-bottom: 8px;">Yang bertanda tangan di bawah ini Kepala Desa Pugaan, Kecamatan Tabalong, menerangkan bahwa:</p>
-                    <table style="width: 100%; margin-left: 15px; margin-bottom: 12px; font-size: 9px;">
+                    <hr style="border: 1px solid #000; margin-bottom: 10px;">
+                    <div style="text-align: center; font-weight: bold; font-size: 11px; text-decoration: underline; margin-bottom: 10px;">SURAT KETERANGAN ${jenis.toUpperCase()}</div>
+                    <p style="margin-bottom: 6px;">Yang bertanda tangan di bawah ini Kepala Desa Pugaan, Kecamatan Tabalong, menerangkan bahwa:</p>
+                    <table style="width: 100%; margin-left: 15px; margin-bottom: 10px; font-size: 9px;">
                         <tr><td style="width: 140px; font-weight: bold;">Nama Lengkap</td><td>: <b contenteditable="true">${namaVal}</b></td></tr>
                         <tr><td style="font-weight: bold;">NIK</td><td>: <span contenteditable="true">${nikVal}</span></td></tr>
+                        <tr><td style="font-weight: bold;">RT / Wilayah</td><td>: <span contenteditable="true">RT ${rtVal} Desa Pugaan</span></td></tr>
                         <tr><td style="font-weight: bold;">Keperluan</td><td>: <span contenteditable="true">Keperluan Administrasi Kependudukan Desa Pugaan</span></td></tr>
                     </table>
-                    <p style="margin-bottom: 25px;">Demikian surat keterangan ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.</p>
-                    <div style="display: flex; justify-content: space-between; margin-top: 20px; text-align: center; font-size: 9px;">
+                    <p style="margin-bottom: 20px;">Demikian surat keterangan ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.</p>
+                    <div style="display: flex; justify-content: space-between; margin-top: 15px; text-align: center; font-size: 9px;">
                         <div></div>
                         <div>Pugaan, ${todayStr}<br><b>Kepala Desa Pugaan</b><br><br><br><br><b><u>HAMID</u></b></div>
                     </div>
