@@ -18,12 +18,12 @@
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
         /* Styling tabel formulir KK ala Dukcapil */
-        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 4px; margin-bottom: 4px; font-size: 7.5px; }
+        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 3px; margin-bottom: 3px; font-size: 7px; }
         #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 2px 3px !important; text-align: left; }
         #printableAreaSurat th { background-color: #f8fafc !important; text-align: center; }
 
         @media print {
-            @page { size: auto; margin: 4mm; }
+            @page { size: auto; margin: 3mm; }
             body * { visibility: hidden; }
             #printableAreaSurat, #printableAreaSurat * { visibility: visible; }
             #printableAreaSurat { 
@@ -35,9 +35,9 @@
                 max-height: none !important;
                 overflow: visible !important; 
                 background: white !important; 
-                padding: 8mm !important; 
+                padding: 6mm !important; 
                 margin: 0 !important;
-                font-size: 7.5px !important;
+                font-size: 7px !important;
                 box-shadow: none !important;
             }
             .no-print { display: none !important; }
@@ -538,8 +538,16 @@
                 <button onclick="tutupModalCetakFormulir()" class="text-white p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
             
+            <!-- Tombol Tambah Baris Anggota Baru (Khusus Kartu Keluarga) sebelum cetak -->
+            <div id="panelTambahBarisKK" class="p-3 bg-amber-50 border-b border-amber-200 flex items-center justify-between no-print hidden">
+                <span class="text-xs font-bold text-amber-800">➕ Tambah Anggota Keluarga / Bayi Baru Lahir (Belum ada di database):</span>
+                <button onclick="tambahBarisAnggotaKK()" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center gap-1">
+                    <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Tambah Baris
+                </button>
+            </div>
+
             <div class="flex-1 w-full bg-slate-200 overflow-y-auto p-4 md:p-8 flex justify-center">
-                <div id="printableAreaSurat" class="bg-white p-6 shadow-2xl w-[210mm] min-h-[297mm] max-h-[297mm] overflow-hidden text-slate-900 text-[7.5px] relative space-y-2 rounded-xl box-border">
+                <div id="printableAreaSurat" class="bg-white p-6 shadow-2xl w-[210mm] min-h-[297mm] max-h-[297mm] overflow-hidden text-slate-900 text-[7px] relative space-y-2 rounded-xl box-border">
                     <!-- Konten dinamis surat -->
                 </div>
             </div>
@@ -1165,11 +1173,12 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- PRATINJAU & PENGISIAN OTOMATIS TEMPLATE GITHUB DENGAN KECAMATAN PUGAAN & KODE POS 71554 ---
+        // --- PRATINJAU & PENGISIAN OTOMATIS TEMPLATE GITHUB DENGAN KOREKSI KOLOM & TOMBOL TAMBAH BARIS ---
         async function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
             let judul = document.getElementById('modalJudulFormulir');
+            let panelTambahBaris = document.getElementById('panelTambahBarisKK');
             let todayStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             
             let namaVal = document.getElementById('inputFormNama')?.value || (selectedWargaSurat ? selectedWargaSurat.nama : (terpilihPemohon ? terpilihPemohon.nama : "WARGA DESA PUGAAN"));
@@ -1179,11 +1188,16 @@
             let rtVal = terpilihPemohon ? terpilihPemohon.rt : (selectedWargaSurat ? selectedWargaSurat.rt : "03");
 
             let namaFileHtml = "AKTA KELAHIRAN .html";
-            if (jenis === 'form_kk') namaFileHtml = "FORMULIR KK.html";
-            else if (jenis === 'akta_lahir') namaFileHtml = "AKTA KELAHIRAN .html";
-            else if (jenis === 'akta_mati') namaFileHtml = "AKTA KEMATIAN.html";
-            else if (jenis === 'sptjm_lahir') namaFileHtml = "SPTJM KELAHIRAN .html";
-            else if (jenis === 'sptjm_nikah') namaFileHtml = "SPTJM PASANGAN SUAMI ISTERI .html";
+            if (jenis === 'form_kk') {
+                namaFileHtml = "FORMULIR KK.html";
+                panelTambahBaris.classList.remove('hidden');
+            } else {
+                panelTambahBaris.classList.add('hidden');
+                if (jenis === 'akta_lahir') namaFileHtml = "AKTA KELAHIRAN .html";
+                else if (jenis === 'akta_mati') namaFileHtml = "AKTA KEMATIAN.html";
+                else if (jenis === 'sptjm_lahir') namaFileHtml = "SPTJM KELAHIRAN .html";
+                else if (jenis === 'sptjm_nikah') namaFileHtml = "SPTJM PASANGAN SUAMI ISTERI .html";
+            }
 
             if (['form_kk', 'akta_lahir', 'akta_mati', 'sptjm_lahir', 'sptjm_nikah'].includes(jenis)) {
                 judul.innerText = `Pratinjau Formulir Resmi (${jenis})`.toUpperCase();
@@ -1206,39 +1220,45 @@
 
                     let bodyHtml = doc.body.innerHTML;
 
-                    // HAPUS TITIK-TITIK & ISI OTOMATIS DATA KARTU KELUARGA
+                    // HAPUS TITIK-TITIK & BERSIHKAN DI BAWAH KEPALA KELUarga SESUAI FOTO
                     if (jenis === 'form_kk') {
                         if (terpilihPemohon) {
                             let anggotaKeluarga = dataPenduduk.filter(w => w.kk === terpilihPemohon.kk);
                             
-                            // Ganti header form KK
+                            // Ganti header form KK secara bersih tanpa sisa titik-titik
                             bodyHtml = bodyHtml.replace(/NAMA KEPALA KELUARGA\s*[:\.]*\s*[^\n<]*/gi, `NAMA KEPALA KELUARGA : <b contenteditable="true">${terpilihPemohon.nama}</b>`);
                             bodyHtml = bodyHtml.replace(/NAMA JALAN\s*[:\.]*\s*[^\n<]*/gi, `NAMA JALAN : <b contenteditable="true">${jalanVal}</b>`);
                             bodyHtml = bodyHtml.replace(/DESA\/KELURAHAN\s*[:\.]*\s*[^\n<]*/gi, `DESA/KELURAHAN : <b contenteditable="true">PUGAAN</b> &nbsp;&nbsp;&nbsp; RT / RW : <b contenteditable="true">${rtRwVal}</b>`);
                             bodyHtml = bodyHtml.replace(/KECAMATAN\s*[\/\.]*\s*KODE POS\s*[:\.]*\s*[^\n<]*/gi, `KECAMATAN / KODE POS : <b contenteditable="true">KECAMATAN PUGAAN / 71554</b>`);
 
-                            // Isi otomatis baris tabel anggota keluarga
+                            // Buat baris tabel dengan pemetaan akurat sesuai kolom asli Dukcapil
                             let rowsTable1 = "";
                             let rowsTable2 = "";
-                            for (let i = 0; i < 6; i++) {
+                            for (let i = 0; i < Math.max(anggotaKeluarga.length, 6); i++) {
                                 let ang = anggotaKeluarga[i];
                                 let no = i + 1;
                                 if (ang) {
-                                    rowsTable1 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true">${ang.nama}</td><td contenteditable="true">${ang.jk}</td><td contenteditable="true">${ang.tempatLahir}</td><td contenteditable="true">${parseExcelDate(ang.tanggalLahir)}</td><td contenteditable="true">-</td></tr>`;
-                                    rowsTable2 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true">${ang.hubunganKK}</td><td contenteditable="true">${ang.statusPerkawinan}</td><td contenteditable="true">${ang.agama}</td><td contenteditable="true">${ang.pendidikan}</td><td contenteditable="true">${ang.pekerjaan}</td><td contenteditable="true">${ang.ayah}</td><td contenteditable="true">${ang.ibu}</td></tr>`;
+                                    let jkFull = (ang.jk === 'L' || ang.jk.toLowerCase().includes('laki')) ? 'LAKI-LAKI' : 'PEREMPUAN';
+                                    rowsTable1 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true">${ang.nama}</td><td contenteditable="true">${jkFull}</td><td contenteditable="true">${ang.tempatLahir}</td><td contenteditable="true">${parseExcelDate(ang.tanggalLahir)}</td><td contenteditable="true">-</td></tr>`;
+                                    rowsTable2 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true">${ang.hubunganKK}</td><td contenteditable="true">${ang.statusPerkawinan}</td><td contenteditable="true">${ang.agama}</td><td contenteditable="true">${ang.pendidikan}</td><td contenteditable="true">${ang.pekerjaan}</td><td contenteditable="true">${ang.ayah || '-'}</td><td contenteditable="true">${ang.ibu || '-'}</td></tr>`;
                                 } else {
                                     rowsTable1 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>`;
                                     rowsTable2 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>`;
                                 }
                             }
                             
-                            // Ganti placeholder tabel jika ada
-                            bodyHtml = bodyHtml.replace(/<tbody[^>]*>[\s\S]*?<\/tbody>/gi, `<tbody>${rowsTable1}</tbody>`);
+                            // Ganti isi tabel pada HTML template
+                            let tables = doc.querySelectorAll('table');
+                            if (tables.length >= 2) {
+                                tables[0].querySelector('tbody').innerHTML = rowsTable1;
+                                tables[1].querySelector('tbody').innerHTML = rowsTable2;
+                                bodyHtml = doc.body.innerHTML;
+                            }
                         }
                     }
 
                     area.innerHTML = `
-                        <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.2; font-size: 7.5px; height: 100%; box-sizing: border-box; overflow: auto; outline: none;">
+                        <div id="editableContainerKK" contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.2; font-size: 7px; height: 100%; box-sizing: border-box; overflow: auto; outline: none;">
                             ${bodyHtml}
                         </div>
                     `;
@@ -1248,6 +1268,7 @@
                     alert("Gagal memuat file template dari GitHub. Pastikan nama file dan koneksi Anda benar.");
                 }
             } else {
+                panelTambahBaris.classList.add('hidden');
                 judul.innerText = `Surat Keterangan ${jenis}`;
                 area.innerHTML = `
                     <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.4; font-size: 9px; height: 100%; box-sizing: border-box; outline: none;">
@@ -1271,6 +1292,23 @@
                     </div>
                 `;
                 document.getElementById('modalCetakFormulir').classList.remove('hidden');
+            }
+        }
+
+        // --- FUNGSI TAMBAH BARIS ANGGOTA KELUARGA / BAYI BARU LAHIR SEBELUM CETAK ---
+        function tambahBarisAnggotaKK() {
+            let area = document.getElementById('printableAreaSurat');
+            let tables = area.querySelectorAll('table');
+            if (tables.length >= 2) {
+                let tbody1 = tables[0].querySelector('tbody');
+                let tbody2 = tables[1].querySelector('tbody');
+                let newNo = tbody1.rows.length + 1;
+
+                let newRow1 = tbody1.insertRow();
+                newRow1.innerHTML = `<td style="text-align:center;">${newNo}</td><td contenteditable="true">BAYI BARU LAHIR</td><td contenteditable="true">LAKI-LAKI</td><td contenteditable="true">PUGAAN</td><td contenteditable="true">BARU SAJA</td><td contenteditable="true">-</td>`;
+
+                let newRow2 = tbody2.insertRow();
+                newRow2.innerHTML = `<td style="text-align:center;">${newNo}</td><td contenteditable="true">ANAK</td><td contenteditable="true">BELUM KAWIN</td><td contenteditable="true">ISLAM</td><td contenteditable="true">BELUM SEKOLAH</td><td contenteditable="true">BELUM/TIDAK BEKERJA</td><td contenteditable="true">-</td><td contenteditable="true">-</td>`;
             }
         }
 
