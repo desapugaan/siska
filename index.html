@@ -17,8 +17,8 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
-        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 2px; margin-bottom: 2px; font-size: 10px; }
-        #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 2px 4px !important; text-align: left; }
+        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 2px; margin-bottom: 2px; font-size: 8px; }
+        #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 1.5px 3px !important; text-align: left; }
         #printableAreaSurat th { background-color: #f8fafc !important; text-align: center; font-weight: bold; }
 
         @media print {
@@ -36,7 +36,7 @@
                 background: white !important; 
                 padding: 4mm !important; 
                 margin: 0 !important;
-                font-size: 10px !important;
+                font-size: 8px !important;
                 box-shadow: none !important;
             }
             .no-print { display: none !important; }
@@ -539,7 +539,7 @@
             </div>
 
             <div class="flex-1 w-full bg-slate-200 overflow-y-auto p-4 md:p-8 flex justify-center">
-                <div id="printableAreaSurat" class="bg-white p-6 shadow-2xl w-[210mm] min-h-[297mm] max-h-[297mm] overflow-hidden text-slate-900 text-[10px] relative space-y-2 rounded-xl box-border">
+                <div id="printableAreaSurat" class="bg-white p-6 shadow-2xl w-[210mm] min-h-[297mm] max-h-[297mm] overflow-hidden text-slate-900 text-[8px] relative space-y-2 rounded-xl box-border">
                     <!-- Konten dinamis surat -->
                 </div>
             </div>
@@ -1196,7 +1196,7 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) DUKCAPIL TANPA TITIK-TITIK & FONT SIZE 10 ---
+        // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1242,14 +1242,14 @@
                 }
 
                 area.innerHTML = `
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.35; font-size: 10px; height: 100%; box-sizing: border-box; overflow: auto; outline: none; padding: 10px;">
-                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 11px; margin-bottom: 2px;">F-1.01</div>
-                        <div style="text-align: center; font-weight: bold; font-size: 13px; margin-bottom: 12px; text-transform: uppercase;">PERMOHONAN KARTU KELUARGA</div>
-                        <div style="margin-bottom: 12px; line-height: 1.6; font-size: 10px;">
-                            NAMA KEPALA KELUARGA : <b>${namaKeluargaVal}</b><br>
-                            NAMA JALAN : <b>${jalanVal}</b><br>
-                            DESA/KELURAHAN : <b>PUGAAN</b> &nbsp;&nbsp;&nbsp; RT : <b>${rtVal}</b><br>
-                            KECAMATAN / KODE POS : <b>PUGAAN / 71554</b>
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.35; font-size: 8px; height: 100%; box-sizing: border-box; overflow: auto; outline: none; padding: 10px;">
+                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 9px; margin-bottom: 2px;">F-1.01</div>
+                        <div style="text-align: center; font-weight: bold; font-size: 11px; margin-bottom: 10px; text-transform: uppercase;">PERMOHONAN KARTU KELUARGA</div>
+                        <div style="margin-bottom: 10px; line-height: 1.6; font-size: 8px; text-align: justify; text-justify: inter-word;">
+                            NAMA KEPALA KELUARGA &nbsp;: &nbsp;<b>${namaKeluargaVal}</b><br>
+                            NAMA JALAN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;<b>${jalanVal}</b><br>
+                            DESA/KELURAHAN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;<b>PUGAAN</b> &nbsp;&nbsp;&nbsp; RT : &nbsp;<b>${rtVal}</b><br>
+                            KECAMATAN / KODE POS &nbsp;&nbsp;: &nbsp;<b>PUGAAN / 71554</b>
                         </div>
                         <table>
                             <thead>
@@ -1285,7 +1285,7 @@
                             </tbody>
                         </table>
                         <br>
-                        <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
                             <div></div>
                             <div style="text-align: center;">
                                 PEMOHON KARTU KELUARGA<br><br><br><br>
@@ -1325,12 +1325,12 @@
 
                 area.innerHTML = `
                     <style>
-                        .f201-table { width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 2px; }
-                        .f201-table td, .f201-table th { border: 1px solid #000; padding: 2px 4px; vertical-align: middle; }
-                        .f201-header-table td { border: none !important; padding: 2px 2px; }
+                        .f201-table { width: 100%; border-collapse: collapse; font-size: 8px; margin-bottom: 2px; }
+                        .f201-table td, .f201-table th { border: 1px solid #000; padding: 1px 3px; vertical-align: middle; }
+                        .f201-header-table td { border: none !important; padding: 1px 2px; }
                     </style>
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; line-height: 1.25; padding: 4px; box-sizing: border-box; outline: none; background: white; width: 100%;">
-                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 11px; margin-bottom: 2px;">F-2.01</div>
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 8px; line-height: 1.15; padding: 2px; box-sizing: border-box; outline: none; background: white; width: 100%;">
+                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 9px; margin-bottom: 2px;">F-2.01</div>
                         <table class="f201-table f201-header-table">
                             <tr><td style="width: 22%;">Provinsi</td><td style="width: 1%;">:</td><td>63 - KALIMANTAN SELATAN</td></tr>
                             <tr><td>Kabupaten/Kota</td><td>:</td><td>09 - KAB. TABALONG</td></tr>
@@ -1339,13 +1339,13 @@
                             <tr><td>Kode Wilayah</td><td>:</td><td>63.09.09.2001</td></tr>
                         </table>
 
-                        <div style="text-align: center; font-weight: bold; font-size: 10.5px; background: #e2e8f0; border: 1px solid #000; padding: 3px; margin: 4px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
+                        <div style="text-align: center; font-weight: bold; font-size: 9px; background: #e2e8f0; border: 1px solid #000; padding: 2px; margin: 3px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
                         
-                        <div style="font-weight: bold; font-size: 10px; margin-bottom: 2px;">Jenis Pelaporan Pencatatan Sipil</div>
+                        <div style="font-weight: bold; font-size: 8px; margin-bottom: 1px;">Jenis Pelaporan Pencatatan Sipil</div>
                         <table class="f201-table">
                             <tr>
-                                <td style="width: 50%; font-size: 9.5px; line-height: 1.3;">
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
+                                <td style="width: 50%; font-size: 7.5px; line-height: 1.2;">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px;">
                                         <div>[ &nbsp; ] Kelahiran</div>
                                         <div>[ &nbsp; ] Pengakuan Anak</div>
                                         <div>[ &nbsp; ] Lahir Mati</div>
@@ -1421,12 +1421,12 @@
                             <tr><td>8. Yang Menerangkan</td><td>[ &nbsp; ] 1. Dokter &nbsp; [ &nbsp; ] 2. Tenaga Kesehatan &nbsp; [ &nbsp; ] 3. Kepolisian &nbsp; [ &nbsp; ] 4. Lainnya</td></tr>
                         </table>
 
-                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 8px;">
                             <div style="text-align: center; width: 40%;">
-                                Mengetahui :<br>Kepala Desa Pugaan<br><br><br><br><b><u>SUPRATMAN</u></b>
+                                Mengetahui :<br>Kepala Desa Pugaan<br><br><br><b><u>SUPRATMAN</u></b>
                             </div>
                             <div style="text-align: center; width: 40%;">
-                                Tanjung, ${todayStr}<br>Pelapor<br><br><br><br><b>(<u>${pNama}</u>)</b>
+                                Tanjung, ${todayStr}<br>Pelapor<br><br><br><b>(<u>${pNama}</u>)</b>
                             </div>
                         </div>
                     </div>
@@ -1468,12 +1468,12 @@
 
                 area.innerHTML = `
                     <style>
-                        .f201-table { width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 2px; }
-                        .f201-table td, .f201-table th { border: 1px solid #000; padding: 2px 4px; vertical-align: middle; }
-                        .f201-header-table td { border: none !important; padding: 2px 2px; }
+                        .f201-table { width: 100%; border-collapse: collapse; font-size: 8px; margin-bottom: 2px; }
+                        .f201-table td, .f201-table th { border: 1px solid #000; padding: 1px 3px; vertical-align: middle; }
+                        .f201-header-table td { border: none !important; padding: 1px 2px; }
                     </style>
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; line-height: 1.25; padding: 4px; box-sizing: border-box; outline: none; background: white; width: 100%;">
-                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 11px; margin-bottom: 2px;">F-2.01</div>
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 8px; line-height: 1.15; padding: 2px; box-sizing: border-box; outline: none; background: white; width: 100%;">
+                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 9px; margin-bottom: 2px;">F-2.01</div>
                         <table class="f201-table f201-header-table">
                             <tr>
                                 <td style="width: 22%;">Provinsi</td><td style="width: 1%;">:</td><td>63 - KALIMANTAN SELATAN</td>
@@ -1492,13 +1492,13 @@
                             </tr>
                         </table>
 
-                        <div style="text-align: center; font-weight: bold; font-size: 10.5px; background: #e2e8f0; border: 1px solid #000; padding: 3px; margin: 4px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
+                        <div style="text-align: center; font-weight: bold; font-size: 9px; background: #e2e8f0; border: 1px solid #000; padding: 2px; margin: 3px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
                         
-                        <div style="font-weight: bold; font-size: 10px; margin-bottom: 2px;">Jenis Pelaporan Pencatatan Sipil</div>
+                        <div style="font-weight: bold; font-size: 8px; margin-bottom: 1px;">Jenis Pelaporan Pencatatan Sipil</div>
                         <table class="f201-table">
                             <tr>
-                                <td style="width: 50%; font-size: 9.5px; line-height: 1.3;">
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
+                                <td style="width: 50%; font-size: 7.5px; line-height: 1.2;">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px;">
                                         <div>[✔] Kelahiran</div>
                                         <div>[ &nbsp; ] Pengakuan Anak</div>
                                         <div>[ &nbsp; ] Lahir Mati</div>
@@ -1592,12 +1592,12 @@
                             <tr><td>11. Panjang Bayi</td><td></td></tr>
                         </table>
 
-                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 8px;">
                             <div style="text-align: center; width: 40%;">
-                                Mengetahui :<br>Kepala Desa Pugaan<br><br><br><br><b><u>SUPRATMAN</u></b>
+                                Mengetahui :<br>Kepala Desa Pugaan<br><br><br><b><u>SUPRATMAN</u></b>
                             </div>
                             <div style="text-align: center; width: 40%;">
-                                Tanjung, ${todayStr}<br>Pelapor<br><br><br><br><b>(<u>${pNama}</u>)</b>
+                                Tanjung, ${todayStr}<br>Pelapor<br><br><br><b>(<u>${pNama}</u>)</b>
                             </div>
                         </div>
                     </div>
@@ -1607,12 +1607,12 @@
                 panelTambahBaris.classList.add('hidden');
                 judul.innerText = `Surat Keterangan ${jenis}`;
                 area.innerHTML = `
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.4; font-size: 12px; height: 100%; box-sizing: border-box; outline: none; padding: 15px;">
-                        <div style="text-align: center; font-weight: bold; font-size: 15px; text-transform: uppercase; margin-bottom: 15px;">
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.4; font-size: 10px; height: 100%; box-sizing: border-box; outline: none; padding: 15px;">
+                        <div style="text-align: center; font-weight: bold; font-size: 13px; text-transform: uppercase; margin-bottom: 15px;">
                             PEMERINTAH KABUPATEN TABALONG<br>KECAMATAN PUGAAN<br>KANTOR KEPALA DESA PUGAAN<br>KODE POS 71554
                         </div>
                         <hr style="border: 1px solid #000; margin-bottom: 12px;">
-                        <div style="text-align: center; font-weight: bold; font-size: 13px; text-decoration: underline; margin-bottom: 12px;">SURAT KETERANGAN ${jenis.toUpperCase()}</div>
+                        <div style="text-align: center; font-weight: bold; font-size: 11px; text-decoration: underline; margin-bottom: 12px;">SURAT KETERANGAN ${jenis.toUpperCase()}</div>
                         <p style="margin-bottom: 8px;">Yang bertanda tangan di bawah ini Kepala Desa Pugaan, Kecamatan Pugaan, Kabupaten Tabalong, menerangkan bahwa:</p>
                         <table style="width: 100%; margin-left: 15px; margin-bottom: 15px; border: none !important;">
                             <tr style="border: none !important;"><td style="width: 140px; font-weight: bold; border: none !important;">Nama Lengkap</td><td style="border: none !important;">: <b>${namaVal}</b></td></tr>
