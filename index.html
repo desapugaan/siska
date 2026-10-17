@@ -17,12 +17,12 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
-        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 2px; margin-bottom: 2px; font-size: 11px; }
-        #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 2px 4px !important; text-align: left; }
+        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 5px; margin-bottom: 5px; font-size: 11px; }
+        #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 3px 6px !important; text-align: left; }
         #printableAreaSurat th { background-color: #f8fafc !important; text-align: center; font-weight: bold; }
 
         @media print {
-            @page { size: auto; margin: 3mm; }
+            @page { size: auto; margin: 5mm; }
             body * { visibility: hidden; }
             #printableAreaSurat, #printableAreaSurat * { visibility: visible; }
             #printableAreaSurat { 
@@ -34,7 +34,7 @@
                 max-height: none !important;
                 overflow: visible !important; 
                 background: white !important; 
-                padding: 4mm !important; 
+                padding: 5mm !important; 
                 margin: 0 !important;
                 font-size: 11px !important;
                 box-shadow: none !important;
@@ -326,7 +326,7 @@
                             </div>
                         </div>
 
-                        <!-- Tabel diperkecil padding & ukurannya agar pas tanpa geser -->
+                        <!-- Tabel diperkecil ukurannya agar pas tanpa geser -->
                         <div id="tabelContainerScroll" class="overflow-x-auto w-full">
                             <table class="w-full text-left text-[11px] border-collapse">
                                 <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase tracking-wider">
@@ -949,7 +949,6 @@
             });
         }
 
-        // --- DINAMIS INPUT FORMULIR SURAT TERHUBUNG KE DATABASE ---
         function gantiFormulirSurat() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let container = document.getElementById('containerFormDinamis');
@@ -1262,7 +1261,6 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- PRATINJAU FORMULIR KK & AKTA & SPTJM & PINDAH F-1.03 ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1690,22 +1688,6 @@
                 let almNama = terpilihAlmarhum ? terpilihAlmarhum.nama : "";
                 let almNik = terpilihAlmarhum ? terpilihAlmarhum.nik : "";
 
-                let anak1Nama = terpilihAnak1 ? terpilihAnak1.nama : "";
-                let anak1Nik = terpilihAnak1 ? terpilihAnak1.nik : "";
-                let anak1KK = terpilihAnak1 ? terpilihAnak1.kk : "";
-
-                let anak2Nama = terpilihAnak2 ? terpilihAnak2.nama : "";
-                let anak2Nik = terpilihAnak2 ? terpilihAnak2.nik : "";
-                let anak2KK = terpilihAnak2 ? terpilihAnak2.kk : "";
-
-                let s1Nama = terpilihSaksi1 ? terpilihSaksi1.nama : "";
-                let s1Nik = terpilihSaksi1 ? terpilihSaksi1.nik : "";
-                let s1KK = terpilihSaksi1 ? terpilihSaksi1.kk : "";
-
-                let s2Nama = terpilihSaksi2 ? terpilihSaksi2.nama : "";
-                let s2Nik = terpilihSaksi2 ? terpilihSaksi2.nik : "";
-                let s2KK = terpilihSaksi2 ? terpilihSaksi2.kk : "";
-
                 area.innerHTML = `
                     <style>
                         .f201-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 2px; }
@@ -1788,14 +1770,6 @@
                 let pNik = terpilihPelapor ? terpilihPelapor.nik : "";
                 let pKK = terpilihPelapor ? terpilihPelapor.kk : "";
                 
-                let s1Nama = terpilihSaksi1 ? terpilihSaksi1.nama : "";
-                let s1Nik = terpilihSaksi1 ? terpilihSaksi1.nik : "";
-                let s1KK = terpilihSaksi1 ? terpilihSaksi1.kk : "";
-
-                let s2Nama = terpilihSaksi2 ? terpilihSaksi2.nama : "";
-                let s2Nik = terpilihSaksi2 ? terpilihSaksi2.nik : "";
-                let s2KK = terpilihSaksi2 ? terpilihSaksi2.kk : "";
-
                 let anak1Nama = terpilihAnak1 ? terpilihAnak1.nama : "";
                 let anak1Nik = terpilihAnak1 ? terpilihAnak1.nik : "";
                 let anak1KK = terpilihAnak1 ? terpilihAnak1.kk : "";
