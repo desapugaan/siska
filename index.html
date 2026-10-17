@@ -17,9 +17,6 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
-        .box-nik { display: inline-block; width: 13px; height: 15px; border: 1px solid #000; text-align: center; font-family: monospace; font-size: 8.5px; line-height: 15px; margin-right: 1px; background: #fff; }
-        .box-kecil { display: inline-block; width: 11px; height: 13px; border: 1px solid #000; text-align: center; font-family: monospace; font-size: 8px; line-height: 13px; margin-right: 1px; background: #fff; }
-        
         #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 2px; margin-bottom: 2px; font-size: 8px; }
         #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 2px 3px !important; text-align: left; }
         #printableAreaSurat th { background-color: #f8fafc !important; text-align: center; font-weight: bold; }
@@ -1199,17 +1196,7 @@
             dropdown.classList.remove('hidden');
         }
 
-        function renderBoxes(text, length = 16) {
-            let cleanText = String(text || "").trim();
-            let html = "";
-            for (let i = 0; i < length; i++) {
-                let char = cleanText[i] || "";
-                html += `<span class="box-nik">${char}</span>`;
-            }
-            return html;
-        }
-
-        // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) DUKCAPIL ---
+        // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) DUKCAPIL TANPA KOTAK ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1348,7 +1335,7 @@
                             <tr><td>Kabupaten/Kota</td><td>:</td><td style="border-bottom: 1px dotted #000 !important;">09 - KAB. TABALONG</td></tr>
                             <tr><td>Kecamatan</td><td>:</td><td style="border-bottom: 1px dotted #000 !important;">PUGAAN</td></tr>
                             <tr><td>Desa/Kelurahan</td><td>:</td><td style="border-bottom: 1px dotted #000 !important;">PUGAAN</td></tr>
-                            <tr><td>Kode Wilayah</td><td>:</td><td><span class="box-kecil">6</span><span class="box-kecil">3</span>.<span class="box-kecil">0</span><span class="box-kecil">9</span>.<span class="box-kecil">0</span><span class="box-kecil">9</span>.<span class="box-kecil">2</span><span class="box-kecil">0</span><span class="box-kecil">0</span><span class="box-kecil">1</span></td></tr>
+                            <tr><td>Kode Wilayah</td><td>:</td><td style="border-bottom: 1px dotted #000 !important;">63.09.09.2001</td></tr>
                         </table>
 
                         <div style="text-align: center; font-weight: bold; font-size: 8.5px; background: #e2e8f0; border: 1px solid #000; padding: 2px; margin: 2px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
@@ -1382,49 +1369,49 @@
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA PELAPOR</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${pNama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(pNik)}</td></tr>
+                            <tr><td>NIK</td><td>${pNik}</td></tr>
                             <tr><td>Nomor Dokumen Perjalanan</td><td></td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(pKK)}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${pKK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SUBJEK ANAK KESATU</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${anak1Nama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(anak1Nik)}</td></tr>
+                            <tr><td>NIK</td><td>${anak1Nik}</td></tr>
                             <tr><td>Nomor Dokumen Perjalanan</td><td></td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(anak1KK)}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${anak1KK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SUBJEK ANAK KEDUA (JIKA ADA)</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${anak2Nama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(anak2Nik)}</td></tr>
+                            <tr><td>NIK</td><td>${anak2Nik}</td></tr>
                             <tr><td>Nomor Dokumen Perjalanan</td><td></td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(anak2KK)}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${anak2KK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SAKSI I</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${s1Nama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(s1Nik)}</td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(s1KK)}</td></tr>
+                            <tr><td>NIK</td><td>${s1Nik}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${s1KK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SAKSI II</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${s2Nama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(s2Nik)}</td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(s2KK)}</td></tr>
+                            <tr><td>NIK</td><td>${s2Nik}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${s2KK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">KEMATIAN (ALMARHUM / JENAZAH)</td></tr>
-                            <tr><td style="width: 28%;">1. NIK</td><td>${renderBoxes(almNik)}</td></tr>
+                            <tr><td style="width: 28%;">1. NIK</td><td>${almNik}</td></tr>
                             <tr><td>2. Nama Lengkap</td><td><b>${almNama}</b></td></tr>
                             <tr><td>3. Tanggal Kematian</td><td></td></tr>
                             <tr><td>4. Pukul</td><td></td></tr>
@@ -1500,7 +1487,7 @@
                                 <td>Desa/Kelurahan</td><td>:</td><td style="border-bottom: 1px dotted #000 !important;">PUGAAN</td>
                             </tr>
                             <tr>
-                                <td>Kode Wilayah</td><td>:</td><td><span class="box-kecil">6</span><span class="box-kecil">3</span>.<span class="box-kecil">0</span><span class="box-kecil">9</span>.<span class="box-kecil">0</span><span class="box-kecil">9</span>.<span class="box-kecil">2</span><span class="box-kecil">0</span><span class="box-kecil">0</span><span class="box-kecil">1</span></td>
+                                <td>Kode Wilayah</td><td>:</td><td style="border-bottom: 1px dotted #000 !important;">63.09.09.2001</td>
                             </tr>
                         </table>
 
@@ -1535,55 +1522,55 @@
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA PELAPOR</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${pNama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(pNik)}</td></tr>
+                            <tr><td>NIK</td><td>${pNik}</td></tr>
                             <tr><td>Nomor Dokumen Perjalanan</td><td></td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(pKK)}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${pKK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SUBJEK ANAK KESATU</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${anak1Nama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(anak1Nik)}</td></tr>
+                            <tr><td>NIK</td><td>${anak1Nik}</td></tr>
                             <tr><td>Nomor Dokumen Perjalanan</td><td></td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(anak1KK)}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${anak1KK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SUBJEK ANAK KEDUA (JIKA ADA)</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${anak2Nama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(anak2Nik)}</td></tr>
+                            <tr><td>NIK</td><td>${anak2Nik}</td></tr>
                             <tr><td>Nomor Dokumen Perjalanan</td><td></td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(anak2KK)}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${anak2KK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SAKSI I</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${s1Nama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(s1Nik)}</td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(s1KK)}</td></tr>
+                            <tr><td>NIK</td><td>${s1Nik}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${s1KK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SAKSI II</td></tr>
                             <tr><td style="width: 28%;">Nama</td><td><b>${s2Nama}</b></td></tr>
-                            <tr><td>NIK</td><td>${renderBoxes(s2Nik)}</td></tr>
-                            <tr><td>Nomor Kartu Keluarga</td><td>${renderBoxes(s2KK)}</td></tr>
+                            <tr><td>NIK</td><td>${s2Nik}</td></tr>
+                            <tr><td>Nomor Kartu Keluarga</td><td>${s2KK}</td></tr>
                             <tr><td>Kewarganegaraan</td><td>INDONESIA</td></tr>
                         </table>
 
                         <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA ORANG TUA **(hanya diisi untuk keperluan kelahiran, lahir mati dan kematian)</td></tr>
                             <tr><td style="width: 28%;">Nama Ayah</td><td><b>${ayahNama}</b></td></tr>
-                            <tr><td>NIK Ayah</td><td>${renderBoxes(ayahNik)}</td></tr>
+                            <tr><td>NIK Ayah</td><td>${ayahNik}</td></tr>
                             <tr><td>Tempat Lahir Ayah</td><td>${ayahTempatLahir}</td></tr>
                             <tr><td>Tanggal Lahir Ayah</td><td>${ayahTglLahir}</td></tr>
                             <tr><td>Kewarganegaraan Ayah</td><td>INDONESIA</td></tr>
                             <tr><td>Nama Ibu</td><td><b>${ibuNama}</b></td></tr>
-                            <tr><td>NIK Ibu</td><td>${renderBoxes(ibuNik)}</td></tr>
+                            <tr><td>NIK Ibu</td><td>${ibuNik}</td></tr>
                             <tr><td>Tempat Lahir Ibu</td><td>${ibuTempatLahir}</td></tr>
                             <tr><td>Tanggal Lahir Ibu</td><td>${ibuTglLahir}</td></tr>
                             <tr><td>Kewarganegaraan Ibu</td><td>INDONESIA</td></tr>
