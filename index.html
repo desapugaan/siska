@@ -17,9 +17,32 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
-        #printableAreaSurat table.form-table { width: 100%; border-collapse: collapse !important; border-spacing: 0 !important; margin-top: 4px; margin-bottom: 4px; font-size: 10px; table-layout: fixed; border: 1px solid #000 !important; }
-        #printableAreaSurat table.form-table th, #printableAreaSurat table.form-table td { border: 1px solid #000 !important; padding: 3px 4px !important; text-align: left; overflow: hidden; word-wrap: break-word; position: relative; }
-        #printableAreaSurat table.form-table th { background-color: #f8fafc !important; text-align: center; font-weight: bold; }
+        /* CSS Tabel Solid Anti Putus-putus */
+        #printableAreaSurat table.form-table { 
+            width: 100%; 
+            border-collapse: collapse !important; 
+            border-spacing: 0 !important; 
+            margin-top: 4px; 
+            margin-bottom: 4px; 
+            font-size: 10px; 
+            table-layout: fixed; 
+            border: 1.5px solid #000 !important; 
+        }
+        #printableAreaSurat table.form-table th, 
+        #printableAreaSurat table.form-table td { 
+            border: 1px solid #000 !important; 
+            padding: 3px 4px !important; 
+            text-align: left; 
+            overflow: hidden; 
+            word-wrap: break-word; 
+            position: relative; 
+            box-shadow: inset 0 0 0 1px #000 !important;
+        }
+        #printableAreaSurat table.form-table th { 
+            background-color: #f8fafc !important; 
+            text-align: center; 
+            font-weight: bold; 
+        }
 
         /* Style untuk garis resize kolom */
         .resizer {
@@ -54,9 +77,12 @@
                 font-size: 10px !important;
                 box-shadow: none !important;
             }
-            #printableAreaSurat table.form-table, #printableAreaSurat table.form-table th, #printableAreaSurat table.form-table td {
+            #printableAreaSurat table.form-table, 
+            #printableAreaSurat table.form-table th, 
+            #printableAreaSurat table.form-table td {
                 border: 1px solid #000 !important;
                 border-collapse: collapse !important;
+                box-shadow: inset 0 0 0 1px #000 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -1289,11 +1315,11 @@
                     let no = i + 1;
                     if (ang) {
                         let jkFull = (ang.jk === 'L' || ang.jk.toLowerCase().includes('laki')) ? 'LAKI-LAKI' : 'PEREMPUAN';
-                        rowsTable1 += `<tr><td style="border: 1px solid #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.nama}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${jkFull}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.tempatLahir}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${parseExcelDate(ang.tanggalLahir)}</td><td style="border: 1px solid #000 !important;" contenteditable="true">-</td></tr>`;
-                        rowsTable2 += `<tr><td style="border: 1px solid #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.hubunganKK}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.statusPerkawinan}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.agama}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.pendidikan}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.pekerjaan}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.ayah || '-'}</td><td style="border: 1px solid #000 !important;" contenteditable="true">${ang.ibu || '-'}</td></tr>`;
+                        rowsTable1 += `<tr><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.nama}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${jkFull}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.tempatLahir}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${parseExcelDate(ang.tanggalLahir)}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">-</td></tr>`;
+                        rowsTable2 += `<tr><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.hubunganKK}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.statusPerkawinan}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.agama}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.pendidikan}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.pekerjaan}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.ayah || '-'}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.ibu || '-'}</td></tr>`;
                     } else {
-                        rowsTable1 += `<tr><td style="border: 1px solid #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td></tr>`;
-                        rowsTable2 += `<tr><td style="border: 1px solid #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important;" contenteditable="true"></td></tr>`;
+                        rowsTable1 += `<tr><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td></tr>`;
+                        rowsTable2 += `<tr><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td></tr>`;
                     }
                 }
 
@@ -1310,12 +1336,12 @@
                         <table id="tabelKK1" class="form-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 30px; border: 1px solid #000 !important;">NO</th>
-                                    <th style="border: 1px solid #000 !important;">NAMA LENGKAP</th>
-                                    <th style="border: 1px solid #000 !important;">JENIS KELAMIN</th>
-                                    <th style="border: 1px solid #000 !important;">TEMPAT LAHIR</th>
-                                    <th style="border: 1px solid #000 !important;">TANGGAL LAHIR</th>
-                                    <th style="border: 1px solid #000 !important;">GOLONGAN DARAH</th>
+                                    <th style="width: 30px; border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NO</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NAMA LENGKAP</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">JENIS KELAMIN</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">TEMPAT LAHIR</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">TANGGAL LAHIR</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">GOLONGAN DARAH</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1326,14 +1352,14 @@
                         <table id="tabelKK2" class="form-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 30px; border: 1px solid #000 !important;">NO</th>
-                                    <th style="border: 1px solid #000 !important;">STATUS HUBUNGAN DALAM KELUARGA</th>
-                                    <th style="border: 1px solid #000 !important;">STATUS PERKAWINAN</th>
-                                    <th style="border: 1px solid #000 !important;">AGAMA</th>
-                                    <th style="border: 1px solid #000 !important;">PENDIDIKAN TERAKHIR</th>
-                                    <th style="border: 1px solid #000 !important;">PEKERJAAN</th>
-                                    <th style="border: 1px solid #000 !important;">NAMA LENGKAP AYAH</th>
-                                    <th style="border: 1px solid #000 !important;">NAMA LENGKAP IBU</th>
+                                    <th style="width: 30px; border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NO</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">STATUS HUBUNGAN DALAM KELUARGA</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">STATUS PERKAWINAN</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">AGAMA</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">PENDIDIKAN TERAKHIR</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">PEKERJAAN</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NAMA LENGKAP AYAH</th>
+                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NAMA LENGKAP IBU</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1397,10 +1423,10 @@
                 let newNo = tbody1.rows.length + 1;
 
                 let newRow1 = tbody1.insertRow();
-                newRow1.innerHTML = `<td style="border: 1px solid #000 !important; text-align:center;">${newNo}</td><td style="border: 1px solid #000 !important;" contenteditable="true">BAYI BARU LAHIR</td><td style="border: 1px solid #000 !important;" contenteditable="true">LAKI-LAKI</td><td style="border: 1px solid #000 !important;" contenteditable="true">PUGAAN</td><td style="border: 1px solid #000 !important;" contenteditable="true">BARU SAJA</td><td style="border: 1px solid #000 !important;" contenteditable="true">-</td>`;
+                newRow1.innerHTML = `<td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${newNo}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BAYI BARU LAHIR</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">LAKI-LAKI</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">PUGAAN</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BARU SAJA</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">-</td>`;
 
                 let newRow2 = tbody2.insertRow();
-                newRow2.innerHTML = `<td style="border: 1px solid #000 !important; text-align:center;">${newNo}</td><td style="border: 1px solid #000 !important;" contenteditable="true">ANAK</td><td style="border: 1px solid #000 !important;" contenteditable="true">BELUM KAWIN</td><td style="border: 1px solid #000 !important;" contenteditable="true">ISLAM</td><td style="border: 1px solid #000 !important;" contenteditable="true">BELUM SEKOLAH</td><td style="border: 1px solid #000 !important;" contenteditable="true">BELUM/TIDAK BEKERJA</td><td style="border: 1px solid #000 !important;" contenteditable="true">-</td><td style="border: 1px solid #000 !important;" contenteditable="true">-</td>`;
+                newRow2.innerHTML = `<td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${newNo}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">ANAK</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BELUM KAWIN</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">ISLAM</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BELUM SEKOLAH</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BELUM/TIDAK BEKERJA</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">-</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">-</td>`;
             }
         }
 
