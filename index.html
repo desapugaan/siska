@@ -604,6 +604,8 @@
         let terpilihAyah = null;
         let terpilihIbu = null;
         let terpilihAlmarhum = null;
+        let terpilihAnak1 = null;
+        let terpilihAnak2 = null;
         let terpilihSuami = null;
         let terpilihIstri = null;
 
@@ -976,6 +978,8 @@
             terpilihAyah = null;
             terpilihIbu = null;
             terpilihAlmarhum = null;
+            terpilihAnak1 = null;
+            terpilihAnak2 = null;
             terpilihSuami = null;
             terpilihIstri = null;
             selectedWargaSurat = null;
@@ -1036,18 +1040,23 @@
                 container.innerHTML = `
                     <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2 w-full">
                         <p class="font-bold"><b>FORMULIR AKTA KEMATIAN (F-2.01):</b></p>
-                        <p>Pilih Almarhum/Almarhumah, Pelapor, Saksi I, dan Saksi II dari database penduduk.</p>
+                        <p>Pilih Pelapor, Saksi I, Saksi II, serta Subjek Anak Kesatu & Kedua dari database penduduk.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs w-full">
                         <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Cari Warga yang Meninggal (Almarhum)</label>
-                            <input type="text" id="inputAlmarhum" onkeyup="cariWargaField('almarhum')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK almarhum...">
-                            <div id="dropdownAlmarhum" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
-                        <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Cari Pelapor Kematian</label>
+                            <label class="block font-bold text-slate-700 mb-1">Nama Pelapor</label>
                             <input type="text" id="inputPelapor" onkeyup="cariWargaField('pelapor')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK pelapor...">
                             <div id="dropdownPelapor" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kesatu</label>
+                            <input type="text" id="inputAnak1" onkeyup="cariWargaField('anak1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-1...">
+                            <div id="dropdownAnak1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kedua (Jika Ada)</label>
+                            <input type="text" id="inputAnak2" onkeyup="cariWargaField('anak2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-2...">
+                            <div id="dropdownAnak2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
                         <div class="relative">
                             <label class="block font-bold text-slate-700 mb-1">Nama Saksi I</label>
@@ -1143,6 +1152,8 @@
                     if(fieldKey === 'ayah') terpilihAyah = w;
                     if(fieldKey === 'ibu') terpilihIbu = w;
                     if(fieldKey === 'almarhum') terpilihAlmarhum = w;
+                    if(fieldKey === 'anak1') terpilihAnak1 = w;
+                    if(fieldKey === 'anak2') terpilihAnak2 = w;
                     if(fieldKey === 'suami') terpilihSuami = w;
                     if(fieldKey === 'istri') terpilihIstri = w;
 
