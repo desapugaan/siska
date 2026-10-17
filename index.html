@@ -17,7 +17,7 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
-        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 4px; margin-bottom: 4px; font-size: 10px; table-layout: fixed; }
+        #printableAreaSurat table { width: 100%; border-collapse: collapse !important; margin-top: 4px; margin-bottom: 4px; font-size: 10px; table-layout: fixed; }
         #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 3px 4px !important; text-align: left; overflow: hidden; word-wrap: break-word; position: relative; }
         #printableAreaSurat th { background-color: #f8fafc !important; text-align: center; font-weight: bold; }
 
@@ -53,6 +53,12 @@
                 margin: 0 !important;
                 font-size: 10px !important;
                 box-shadow: none !important;
+            }
+            #printableAreaSurat table, #printableAreaSurat th, #printableAreaSurat td {
+                border: 1px solid #000 !important;
+                border-collapse: collapse !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .no-print { display: none !important; }
             [contenteditable="true"] { outline: none !important; background: transparent !important; }
@@ -561,7 +567,7 @@
             </div>
 
             <div class="p-4 bg-slate-50 border-t flex justify-between items-center no-print">
-                <span class="text-xs text-amber-700 font-bold bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">ℹ️ Tips: Geser garis kanan pada judul kolom untuk melebar/mempersempit tabel, dan klik teks untuk mengedit!</span>
+                <span class="text-xs text-amber-700 font-bold bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">ℹ️ Tips: Titik dua sejajar rata, geser garis kanan kolom tabel untuk menyesuaikan, dan klik teks untuk mengedit!</span>
                 <div class="flex gap-3">
                     <button onclick="tutupModalCetakFormulir()" class="px-5 py-2.5 bg-slate-200 font-bold rounded-xl text-slate-700 text-xs">Tutup</button>
                     <button onclick="window.print()" class="px-6 py-2.5 bg-emerald-600 font-bold rounded-xl text-white shadow-md flex items-center gap-2 text-xs"><i data-lucide="printer" class="w-4 h-4"></i> Cetak / Simpan PDF (1 Halaman)</button>
@@ -1215,8 +1221,7 @@
         // --- FUNGSI AGAR KOLOM TABEL BISA DIGESER (RESIZABLE COLUMNS) ---
         function makeTableResizable(table) {
             const cols = table.querySelectorAll('th');
-            cols.forEach((col, index) => {
-                // Tambahkan resizer handle di setiap th
+            cols.forEach((col) => {
                 const resizer = document.createElement('div');
                 resizer.classList.add('resizer');
                 col.appendChild(resizer);
@@ -1247,7 +1252,7 @@
             });
         }
 
-        // --- PRATINJAU FORMULIR KK & AKTA DENGAN FITUR TARIK GARIS TABEL ---
+        // --- PRATINJAU FORMULIR KK & AKTA DENGAN FITUR TARIK GARIS TABEL & TITIK DUA RATA KIRI-KANAN ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1296,12 +1301,12 @@
                     <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.35; font-size: 10px; height: 100%; box-sizing: border-box; overflow: auto; outline: none; padding: 10px;">
                         <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 11px; margin-bottom: 2px;">F-1.01</div>
                         <div style="text-align: center; font-weight: bold; font-size: 13px; margin-bottom: 12px; text-transform: uppercase;">PERMOHONAN KARTU KELUARGA</div>
-                        <div style="margin-bottom: 12px; line-height: 1.6; font-size: 10px;">
-                            NAMA KEPALA KELUARGA : <b>${namaKeluargaVal}</b><br>
-                            NAMA JALAN : <b>${jalanVal}</b><br>
-                            DESA/KELURAHAN : <b>PUGAAN</b> &nbsp;&nbsp;&nbsp; RT : <b>${rtVal}</b><br>
-                            KECAMATAN / KODE POS : <b>PUGAAN / 71554</b>
-                        </div>
+                        <table style="width: 100%; border: none !important; margin-bottom: 12px; font-size: 10px;">
+                            <tr style="border: none !important;"><td style="width: 155px; border: none !important; font-weight: bold;">NAMA KEPALA KELUARGA</td><td style="width: 15px; border: none !important; font-weight: bold;">:</td><td style="border: none !important; font-weight: bold;">${namaKeluargaVal}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important; font-weight: bold;">NAMA JALAN</td><td style="border: none !important; font-weight: bold;">:</td><td style="border: none !important; font-weight: bold;">${jalanVal}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important; font-weight: bold;">DESA/KELURAHAN</td><td style="border: none !important; font-weight: bold;">:</td><td style="border: none !important;">PUGAAN &nbsp;&nbsp;&nbsp; <b>RT :</b> ${rtVal}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important; font-weight: bold;">KECAMATAN / KODE POS</td><td style="border: none !important; font-weight: bold;">:</td><td style="border: none !important;">PUGAAN / 71554</td></tr>
+                        </table>
                         <table id="tabelKK1">
                             <thead>
                                 <tr>
@@ -1367,10 +1372,10 @@
                         <div style="text-align: center; font-weight: bold; font-size: 13px; text-decoration: underline; margin-bottom: 12px;">SURAT KETERANGAN ${jenis.toUpperCase()}</div>
                         <p style="margin-bottom: 8px;">Yang bertanda tangan di bawah ini Kepala Desa Pugaan, Kecamatan Pugaan, Kabupaten Tabalong, menerangkan bahwa:</p>
                         <table style="width: 100%; margin-left: 15px; margin-bottom: 15px; border: none !important;">
-                            <tr style="border: none !important;"><td style="width: 140px; font-weight: bold; border: none !important;">Nama Lengkap</td><td style="border: none !important;">: <b>${namaVal}</b></td></tr>
-                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">NIK</td><td style="border: none !important;">: ${nikVal}</td></tr>
-                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">RT / Wilayah</td><td style="font-weight: bold; border: none !important;">: ${rtVal} Desa Pugaan</td></tr>
-                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">Keperluan</td><td style="font-weight: bold; border: none !important;">: Keperluan Administrasi Kependudukan Desa Pugaan</td></tr>
+                            <tr style="border: none !important;"><td style="width: 140px; font-weight: bold; border: none !important;">Nama Lengkap</td><td style="width: 15px; border: none !important; font-weight: bold;">:</td><td style="border: none !important;"><b>${namaVal}</b></td></tr>
+                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">NIK</td><td style="font-weight: bold; border: none !important;">:</td><td style="border: none !important;">${nikVal}</td></tr>
+                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">RT / Wilayah</td><td style="font-weight: bold; border: none !important;">:</td><td style="border: none !important;">${rtVal} Desa Pugaan</td></tr>
+                            <tr style="border: none !important;"><td style="font-weight: bold; border: none !important;">Keperluan</td><td style="font-weight: bold; border: none !important;">:</td><td style="border: none !important;">Keperluan Administrasi Kependudukan Desa Pugaan</td></tr>
                         </table>
                         <p style="margin-bottom: 30px;">Demikian surat keterangan ini dibuat dan diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.</p>
                         <div style="display: flex; justify-content: space-between; margin-top: 25px; text-align: center;">
@@ -1387,8 +1392,8 @@
             let area = document.getElementById('printableAreaSurat');
             let tables = area.querySelectorAll('table');
             if (tables.length >= 2) {
-                let tbody1 = tables[0].querySelector('tbody');
-                let tbody2 = tables[1].querySelector('tbody');
+                let tbody1 = tables[1].querySelector('tbody');
+                let tbody2 = tables[2].querySelector('tbody');
                 let newNo = tbody1.rows.length + 1;
 
                 let newRow1 = tbody1.insertRow();
