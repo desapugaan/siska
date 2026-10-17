@@ -17,7 +17,6 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
-        /* Styling Kotak Dukcapil Presisi */
         .box-nik { display: inline-block; width: 14px; height: 16px; border: 1px solid #000; text-align: center; font-family: monospace; font-size: 9px; line-height: 16px; margin-right: 1px; background: #fff; }
         
         #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 3px; margin-bottom: 3px; font-size: 8px; }
@@ -81,12 +80,10 @@
     <!-- APLIKASI UTAMA -->
     <div id="appContainer" class="hidden flex h-screen overflow-hidden bg-slate-100 w-full">
         
-        <!-- SIDEBAR DESKTOP & MOBILE DRAWER -->
         <div id="sidebarOverlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
         
         <aside id="sidebarNav" class="fixed md:static inset-y-0 left-0 w-72 bg-white border-r border-slate-200/80 flex flex-col justify-between shrink-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 shadow-2xl md:shadow-none">
             <div>
-                <!-- HEADER SIDEBAR -->
                 <div class="p-5 flex items-center gap-3.5 border-b border-slate-100 bg-gradient-to-r from-emerald-50/60 to-transparent">
                     <img src="logotabalong.jpeg" alt="Logo Tabalong" class="w-10 h-10 object-contain rounded-xl shadow-sm border border-emerald-200 bg-white p-0.5 shrink-0">
                     <div>
@@ -98,7 +95,6 @@
                     </button>
                 </div>
 
-                <!-- NAV MENU -->
                 <nav class="p-4 space-y-1.5 text-sm font-medium overflow-y-auto max-h-[calc(100vh-180px)]">
                     <a href="#" onclick="switchTab('ringkasan'); toggleMobileSidebar();" id="nav-ringkasan" class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-emerald-700 bg-emerald-50 font-bold transition-all shadow-sm shadow-emerald-500/5 group">
                         <i data-lucide="layout-dashboard" class="w-5 h-5 transition-transform group-hover:scale-110"></i> PUGAAN SMART
@@ -121,7 +117,6 @@
                 </nav>
             </div>
 
-            <!-- Profil Hamid & Logout -->
             <div class="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white flex items-center justify-center font-bold text-sm shadow-md shadow-emerald-600/20">
@@ -138,7 +133,6 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT (FULL WIDTH) -->
         <main class="flex-1 flex flex-col h-screen overflow-y-auto pb-20 md:pb-0 w-full">
             <header class="h-18 bg-white/80 backdrop-blur-md border-b border-slate-200/80 flex items-center justify-between px-4 md:px-8 shrink-0 sticky top-0 z-30 shadow-xs w-full">
                 <div class="flex items-center gap-3">
@@ -492,7 +486,6 @@
                             </select>
                         </div>
 
-                        <!-- Container Input Dinamis Sesuai Formulir Masing-Masing -->
                         <div id="containerFormDinamis" class="space-y-4 pt-2 w-full"></div>
 
                         <button onclick="pratinjauDanCetakFormulir()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-4 rounded-2xl transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 text-sm">
@@ -540,7 +533,6 @@
                 <button onclick="tutupModalCetakFormulir()" class="text-white p-1"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
             
-            <!-- Tombol Tambah Baris Anggota Baru (Khusus Kartu Keluarga) sebelum cetak -->
             <div id="panelTambahBarisKK" class="p-3 bg-amber-50 border-b border-amber-200 flex items-center justify-between no-print hidden">
                 <span class="text-xs font-bold text-amber-800">➕ Tambah Anggota Keluarga / Bayi Baru Lahir (Belum ada di database):</span>
                 <button onclick="tambahBarisAnggotaKK()" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center gap-1">
@@ -588,7 +580,6 @@
         </button>
     </div>
 
-    <!-- SCRIPT UTAMA -->
     <script>
         lucide.createIcons();
 
@@ -1006,13 +997,23 @@
                 container.innerHTML = `
                     <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2 w-full">
                         <p class="font-bold"><b>FORMULIR AKTA KELAHIRAN (F-2.01):</b></p>
-                        <p>Pilih Pelapor, Saksi-saksi, serta Ayah & Ibu dari database penduduk.</p>
+                        <p>Pilih Pelapor, Saksi I, Saksi II, serta Subjek Anak Kesatu & Kedua dari database penduduk.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs w-full">
                         <div class="relative">
                             <label class="block font-bold text-slate-700 mb-1">Nama Pelapor</label>
                             <input type="text" id="inputPelapor" onkeyup="cariWargaField('pelapor')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK pelapor...">
                             <div id="dropdownPelapor" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kesatu</label>
+                            <input type="text" id="inputAnak1" onkeyup="cariWargaField('anak1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-1...">
+                            <div id="dropdownAnak1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kedua (Jika Ada)</label>
+                            <input type="text" id="inputAnak2" onkeyup="cariWargaField('anak2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-2...">
+                            <div id="dropdownAnak2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
                         <div class="relative">
                             <label class="block font-bold text-slate-700 mb-1">Nama Saksi I</label>
@@ -1040,7 +1041,7 @@
                 container.innerHTML = `
                     <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2 w-full">
                         <p class="font-bold"><b>FORMULIR AKTA KEMATIAN (F-2.01):</b></p>
-                        <p>Pilih Pelapor, Almarhum/Jenazah, Saksi I, dan Saksi II dari database penduduk.</p>
+                        <p>Pilih Pelapor, Almarhum/Jenazah, Saksi I, Saksi II, serta Subjek Anak Kesatu & Kedua dari database penduduk.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs w-full">
                         <div class="relative">
@@ -1052,6 +1053,16 @@
                             <label class="block font-bold text-slate-700 mb-1">Nama Almarhum / Jenazah</label>
                             <input type="text" id="inputAlmarhum" onkeyup="cariWargaField('almarhum')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK almarhum...">
                             <div id="dropdownAlmarhum" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kesatu</label>
+                            <input type="text" id="inputAnak1" onkeyup="cariWargaField('anak1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-1...">
+                            <div id="dropdownAnak1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kedua (Jika Ada)</label>
+                            <input type="text" id="inputAnak2" onkeyup="cariWargaField('anak2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-2...">
+                            <div id="dropdownAnak2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
                         <div class="relative">
                             <label class="block font-bold text-slate-700 mb-1">Nama Saksi I</label>
@@ -1197,7 +1208,7 @@
             return html;
         }
 
-       // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) DUKCAPIL ---
+        // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) DUKCAPIL ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1306,6 +1317,12 @@
                 let almNama = terpilihAlmarhum ? terpilihAlmarhum.nama : "";
                 let almNik = terpilihAlmarhum ? terpilihAlmarhum.nik : "";
 
+                let anak1Nama = terpilihAnak1 ? terpilihAnak1.nama : "";
+                let anak1Nik = terpilihAnak1 ? terpilihAnak1.nik : "";
+
+                let anak2Nama = terpilihAnak2 ? terpilihAnak2.nama : "";
+                let anak2Nik = terpilihAnak2 ? terpilihAnak2.nik : "";
+
                 let s1Nama = terpilihSaksi1 ? terpilihSaksi1.nama : "";
                 let s1Nik = terpilihSaksi1 ? terpilihSaksi1.nik : "";
                 let s1KK = terpilihSaksi1 ? terpilihSaksi1.kk : "";
@@ -1384,6 +1401,14 @@
                         </table>
 
                         <table class="f201-table">
+                            <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA SUBJEK KELAHIRAN / ANAK (KESATU & KEDUA)</td></tr>
+                            <tr><td style="width: 28%;">Nama Anak Kesatu</td><td><b>${anak1Nama}</b></td></tr>
+                            <tr><td>NIK Anak Kesatu</td><td><b>${anak1Nik}</b></td></tr>
+                            <tr><td>Nama Anak Kedua</td><td><b>${anak2Nama}</b></td></tr>
+                            <tr><td>NIK Anak Kedua</td><td><b>${anak2Nik}</b></td></tr>
+                        </table>
+
+                        <table class="f201-table">
                             <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">KEMATIAN</td></tr>
                             <tr><td style="width: 28%;">1. NIK</td><td><b>${almNik}</b></td></tr>
                             <tr><td>2. Nama Lengkap</td><td><b>${almNama}</b></td></tr>
@@ -1420,6 +1445,12 @@
                 let s2Nama = terpilihSaksi2 ? terpilihSaksi2.nama : "";
                 let s2Nik = terpilihSaksi2 ? terpilihSaksi2.nik : "";
                 let s2KK = terpilihSaksi2 ? terpilihSaksi2.kk : "";
+
+                let anak1Nama = terpilihAnak1 ? terpilihAnak1.nama : "";
+                let anak1Nik = terpilihAnak1 ? terpilihAnak1.nik : "";
+
+                let anak2Nama = terpilihAnak2 ? terpilihAnak2.nama : "";
+                let anak2Nik = terpilihAnak2 ? terpilihAnak2.nik : "";
 
                 let ayahNama = terpilihAyah ? terpilihAyah.nama : "";
                 let ayahNik = terpilihAyah ? terpilihAyah.nik : "";
@@ -1511,7 +1542,7 @@
                         </table>
 
                         <table class="f201-table">
-                            <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA ORANG TUA **(hanya diisi untuk keperluan kelahiran, lahir mati dan kematian)</td></tr>
+                            <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA ORANG TUA</td></tr>
                             <tr><td style="width: 28%;">Nama Ayah</td><td><b>${ayahNama}</b></td></tr>
                             <tr><td>NIK Ayah</td><td><b>${ayahNik}</b></td></tr>
                             <tr><td>Tempat Lahir Ayah</td><td>${ayahTempatLahir}</td></tr>
@@ -1525,8 +1556,11 @@
                         </table>
 
                         <table class="f201-table">
-                            <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA ANAK</td></tr>
-                            <tr><td style="width: 28%;">1. Nama</td><td></td></tr>
+                            <tr style="background: #f1f5f9;"><td colspan="2" style="font-weight: bold;">DATA ANAK / SUBJEK KELAHIRAN</td></tr>
+                            <tr><td style="width: 28%;">Nama Anak Kesatu</td><td><b>${anak1Nama}</b></td></tr>
+                            <tr><td>NIK Anak Kesatu</td><td><b>${anak1Nik}</b></td></tr>
+                            <tr><td>Nama Anak Kedua</td><td><b>${anak2Nama}</b></td></tr>
+                            <tr><td>NIK Anak Kedua</td><td><b>${anak2Nik}</b></td></tr>
                             <tr><td>2. Jenis Kelamin</td><td>[ &nbsp; ] 1. Laki-laki &nbsp;&nbsp;&nbsp; [ &nbsp; ] 2. Perempuan</td></tr>
                             <tr><td>3. Tempat dilahirkan</td><td>[ &nbsp; ] 1. RS/RB &nbsp; [ &nbsp; ] 2. Puskesmas &nbsp; [ &nbsp; ] 3. Polindes &nbsp; [ &nbsp; ] 4. Rumah &nbsp; [ &nbsp; ] 5. Lainnya</td></tr>
                             <tr><td>4. Tempat Kelahiran</td><td></td></tr>
@@ -1577,6 +1611,7 @@
                 document.getElementById('modalCetakFormulir').classList.remove('hidden');
             }
         }
+
         function tambahBarisAnggotaKK() {
             let area = document.getElementById('printableAreaSurat');
             let tables = area.querySelectorAll('table');
