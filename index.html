@@ -539,7 +539,7 @@
             </div>
 
             <div class="flex-1 w-full bg-slate-200 overflow-y-auto p-4 md:p-8 flex justify-center">
-                <div id="printableAreaSurat" class="bg-white p-6 shadow-2xl w-[210mm] min-h-[297mm] max-h-[297mm] overflow-hidden text-slate-900 text-[10px] relative space-y-2 rounded-xl box-border">
+                <div id="printableAreaSurat" class="bg-white p-6 shadow-2xl w-[210mm] min-h-[297mm] max-h-[297mm] overflow-hidden text-slate-900 text-[12px] relative space-y-2 rounded-xl box-border">
                     <!-- Konten dinamis surat -->
                 </div>
             </div>
@@ -1114,18 +1114,33 @@
                 container.innerHTML = `
                     <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2 w-full">
                         <p class="font-bold"><b>SPTJM PASANGAN SUAMI ISTERI:</b></p>
-                        <p>Pilih Suami dan Istri dari database penduduk.</p>
+                        <p>Pilih Nama yang Menyatakan, Nama yang Dinyatakan, Nama Suami/Isteri dari, Saksi I, dan Saksi II dari database penduduk.</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs w-full">
                         <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Suami</label>
-                            <input type="text" id="inputSuami" onkeyup="cariWargaField('suami')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK suami...">
-                            <div id="dropdownSuami" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                            <label class="block font-bold text-slate-700 mb-1">Nama yang Menyatakan</label>
+                            <input type="text" id="inputPemohon" onkeyup="cariWargaField('pemohon')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK yang menyatakan...">
+                            <div id="dropdownPemohon" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
                         <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Istri</label>
-                            <input type="text" id="inputIstri" onkeyup="cariWargaField('istri')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK istri...">
-                            <div id="dropdownIstri" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                            <label class="block font-bold text-slate-700 mb-1">Nama yang Dinyatakan</label>
+                            <input type="text" id="inputAnak" onkeyup="cariWargaField('anak')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK yang dinyatakan...">
+                            <div id="dropdownAnak" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Suami/Isteri dari</label>
+                            <input type="text" id="inputPasangan" onkeyup="cariWargaField('pasangan')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK suami/isteri dari...">
+                            <div id="dropdownPasangan" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Saksi I</label>
+                            <input type="text" id="inputSaksi1" onkeyup="cariWargaField('saksi1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK saksi 1...">
+                            <div id="dropdownSaksi1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative md:col-span-2">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Saksi II</label>
+                            <input type="text" id="inputSaksi2" onkeyup="cariWargaField('saksi2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK saksi 2...">
+                            <div id="dropdownSaksi2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
                     </div>
                 `;
@@ -1176,8 +1191,7 @@
                     if(fieldKey === 'anak') terpilihAnak = w;
                     if(fieldKey === 'anak1') terpilihAnak1 = w;
                     if(fieldKey === 'anak2') terpilihAnak2 = w;
-                    if(fieldKey === 'suami') terpilihSuami = w;
-                    if(fieldKey === 'istri') terpilihIstri = w;
+                    if(fieldKey === 'pasangan') terpilihSuami = w; // mapping ke suami/isteri dari
 
                     document.getElementById('input' + capitalizeFirst(fieldKey)).value = w.nama;
                     dropdown.classList.add('hidden');
@@ -1214,7 +1228,7 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) DUKCAPIL ---
+        // --- PRATINJAU FORMULIR KK & AKTA & SPTJM ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1260,11 +1274,11 @@
                 }
 
                 area.innerHTML = `
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.35; font-size: 10px; height: 100%; box-sizing: border-box; overflow: auto; outline: none; padding: 10px;">
-                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 11px; margin-bottom: 2px;">F-1.01</div>
-                        <div style="text-align: center; font-weight: bold; font-size: 13px; margin-bottom: 12px; text-transform: uppercase;">PERMOHONAN KARTU KELUARGA</div>
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.35; font-size: 12px; height: 100%; box-sizing: border-box; overflow: auto; outline: none; padding: 10px;">
+                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 12px; margin-bottom: 2px;">F-1.01</div>
+                        <div style="text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 12px; text-transform: uppercase;">PERMOHONAN KARTU KELUARGA</div>
                         
-                        <div style="margin-bottom: 12px; font-size: 10px; display: flex; flex-direction: column; gap: 4px;">
+                        <div style="margin-bottom: 12px; font-size: 12px; display: flex; flex-direction: column; gap: 4px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 2px;">
                                 <span style="font-weight: bold; width: 180px;">NAMA KEPALA KELUARGA</span>
                                 <span style="text-align: center; width: 20px;">:</span>
@@ -1326,6 +1340,97 @@
                             <div style="text-align: center;">
                                 PEMOHON KARTU KELUARGA<br><br><br><br>
                                 <b><u>${namaKeluargaVal}</u></b>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('modalCetakFormulir').classList.remove('hidden');
+            } else if (jenis === 'sptjm_nikah') {
+                judul.innerText = "PRATINJAU SPTJM KEBENARAN SEBAGAI PASANGAN SUAMI ISTERI";
+                panelTambahBaris.classList.add('hidden');
+
+                // 1. Yang Menyatakan
+                let p1Nama = terpilihPemohon ? terpilihPemohon.nama : "";
+                let p1Nik = terpilihPemohon ? terpilihPemohon.nik : "";
+                let p1Ttl = terpilihPemohon ? `${terpilihPemohon.tempatLahir}, ${parseExcelDate(terpilihPemohon.tanggalLahir)}` : "";
+                let p1Pekerjaan = terpilihPemohon ? terpilihPemohon.pekerjaan : "";
+                let p1Alamat = "A.YANI / PUGAAN / RT " + (terpilihPemohon ? terpilihPemohon.rt : "01") + " / PUGAAN";
+
+                // 2. Yang Dinyatakan
+                let p2Nama = terpilihAnak ? terpilihAnak.nama : "";
+                let p2Nik = terpilihAnak ? terpilihAnak.nik : "";
+                let p2Ttl = terpilihAnak ? `${terpilihAnak.tempatLahir}, ${parseExcelDate(terpilihAnak.tanggalLahir)}` : "";
+                let p2Pekerjaan = terpilihAnak ? terpilihAnak.pekerjaan : "";
+                let p2Alamat = "A.YANI / PUGAAN / RT " + (terpilihAnak ? terpilihAnak.rt : "01") + " / PUGAAN";
+
+                // 3. Suami/Isteri dari
+                let p3Nama = terpilihSuami ? terpilihSuami.nama : "";
+                let p3Nik = terpilihSuami ? terpilihSuami.nik : "";
+                let p3Ttl = terpilihSuami ? `${terpilihSuami.tempatLahir}, ${parseExcelDate(terpilihSuami.tanggalLahir)}` : "";
+                let p3Pekerjaan = terpilihSuami ? terpilihSuami.pekerjaan : "";
+                let p3Alamat = "A.YANI / PUGAAN / RT " + (terpilihSuami ? terpilihSuami.rt : "01") + " / PUGAAN";
+                let kkNomor = terpilihPemohon ? terpilihPemohon.kk : (terpilihSuami ? terpilihSuami.kk : "");
+
+                let s1Nama = terpilihSaksi1 ? terpilihSaksi1.nama : "";
+                let s1Nik = terpilihSaksi1 ? terpilihSaksi1.nik : "";
+
+                let s2Nama = terpilihSaksi2 ? terpilihSaksi2.nama : "";
+                let s2Nik = terpilihSaksi2 ? terpilihSaksi2.nik : "";
+
+                area.innerHTML = `
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.5; padding: 15px; box-sizing: border-box; outline: none; background: white; width: 100%;">
+                        <div style="text-align: center; font-weight: bold; font-size: 13.5px; margin-bottom: 20px; text-transform: uppercase;">
+                            SURAT PERNYATAAN TANGGUNG JAWAB MUTLAK (SPTJM) KEBENARAN SEBAGAI PASANGAN SUAMI ISTERI
+                        </div>
+
+                        <p style="margin-bottom: 8px;">Saya yang bertandatangan dibawah ini *) :</p>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important; font-size: 12px;">
+                            <tr style="border: none !important;"><td style="width: 220px; border: none !important;">Nama</td><td style="width: 15px; border: none !important;">:</td><td style="border: none !important; font-weight: bold;">${p1Nama}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">NIK</td><td style="border: none !important;">:</td><td style="border: none !important;">${p1Nik}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Tempat/tanggal lahir</td><td style="border: none !important;">:</td><td style="border: none !important;">${p1Ttl}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Pekerjaan</td><td style="border: none !important;">:</td><td style="border: none !important;">${p1Pekerjaan}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Alamat</td><td style="border: none !important;">:</td><td style="border: none !important;">${p1Alamat}</td></tr>
+                        </table>
+
+                        <p style="margin-bottom: 8px;">menyatakan bahwa *) :</p>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important; font-size: 12px;">
+                            <tr style="border: none !important;"><td style="width: 220px; border: none !important;">Nama</td><td style="width: 15px; border: none !important;">:</td><td style="border: none !important; font-weight: bold;">${p2Nama}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">NIK</td><td style="border: none !important;">:</td><td style="border: none !important;">${p2Nik}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Tempat/tanggal lahir</td><td style="border: none !important;">:</td><td style="border: none !important;">${p2Ttl}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Pekerjaan</td><td style="border: none !important;">:</td><td style="border: none !important;">${p2Pekerjaan}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Alamat</td><td style="border: none !important;">:</td><td style="border: none !important;">${p2Alamat}</td></tr>
+                        </table>
+
+                        <p style="margin-bottom: 8px;">adalah suami/isteri **) dari:</p>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important; font-size: 12px;">
+                            <tr style="border: none !important;"><td style="width: 220px; border: none !important;">Nama</td><td style="width: 15px; border: none !important;">:</td><td style="border: none !important; font-weight: bold;">${p3Nama}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">NIK</td><td style="border: none !important;">:</td><td style="border: none !important;">${p3Nik}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Tempat/tanggal lahir</td><td style="border: none !important;">:</td><td style="border: none !important;">${p3Ttl}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Pekerjaan</td><td style="border: none !important;">:</td><td style="border: none !important;">${p3Pekerjaan}</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Alamat</td><td style="border: none !important;">:</td><td style="border: none !important;">${p3Alamat}</td></tr>
+                        </table>
+
+                        <p style="margin-bottom: 20px;">sebagaimana tercantum dalam Kartu Keluarga (KK) Nomor : <b>${kkNomor}</b></p>
+
+                        <p style="text-align: justify; margin-bottom: 25px; line-height: 1.5;">
+                            Demikian surat pernyataan ini saya buat dengan sebenar-benarnya dan apabila dikemudian hari ternyata pernyataan saya ini tidak benar, maka saya bersedia diproses secara hukum sesuai dengan peraturan perundang-undangan dan dokumen yang diterbitkan akibat dari pernyataan ini menjadi tidak sah.
+                        </p>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 30px; font-size: 12px;">
+                            <div style="width: 45%;">
+                                <p style="margin-bottom: 50px;"><b>Saksi I ****)</b></p>
+                                <b><u>${s1Nama}</u></b><br>
+                                NIK. ${s1Nik}
+                                <br><br>
+                                <p style="margin-bottom: 50px;"><b>Saksi II ****)</b></p>
+                                <b><u>${s2Nama}</u></b><br>
+                                NIK. ${s2Nik}
+                            </div>
+                            <div style="text-align: center; width: 45%;">
+                                Pugaan, ${todayStr} ***)<br>
+                                <b>Saya yang menyatakan</b><br><br><br><br><br>
+                                <b>(<u>${p1Nama}</u>)</b><br>
+                                NIK. ${p1Nik}
                             </div>
                         </div>
                     </div>
@@ -1402,7 +1507,7 @@
                             Demikian surat pernyataan ini saya buat dengan sebenar-benarnya dan apabila dikemudian hari ternyata pernyataan saya tidak benar, maka saya bersedia diproses secara hukum sesuai dengan peraturan perundang-undangan dan dokumen yang diterbitkan akibat dari pernyataan ini menjadi tidak sah.
                         </p>
 
-                        <div style="display: flex; justify-content: space-between; margin-top: 30px; font-size: 11.5px;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 30px; font-size: 12px;">
                             <div style="text-align: center; width: 30%;">
                                 SAKSI I<br><br><br><br>
                                 <b>(<u>${s1Nama}</u>)</b><br>
@@ -1453,12 +1558,12 @@
 
                 area.innerHTML = `
                     <style>
-                        .f201-table { width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 2px; }
+                        .f201-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 2px; }
                         .f201-table td, .f201-table th { border: 1px solid #000; padding: 2px 4px; vertical-align: middle; }
                         .f201-header-table td { border: none !important; padding: 2px 2px; }
                     </style>
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; line-height: 1.25; padding: 4px; box-sizing: border-box; outline: none; background: white; width: 100%;">
-                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 11px; margin-bottom: 2px;">F-2.01</div>
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.25; padding: 4px; box-sizing: border-box; outline: none; background: white; width: 100%;">
+                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 12px; margin-bottom: 2px;">F-2.01</div>
                         <table class="f201-table f201-header-table">
                             <tr><td style="width: 22%;">Provinsi</td><td style="width: 1%;">:</td><td>63 - KALIMANTAN SELATAN</td></tr>
                             <tr><td>Kabupaten/Kota</td><td>:</td><td>09 - KAB. TABALONG</td></tr>
@@ -1467,12 +1572,12 @@
                             <tr><td>Kode Wilayah</td><td>:</td><td>63.09.09.2001</td></tr>
                         </table>
 
-                        <div style="text-align: center; font-weight: bold; font-size: 10.5px; background: #e2e8f0; border: 1px solid #000; padding: 3px; margin: 4px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
+                        <div style="text-align: center; font-weight: bold; font-size: 12px; background: #e2e8f0; border: 1px solid #000; padding: 3px; margin: 4px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
                         
-                        <div style="font-weight: bold; font-size: 10px; margin-bottom: 2px;">Jenis Pelaporan Pencatatan Sipil</div>
+                        <div style="font-weight: bold; font-size: 11px; margin-bottom: 2px;">Jenis Pelaporan Pencatatan Sipil</div>
                         <table class="f201-table">
                             <tr>
-                                <td style="width: 50%; font-size: 9.5px; line-height: 1.3;">
+                                <td style="width: 50%; font-size: 11px; line-height: 1.3;">
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
                                         <div>[ &nbsp; ] Kelahiran</div>
                                         <div>[ &nbsp; ] Pengakuan Anak</div>
@@ -1549,7 +1654,7 @@
                             <tr><td>8. Yang Menerangkan</td><td>[ &nbsp; ] 1. Dokter &nbsp; [ &nbsp; ] 2. Tenaga Kesehatan &nbsp; [ &nbsp; ] 3. Kepolisian &nbsp; [ &nbsp; ] 4. Lainnya</td></tr>
                         </table>
 
-                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px;">
                             <div style="text-align: center; width: 40%;">
                                 Mengetahui :<br>Kepala Desa Pugaan<br><br><br><br><b><u>SUPRATMAN</u></b>
                             </div>
@@ -1596,12 +1701,12 @@
 
                 area.innerHTML = `
                     <style>
-                        .f201-table { width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 2px; }
+                        .f201-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 2px; }
                         .f201-table td, .f201-table th { border: 1px solid #000; padding: 2px 4px; vertical-align: middle; }
                         .f201-header-table td { border: none !important; padding: 2px 2px; }
                     </style>
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; line-height: 1.25; padding: 4px; box-sizing: border-box; outline: none; background: white; width: 100%;">
-                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 11px; margin-bottom: 2px;">F-2.01</div>
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.25; padding: 4px; box-sizing: border-box; outline: none; background: white; width: 100%;">
+                        <div style="display: flex; justify-content: flex-end; font-weight: bold; font-size: 12px; margin-bottom: 2px;">F-2.01</div>
                         <table class="f201-table f201-header-table">
                             <tr>
                                 <td style="width: 22%;">Provinsi</td><td style="width: 1%;">:</td><td>63 - KALIMANTAN SELATAN</td>
@@ -1620,12 +1725,12 @@
                             </tr>
                         </table>
 
-                        <div style="text-align: center; font-weight: bold; font-size: 10.5px; background: #e2e8f0; border: 1px solid #000; padding: 3px; margin: 4px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
+                        <div style="text-align: center; font-weight: bold; font-size: 12px; background: #e2e8f0; border: 1px solid #000; padding: 3px; margin: 4px 0;">FORMULIR PELAPORAN PENCATATAN SIPIL DI DALAM WILAYAH NKRI</div>
                         
-                        <div style="font-weight: bold; font-size: 10px; margin-bottom: 2px;">Jenis Pelaporan Pencatatan Sipil</div>
+                        <div style="font-weight: bold; font-size: 11px; margin-bottom: 2px;">Jenis Pelaporan Pencatatan Sipil</div>
                         <table class="f201-table">
                             <tr>
-                                <td style="width: 50%; font-size: 9.5px; line-height: 1.3;">
+                                <td style="width: 50%; font-size: 11px; line-height: 1.3;">
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px;">
                                         <div>[✔] Kelahiran</div>
                                         <div>[ &nbsp; ] Pengakuan Anak</div>
@@ -1720,7 +1825,7 @@
                             <tr><td>11. Panjang Bayi</td><td></td></tr>
                         </table>
 
-                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px;">
                             <div style="text-align: center; width: 40%;">
                                 Mengetahui :<br>Kepala Desa Pugaan<br><br><br><br><b><u>SUPRATMAN</u></b>
                             </div>
