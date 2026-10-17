@@ -318,12 +318,6 @@
                                     <input type="text" id="inputPencarian" onkeyup="filterPenduduk()" placeholder="Cari nama, NIK, KK, atau RT..." class="w-full pl-11 pr-4 py-3.5 border border-emerald-700/50 rounded-2xl text-xs focus:ring-2 focus:ring-emerald-400 focus:outline-none bg-emerald-950/60 text-white placeholder-emerald-300/70 backdrop-blur-md shadow-inner transition font-medium">
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <button onclick="geserTabel(-300)" class="bg-white/10 hover:bg-white/25 text-white px-3.5 py-3.5 rounded-2xl border border-white/20 transition shadow-sm flex items-center gap-1 text-xs font-bold cursor-pointer backdrop-blur-md" title="Geser Kiri">
-                                        <i data-lucide="chevron-left" class="w-4 h-4"></i> Kiri
-                                    </button>
-                                    <button onclick="geserTabel(300)" class="bg-white/20 hover:bg-white/30 text-white px-3.5 py-3.5 rounded-2xl border border-white/20 transition shadow-sm flex items-center gap-1 text-xs font-bold cursor-pointer backdrop-blur-md" title="Geser Kanan">
-                                        Kanan <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                                    </button>
                                     <button onclick="toggleFullscreenTabel()" id="btnFullscreen" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-3.5 rounded-2xl border border-amber-400 transition shadow-md flex items-center gap-1.5 text-xs font-extrabold cursor-pointer" title="Tampilkan Layar Penuh">
                                         <i data-lucide="maximize" class="w-4 h-4" id="iconFullscreen"></i> <span id="textFullscreen">Layar Penuh</span>
                                     </button>
@@ -332,19 +326,20 @@
                             </div>
                         </div>
 
-                        <div id="tabelContainerScroll" class="overflow-x-auto scroll-smooth w-full">
-                            <table class="w-full text-left text-xs border-collapse min-w-[1250px]">
-                                <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase text-[11px] tracking-wider">
+                        <!-- Tabel diperkecil padding & ukurannya agar pas tanpa geser -->
+                        <div id="tabelContainerScroll" class="overflow-x-auto w-full">
+                            <table class="w-full text-left text-[11px] border-collapse">
+                                <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase tracking-wider">
                                     <tr>
-                                        <th class="py-4 px-5 whitespace-nowrap">No. KK</th>
-                                        <th class="py-4 px-5 whitespace-nowrap min-w-[100px]">RT</th>
-                                        <th class="py-4 px-5 min-w-[240px]">NIK & Nama Lengkap</th>
-                                        <th class="py-4 px-5 whitespace-nowrap">JK / Agama</th>
-                                        <th class="py-4 px-5 whitespace-nowrap">Tempat, Tgl Lahir / Umur</th>
-                                        <th class="py-4 px-5 whitespace-nowrap">Pendidikan / Pekerjaan</th>
-                                        <th class="py-4 px-5 whitespace-nowrap">Status Perkawinan</th>
-                                        <th class="py-4 px-5 whitespace-nowrap">Hubungan KK</th>
-                                        <th class="py-4 px-5 min-w-[220px]">Nama Orang Tua (Ayah / Ibu)</th>
+                                        <th class="py-2.5 px-3">No. KK</th>
+                                        <th class="py-2.5 px-2 text-center">RT</th>
+                                        <th class="py-2.5 px-3">NIK & Nama Lengkap</th>
+                                        <th class="py-2.5 px-2">JK/Agama</th>
+                                        <th class="py-2.5 px-3">Tempat, Tgl Lahir / Umur</th>
+                                        <th class="py-2.5 px-3">Pendidikan / Pekerjaan</th>
+                                        <th class="py-2.5 px-2">Status</th>
+                                        <th class="py-2.5 px-2">Hub. KK</th>
+                                        <th class="py-2.5 px-3">Nama Orang Tua</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabelPendudukBody" class="divide-y divide-slate-100 font-medium text-slate-700">
@@ -619,11 +614,6 @@
             overlay.classList.toggle('hidden');
         }
 
-        function geserTabel(amount) {
-            const container = document.getElementById('tabelContainerScroll');
-            if (container) container.scrollBy({ left: amount, behavior: 'smooth' });
-        }
-
         function toggleFullscreenTabel() {
             const card = document.getElementById('cardDaftarPenduduk');
             const sidebar = document.getElementById('sidebarNav');
@@ -860,15 +850,15 @@
                 let rtClean = w.rt ? 'RT ' + w.rt.replace(/rt\s*/gi, '').trim() : 'RT 01';
                 tbody.innerHTML += `
                     <tr class="${rowBg} hover:bg-emerald-50/70 transition duration-150">
-                        <td class="py-4 px-5 font-mono font-bold text-slate-900 text-sm whitespace-nowrap">${w.kk}</td>
-                        <td class="py-4 px-5 font-bold text-emerald-800 whitespace-nowrap"><span class="px-3 py-1.5 bg-emerald-100 rounded-xl inline-block shadow-xs">${rtClean}</span></td>
-                        <td class="py-4 px-5"><p class="font-bold text-slate-900 text-sm mb-1">${w.nama}</p><span class="font-mono font-bold text-slate-800 tracking-wider bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block text-xs">${w.nik}</span></td>
-                        <td class="py-4 px-5 text-slate-700 font-semibold whitespace-nowrap">${w.jk} / ${w.agama}</td>
-                        <td class="py-4 px-5 text-slate-700 whitespace-nowrap">${w.tempatLahir}, ${parseExcelDate(w.tanggalLahir)}<div class="text-xs font-bold text-emerald-600 mt-0.5">(${umurVal} Tahun)</div></td>
-                        <td class="py-4 px-5 text-slate-700 whitespace-nowrap">${w.pendidikan}<div class="text-xs font-semibold text-slate-500 mt-0.5">${w.pekerjaan}</div></td>
-                        <td class="py-4 px-5 text-slate-700 font-semibold whitespace-nowrap">${w.statusPerkawinan}</td>
-                        <td class="py-4 px-5 text-slate-700 font-semibold whitespace-nowrap">${w.hubunganKK}</td>
-                        <td class="py-4 px-5 text-slate-800 text-xs font-medium whitespace-nowrap">Ayah: <span class="font-bold">${w.ayah || '-'}</span><br>Ibu: <span class="font-bold">${w.ibu || '-'}</span></td>
+                        <td class="py-2.5 px-3 font-mono font-bold text-slate-900">${w.kk}</td>
+                        <td class="py-2.5 px-2 font-bold text-emerald-800 text-center"><span class="px-2 py-1 bg-emerald-100 rounded-lg inline-block">${rtClean}</span></td>
+                        <td class="py-2.5 px-3"><p class="font-bold text-slate-900">${w.nama}</p><span class="font-mono font-bold text-slate-800 tracking-wider bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 inline-block text-[10px]">${w.nik}</span></td>
+                        <td class="py-2.5 px-2 text-slate-700 font-semibold">${w.jk} / ${w.agama}</td>
+                        <td class="py-2.5 px-3 text-slate-700">${w.tempatLahir}, ${parseExcelDate(w.tanggalLahir)}<div class="text-[10px] font-bold text-emerald-600">(${umurVal} Thn)</div></td>
+                        <td class="py-2.5 px-3 text-slate-700">${w.pendidikan}<div class="text-[10px] text-slate-500">${w.pekerjaan}</div></td>
+                        <td class="py-2.5 px-2 text-slate-700 font-semibold">${w.statusPerkawinan}</td>
+                        <td class="py-2.5 px-2 text-slate-700 font-semibold">${w.hubunganKK}</td>
+                        <td class="py-2.5 px-3 text-slate-800 text-[10px]">Ayah: <span class="font-bold">${w.ayah || '-'}</span><br>Ibu: <span class="font-bold">${w.ibu || '-'}</span></td>
                     </tr>
                 `;
             });
@@ -1487,7 +1477,6 @@
                 let a2 = terpilihPindah2 ? terpilihPindah2 : {nik: "", nama: "", hubunganKK: ""};
                 let a3 = terpilihPindah3 ? terpilihPindah3 : {nik: "", nama: "", hubunganKK: ""};
 
-                // Helper untuk merender NIK dan Nama dengan kotak-kotak sel terpisah ala blangko resmi F-1.03
                 function renderKotakNIK(nikStr) {
                     let chars = (nikStr || "").padEnd(16, ' ').split('');
                     let html = '<table style="display:inline-table; width:auto; margin:0; border-collapse:collapse;"><tr>';
