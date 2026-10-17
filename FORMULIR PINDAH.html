@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formulir Pindah Penduduk</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202b29;
+      --muted: #66726e;
+      --line: #cbd4cf;
+      --paper: #fff;
+      --canvas: #e9eeeb;
+      --accent: #176b58;
+      --accent-dark: #105241;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font: 15px/1.45 "Segoe UI", Arial, sans-serif;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      max-width: 900px;
+      margin: 20px auto 12px;
+      padding: 0 20px;
+    }
+
+    button {
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      background: var(--accent);
+      color: #fff;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover { background: var(--accent-dark); }
+    button.secondary { background: var(--paper); color: var(--accent); }
+    button.secondary:hover { background: #f1f6f3; }
+    button.remove { min-height: 32px; padding: 4px 9px; }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto 32px;
+      padding: 38px 48px 48px;
+      background: var(--paper);
+      box-shadow: 0 8px 28px rgb(30 50 42 / 10%);
+    }
+
+    header { text-align: center; padding-bottom: 20px; }
+    h1 { margin: 0; font-size: 24px; letter-spacing: 0; }
+    header p { margin: 5px 0 0; color: var(--muted); }
+    .notice {
+      margin: 0 0 22px;
+      padding: 10px 12px;
+      border-left: 3px solid #c48b34;
+      background: #fbf7ed;
+      color: #564a34;
+      font-size: 13px;
+    }
+
+    section { margin-top: 22px; }
+    h2 {
+      margin: 0 0 12px;
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--line);
+      font-size: 16px;
+    }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px 18px; }
+    .field { min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+    label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600; }
+    input, select, textarea {
+      width: 100%;
+      min-height: 39px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { outline: 2px solid #84bca9; outline-offset: 1px; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; border: 1px solid var(--line); text-align: left; vertical-align: middle; }
+    th { background: #f1f5f2; font-size: 12px; }
+    td input, td select { min-width: 115px; border-color: transparent; }
+    .table-actions { margin-top: 10px; }
+    .signature { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 36px; text-align: center; }
+    .signature p { margin: 0; }
+    .signature-space { height: 78px; }
+    .signature input { max-width: 240px; text-align: center; }
+    .form-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .form-code { border: 1px solid var(--ink); padding: 5px 12px; font-weight: 700; white-space: nowrap; }
+    .form-note { margin: 14px 0; font-weight: 600; }
+    fieldset { min-width: 0; margin: 10px 0 0; padding: 9px 12px 12px; border: 1px solid var(--line); }
+    legend { padding: 0 5px; font-size: 13px; font-weight: 700; }
+    .options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; }
+    .option { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; }
+    .option input { flex: 0 0 auto; width: 16px; min-height: 16px; margin: 2px 0 0; }
+    .subhead { margin: 14px 0 8px; font-size: 14px; }
+    .foreign-note { margin: 14px 0 4px; font-size: 13px; font-style: italic; }
+    .member-table td { height: 35px; }
+    .member-table input { min-width: 0; }
+    .signature .department { margin-top: 8px; }
+
+    @media (max-width: 640px) {
+      .toolbar { margin-top: 12px; }
+      main { margin: 0; padding: 28px 18px 36px; }
+      .grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .signature { gap: 14px; }
+      .options { grid-template-columns: 1fr; }
+      .form-heading { align-items: center; }
+      h1 { font-size: 20px; }
+    }
+
+    @media print {
+      @page { size: A4; margin: 16mm; }
+      body { background: #fff; font-size: 11pt; }
+      .toolbar, .notice, .table-actions, .remove-column { display: none !important; }
+      main { max-width: none; margin: 0; padding: 0; box-shadow: none; }
+      input, select, textarea { min-height: 25px; padding: 3px 4px; border: 0; border-bottom: 1px solid #555; border-radius: 0; }
+      textarea { min-height: 40px; }
+      th, td { padding: 5px; }
+      td input, td select { min-width: 0; }
+      section, tr, .signature { break-inside: avoid; }
+      .signature input { border: 0; border-bottom: 1px solid #555; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="toolbar" aria-label="Aksi formulir">
+    <button type="button" onclick="window.print()">Cetak formulir</button>
+  </nav>
+
+  <main>
+    <header class="form-heading">
+      <div><h1>FORMULIR PENDAFTARAN<br>PERPINDAHAN PENDUDUK</h1></div>
+      <div class="form-code">F-1.03</div>
+    </header>
+    <p class="form-note">Perhatian: Harap diisi dengan huruf cetak dan menggunakan tinta hitam.</p>
+
+    <form autocomplete="on">
+      <section>
+        <div class="grid">
+          <div class="field"><label for="no-kk">1. No. KK</label><input id="no-kk" name="no_kk" inputmode="numeric" maxlength="16"></div>
+          <div class="field"><label for="nama-pemohon">2. Nama lengkap Pemohon</label><input id="nama-pemohon" name="nama_pemohon" autocomplete="name"></div>
+          <div class="field"><label for="nik-pemohon">3. NIK</label><input id="nik-pemohon" name="nik" inputmode="numeric" maxlength="16"></div>
+        </div>
+        <fieldset>
+          <legend>4. Jenis Permohonan: D. Surat Keterangan Kependudukan</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="jenis_permohonan" value="pindah">Surat Keterangan Pindah</label>
+            <label class="option"><input type="radio" name="jenis_permohonan" value="skpln">Surat Keterangan Pindah Luar Negeri (SKPLN)</label>
+            <label class="option"><input type="radio" name="jenis_permohonan" value="sktt">Surat Keterangan Tempat Tinggal (SKTT) bagi Orang Asing Tinggal Terbatas</label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section>
+        <h2>5. Alamat Asal</h2>
+        <div class="grid">
+          <div class="field full"><label for="alamat-asal">Alamat</label><textarea id="alamat-asal" name="alamat_asal"></textarea></div>
+          <div class="field"><label for="rt-asal">RT</label><input id="rt-asal" name="rt_asal"></div>
+          <div class="field"><label for="rw-asal">RW</label><input id="rw-asal" name="rw_asal"></div>
+          <div class="field"><label for="desa-asal">a. Desa/Kelurahan</label><input id="desa-asal" name="desa_asal"></div>
+          <div class="field"><label for="kecamatan-asal">b. Kecamatan</label><input id="kecamatan-asal" name="kecamatan_asal"></div>
+          <div class="field"><label for="kabupaten-asal">c. Kabupaten/Kota</label><input id="kabupaten-asal" name="kabupaten_asal"></div>
+          <div class="field"><label for="provinsi-asal">d. Provinsi</label><input id="provinsi-asal" name="provinsi_asal"></div>
+          <div class="field"><label for="kodepos-asal">Kode Pos</label><input id="kodepos-asal" name="kodepos_asal" inputmode="numeric"></div>
+        </div>
+      </section>
+
+      <section>
+        <fieldset>
+          <legend>6. Klasifikasi Kepindahan</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="klasifikasi" value="dalam-desa">Dalam satu desa/kelurahan atau yang disebut dengan nama lain</label>
+            <label class="option"><input type="radio" name="klasifikasi" value="antar-desa">Antar desa/kelurahan atau yang disebut dengan nama lain dalam satu kecamatan</label>
+            <label class="option"><input type="radio" name="klasifikasi" value="antar-kecamatan">Antar kecamatan atau yang disebut dengan nama lain dalam satu kabupaten/kota</label>
+            <label class="option"><input type="radio" name="klasifikasi" value="antar-kabupaten">Antar kabupaten/kota dalam satu provinsi</label>
+            <label class="option"><input type="radio" name="klasifikasi" value="antar-provinsi">Antar provinsi</label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section>
+        <h2>7. Alamat Pindah</h2>
+        <div class="grid">
+          <div class="field full"><label for="alamat-pindah">Alamat</label><textarea id="alamat-pindah" name="alamat_pindah"></textarea></div>
+          <div class="field"><label for="rt-tujuan">RT</label><input id="rt-tujuan" name="rt_tujuan"></div>
+          <div class="field"><label for="rw-tujuan">RW</label><input id="rw-tujuan" name="rw_tujuan"></div>
+          <div class="field"><label for="desa-tujuan">a. Desa/Kelurahan</label><input id="desa-tujuan" name="desa_tujuan"></div>
+          <div class="field"><label for="kecamatan-tujuan">b. Kecamatan</label><input id="kecamatan-tujuan" name="kecamatan_tujuan"></div>
+          <div class="field"><label for="kabupaten-tujuan">c. Kabupaten/Kota</label><input id="kabupaten-tujuan" name="kabupaten_tujuan"></div>
+          <div class="field"><label for="provinsi-tujuan">d. Provinsi</label><input id="provinsi-tujuan" name="provinsi_tujuan"></div>
+          <div class="field"><label for="kodepos-tujuan">Kode Pos</label><input id="kodepos-tujuan" name="kodepos_tujuan" inputmode="numeric"></div>
+        </div>
+      </section>
+
+      <section>
+        <fieldset>
+          <legend>8. Alasan Pindah</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="alasan" value="pekerjaan">Pekerjaan</label>
+            <label class="option"><input type="radio" name="alasan" value="keamanan">Keamanan</label>
+            <label class="option"><input type="radio" name="alasan" value="perumahan">Perumahan</label>
+            <label class="option"><input type="radio" name="alasan" value="pendidikan">Pendidikan</label>
+            <label class="option"><input type="radio" name="alasan" value="kesehatan">Kesehatan</label>
+            <label class="option"><input type="radio" name="alasan" value="keluarga">Keluarga</label>
+            <label class="option"><input type="radio" name="alasan" value="lainnya">Lainnya (sebutkan)</label>
+          </div>
+          <input aria-label="Keterangan alasan lainnya" name="alasan_lainnya">
+        </fieldset>
+      </section>
+
+      <section>
+        <fieldset>
+          <legend>9. Jenis Kepindahan</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="jenis_kepindahan" value="kepala-keluarga">Kepala Keluarga</label>
+            <label class="option"><input type="radio" name="jenis_kepindahan" value="sebagian">Kepala Keluarga dan Sebagian Anggota Keluarga</label>
+            <label class="option"><input type="radio" name="jenis_kepindahan" value="seluruhnya">Kepala Keluarga dan Seluruh Anggota Keluarga</label>
+            <label class="option"><input type="radio" name="jenis_kepindahan" value="anggota">Anggota Keluarga</label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section>
+        <fieldset>
+          <legend>10. Anggota Keluarga (Tidak Pindah)</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="anggota_tidak_pindah" value="numpang-kk">Numpang KK</label>
+            <label class="option"><input type="radio" name="anggota_tidak_pindah" value="kk-baru">Membuat KK Baru</label>
+            <label class="option"><input type="radio" name="anggota_tidak_pindah" value="tidak-pindah">Tidak Pindah</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>11. Anggota Keluarga yang Pindah</legend>
+          <div class="options">
+            <label class="option"><input type="radio" name="anggota_pindah" value="numpang-kk">Numpang KK</label>
+            <label class="option"><input type="radio" name="anggota_pindah" value="kk-baru">Membuat KK Baru</label>
+          </div>
+        </fieldset>
+      </section>
+
+      <section>
+        <h2>12. Daftar Anggota Keluarga yang Pindah</h2>
+        <div class="table-wrap">
+          <table class="member-table">
+            <thead><tr><th scope="col">No.</th><th scope="col">NIK</th><th scope="col">Nama Lengkap</th><th scope="col">SHDK</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td><input aria-label="NIK anggota 1" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 1" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 1" name="shdk[]"></td></tr>
+              <tr><td>2</td><td><input aria-label="NIK anggota 2" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 2" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 2" name="shdk[]"></td></tr>
+              <tr><td>3</td><td><input aria-label="NIK anggota 3" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 3" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 3" name="shdk[]"></td></tr>
+              <tr><td>4</td><td><input aria-label="NIK anggota 4" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 4" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 4" name="shdk[]"></td></tr>
+              <tr><td>5</td><td><input aria-label="NIK anggota 5" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 5" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 5" name="shdk[]"></td></tr>
+              <tr><td>6</td><td><input aria-label="NIK anggota 6" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 6" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 6" name="shdk[]"></td></tr>
+              <tr><td>7</td><td><input aria-label="NIK anggota 7" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 7" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 7" name="shdk[]"></td></tr>
+              <tr><td>8</td><td><input aria-label="NIK anggota 8" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 8" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 8" name="shdk[]"></td></tr>
+              <tr><td>9</td><td><input aria-label="NIK anggota 9" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 9" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 9" name="shdk[]"></td></tr>
+              <tr><td>10</td><td><input aria-label="NIK anggota 10" name="nik_anggota[]" maxlength="16"></td><td><input aria-label="Nama anggota 10" name="nama_anggota[]"></td><td><input aria-label="SHDK anggota 10" name="shdk[]"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <p class="foreign-note">Diisi oleh Penduduk (Orang Asing) pemegang ITAS yang mengajukan SKTT dan OA Pemegang ITAP yang mengajukan Surat Keterangan Kependudukan Lainnya</p>
+        <div class="grid">
+          <div class="field"><label for="nama-sponsor">13. Nama Sponsor</label><input id="nama-sponsor" name="nama_sponsor"></div>
+          <div class="field full">
+            <fieldset>
+              <legend>14. Tipe Sponsor</legend>
+              <div class="options">
+                <label class="option"><input type="radio" name="tipe_sponsor" value="organisasi-internasional">Organisasi Internasional</label>
+                <label class="option"><input type="radio" name="tipe_sponsor" value="pemerintah">Pemerintah</label>
+                <label class="option"><input type="radio" name="tipe_sponsor" value="perusahaan">Perusahaan</label>
+                <label class="option"><input type="radio" name="tipe_sponsor" value="perorangan">Perorangan</label>
+                <label class="option"><input type="radio" name="tipe_sponsor" value="tanpa-sponsor">Tanpa Sponsor</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="field full"><label for="alamat-sponsor">15. Alamat Sponsor</label><textarea id="alamat-sponsor" name="alamat_sponsor"></textarea></div>
+        </div>
+        <h3 class="subhead">16. Alamat dan Tanggal KITAS dan KITAP</h3>
+        <div class="grid">
+          <div class="field full"><label for="alamat-kitas">Alamat KITAS dan KITAP</label><input id="alamat-kitas" name="alamat_kitas_kitap"></div>
+          <div class="field"><label for="nomor-kitas">Nomor</label><input id="nomor-kitas" name="nomor_kitas_kitap"></div>
+          <div class="field"><label for="tanggal-kitas">Tanggal</label><input id="tanggal-kitas" name="tanggal_kitas_kitap" type="date"></div>
+          <div class="field"><label for="masa-berlaku">Tanggal Masa Berlaku</label><input id="masa-berlaku" name="masa_berlaku_kitas_kitap" type="date"></div>
+        </div>
+      </section>
+
+      <section>
+        <p class="foreign-note">Diisi oleh penduduk yang Mengajukan Surat Keterangan Pindah Luar Negeri</p>
+        <div class="grid">
+          <div class="field"><label for="negara-tujuan">17. Negara Tujuan</label><input id="negara-tujuan" name="negara_tujuan"></div>
+          <div class="field"><label for="kode-negara">Kode Negara</label><input id="kode-negara" name="kode_negara"></div>
+          <div class="field full"><label for="alamat-ln">18. Alamat Tujuan</label><textarea id="alamat-ln" name="alamat_tujuan_ln"></textarea></div>
+          <div class="field full"><label for="penanggungjawab">19. Penanggungjawab</label><input id="penanggungjawab" name="penanggungjawab"></div>
+        </div>
+      </section>
+
+      <section class="signature">
+        <div>
+          <p>Mengetahui,</p>
+          <p>an. Kepala Dinas Kependudukan dan Pencatatan Sipil</p>
+          <p>Kabupaten Tabalong</p>
+          <p class="department">Kabid Pelayanan Pendaftaran Penduduk</p>
+          <div class="signature-space"></div>
+          <p><strong>NOORDIN INDERAJAYA, SH</strong></p>
+          <p>NIP. 19821002 200904 1 001</p>
+        </div>
+        <div>
+          <p>............................, ............................ 2026</p>
+          <p>Pemohon</p>
+          <div class="signature-space"></div>
+          <input aria-label="Nama pemohon pada tanda tangan" name="nama_tanda_tangan">
+          <p>No. HP: <input aria-label="Nomor HP pemohon" name="no_hp" type="tel"></p>
+        </div>
+      </section>
+    </form>
+  </main>
+</body>
+</html>
