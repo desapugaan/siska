@@ -17,7 +17,7 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
-        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 2px; margin-bottom: 2px; font-size: 10px; }
+        #printableAreaSurat table { width: 100%; border-collapse: collapse; margin-top: 2px; margin-bottom: 2px; font-size: 11px; }
         #printableAreaSurat th, #printableAreaSurat td { border: 1px solid #000 !important; padding: 2px 4px !important; text-align: left; }
         #printableAreaSurat th { background-color: #f8fafc !important; text-align: center; font-weight: bold; }
 
@@ -36,7 +36,7 @@
                 background: white !important; 
                 padding: 4mm !important; 
                 margin: 0 !important;
-                font-size: 10px !important;
+                font-size: 12px !important;
                 box-shadow: none !important;
             }
             .no-print { display: none !important; }
@@ -1214,7 +1214,7 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) DUKCAPIL TANPA TITIK-TITIK & FONT SIZE 10 ---
+        // --- PRATINJAU FORMULIR KK & AKTA (KELAHIRAN & KEMATIAN) DUKCAPIL ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1339,7 +1339,6 @@
                 let pemohonNik = terpilihPemohon ? terpilihPemohon.nik : "";
                 let pemohonTtl = terpilihPemohon ? `${terpilihPemohon.tempatLahir}, ${parseExcelDate(terpilihPemohon.tanggalLahir)}` : "";
                 let pemohonPekerjaan = terpilihPemohon ? terpilihPemohon.pekerjaan : "";
-                let pemohonRt = terpilihPemohon ? terpilihPemohon.rt : "";
 
                 let anakNama = terpilihAnak ? terpilihAnak.nama : "";
                 let anakNik = terpilihAnak ? terpilihAnak.nik : "";
@@ -1350,7 +1349,6 @@
                 let ibuNik = terpilihIbu ? terpilihIbu.nik : "";
                 let ibuTtl = terpilihIbu ? `${terpilihIbu.tempatLahir}, ${parseExcelDate(terpilihIbu.tanggalLahir)}` : "";
                 let ibuPekerjaan = terpilihIbu ? terpilihIbu.pekerjaan : "";
-                let ibuRt = terpilihIbu ? terpilihIbu.rt : "";
 
                 let s1Nama = terpilihSaksi1 ? terpilihSaksi1.nama : "";
                 let s1Nik = terpilihSaksi1 ? terpilihSaksi1.nik : "";
@@ -1359,52 +1357,52 @@
                 let s2Nik = terpilihSaksi2 ? terpilihSaksi2.nik : "";
 
                 area.innerHTML = `
-                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10.5px; line-height: 1.4; padding: 15px; box-sizing: border-box; outline: none; background: white; width: 100%;">
-                        <div style="text-align: center; font-weight: bold; font-size: 12px; margin-bottom: 20px; text-transform: uppercase;">
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.45; padding: 15px; box-sizing: border-box; outline: none; background: white; width: 100%;">
+                        <div style="text-align: center; font-weight: bold; font-size: 13.5px; margin-bottom: 20px; text-transform: uppercase;">
                             SURAT PERNYATAAN TANGGUNG JAWAB MUTLAK (SPTJM) KEBENARAN DATA KELAHIRAN
                         </div>
 
                         <p style="margin-bottom: 8px;">Saya yang bertandatangan dibawah ini *) :</p>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important;">
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important; font-size: 12px;">
                             <tr style="border: none !important;"><td style="width: 220px; border: none !important;">Nama (Ibu Kandung/Wali/Pemohon)</td><td style="width: 15px; border: none !important;">:</td><td style="border: none !important; font-weight: bold;">${pemohonNama}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">NIK</td><td style="border: none !important;">:</td><td style="border: none !important;">${pemohonNik}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">Tempat/tanggal lahir</td><td style="border: none !important;">:</td><td style="border: none !important;">${pemohonTtl}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">Pekerjaan</td><td style="border: none !important;">:</td><td style="border: none !important;">${pemohonPekerjaan}</td></tr>
-                            <tr style="border: none !important;"><td style="border: none !important;">Alamat (Jln/Desa/Kel/RT/Kec)</td><td style="border: none !important;">:</td><td style="border: none !important;">A.YANI / PUGAAN / RT ${pemohonRt} / PUGAAN</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Alamat (Jln/Desa/Kel/RT/Kec)</td><td style="border: none !important;">:</td><td style="border: none !important;">A.YANI / PUGAAN / / PUGAAN</td></tr>
                         </table>
 
                         <p style="font-weight: bold; margin-bottom: 5px;">Menyatakan bahwa</p>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important;">
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important; font-size: 12px;">
                             <tr style="border: none !important;"><td style="width: 220px; border: none !important;">Nama</td><td style="width: 15px; border: none !important;">:</td><td style="border: none !important; font-weight: bold;">${anakNama}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">NIK **)</td><td style="border: none !important;">:</td><td style="border: none !important;">${anakNik}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">Jenis Kelamin **)</td><td style="border: none !important;">:</td><td style="border: none !important;">${anakJk}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">Tempat/tanggal lahir</td><td style="border: none !important;">:</td><td style="border: none !important;">${anakTtl}</td></tr>
-                            <tr style="border: none !important;"><td style="border: none !important;">Anak ke *)</td><td style="border: none !important;">:</td><td style="border: none !important;">1</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Anak ke *)</td><td style="border: none !important;">:</td><td style="border: none !important;" contenteditable="true">1</td></tr>
                         </table>
 
                         <p style="font-weight: bold; margin-bottom: 5px;">ADALAH ANAK KANDUNG DARI</p>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important;">
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important; font-size: 12px;">
                             <tr style="border: none !important;"><td style="width: 220px; border: none !important;">Nama Ibu Kandung</td><td style="width: 15px; border: none !important;">:</td><td style="border: none !important; font-weight: bold;">${ibuNama}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">NIK</td><td style="border: none !important;">:</td><td style="border: none !important;">${ibuNik}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">Tempat/tanggal lahir</td><td style="border: none !important;">:</td><td style="border: none !important;">${ibuTtl}</td></tr>
                             <tr style="border: none !important;"><td style="border: none !important;">Pekerjaan</td><td style="border: none !important;">:</td><td style="border: none !important;">${ibuPekerjaan}</td></tr>
-                            <tr style="border: none !important;"><td style="border: none !important;">Alamat (Jln/Desa/Kel/RT/Kec)</td><td style="border: none !important;">:</td><td style="border: none !important;">A.YANI / PUGAAN / RT ${ibuRt} / PUGAAN</td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Alamat (Jln/Desa/Kel/RT/Kec)</td><td style="border: none !important;">:</td><td style="border: none !important;">A.YANI / PUGAAN / / PUGAAN</td></tr>
                         </table>
 
                         <p style="font-weight: bold; margin-bottom: 5px;">PENOLONG KELAHIRAN BIDAN</p>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important;">
-                            <tr style="border: none !important;"><td style="width: 220px; border: none !important;">Nama</td><td style="width: 15px; border: none !important;">:</td><td style="border: none !important;">BIDAN DESA PUGAAN</td></tr>
-                            <tr style="border: none !important;"><td style="border: none !important;">NIK</td><td style="border: none !important;">:</td><td style="border: none !important;">-</td></tr>
-                            <tr style="border: none !important;"><td style="border: none !important;">Tempat/tanggal lahir</td><td style="border: none !important;">:</td><td style="border: none !important;">-</td></tr>
-                            <tr style="border: none !important;"><td style="border: none !important;">Pekerjaan</td><td style="border: none !important;">:</td><td style="border: none !important;">TENAGA KESEHATAN / BIDAN</td></tr>
-                            <tr style="border: none !important;"><td style="border: none !important;">Alamat (Jln/Desa/Kel/RT/Kec)</td><td style="border: none !important;">:</td><td style="border: none !important;">PUGAAN</td></tr>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; border: none !important; font-size: 12px;">
+                            <tr style="border: none !important;"><td style="width: 220px; border: none !important;">Nama</td><td style="width: 15px; border: none !important;">:</td><td style="border: none !important;" contenteditable="true"></td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">NIK</td><td style="border: none !important;">:</td><td style="border: none !important;" contenteditable="true"></td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Tempat/tanggal lahir</td><td style="border: none !important;">:</td><td style="border: none !important;" contenteditable="true"></td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Pekerjaan</td><td style="border: none !important;">:</td><td style="border: none !important;" contenteditable="true"></td></tr>
+                            <tr style="border: none !important;"><td style="border: none !important;">Alamat (Jln/Desa/Kel/RT/Kec)</td><td style="border: none !important;">:</td><td style="border: none !important;" contenteditable="true"></td></tr>
                         </table>
 
                         <p style="text-align: justify; margin-bottom: 25px; line-height: 1.5;">
                             Demikian surat pernyataan ini saya buat dengan sebenar-benarnya dan apabila dikemudian hari ternyata pernyataan saya tidak benar, maka saya bersedia diproses secara hukum sesuai dengan peraturan perundang-undangan dan dokumen yang diterbitkan akibat dari pernyataan ini menjadi tidak sah.
                         </p>
 
-                        <div style="display: flex; justify-content: space-between; margin-top: 30px; font-size: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 30px; font-size: 11.5px;">
                             <div style="text-align: center; width: 30%;">
                                 SAKSI I<br><br><br><br>
                                 <b>(<u>${s1Nama}</u>)</b><br>
