@@ -479,8 +479,8 @@
                                 <option value="akta_mati">Akta Kematian (Formulir F-2.01)</option>
                                 <option value="sptjm_lahir">SPTJM Kelahiran</option>
                                 <option value="sptjm_nikah">SPTJM Pasangan Suami Istri</option>
+                                <option value="pindah">Permohonan Pengantar Pindah (Formulir F-1.03)</option>
                                 <option value="Domisili">Surat Keterangan Domisili</option>
-                                <option value="Tidak Mampu">Surat Keterangan Tidak Mampu (SKTM)</option>
                             </select>
                         </div>
 
@@ -597,7 +597,10 @@
         let terpilihAnak1 = null;
         let terpilihAnak2 = null;
         let terpilihSuami = null;
-        let terpilihIstri = null;
+        let terpilihPindahKeluarga = null;
+        let terpilihPindah1 = null;
+        let terpilihPindah2 = null;
+        let terpilihPindah3 = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('siska pugaan_logged_in') === 'true') {
@@ -972,7 +975,10 @@
             terpilihAnak1 = null;
             terpilihAnak2 = null;
             terpilihSuami = null;
-            terpilihIstri = null;
+            terpilihPindahKeluarga = null;
+            terpilihPindah1 = null;
+            terpilihPindah2 = null;
+            terpilihPindah3 = null;
             selectedWargaSurat = null;
 
             if (jenis === 'form_kk') {
@@ -1144,6 +1150,40 @@
                         </div>
                     </div>
                 `;
+            } else if (jenis === 'pindah') {
+                container.innerHTML = `
+                    <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2 w-full">
+                        <p class="font-bold"><b>PERMOHONAN PENGANTAR PINDAH (FORMULIR F-1.03):</b></p>
+                        <p>Pilih Nama Pemohon, Nama yang Pindah Sekeluarga, serta 3 anggota keluarga yang pindah dari database penduduk.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs w-full">
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Pemohon</label>
+                            <input type="text" id="inputPemohon" onkeyup="cariWargaField('pemohon')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK pemohon...">
+                            <div id="dropdownPemohon" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama yang Pindah Sekeluarga</label>
+                            <input type="text" id="inputPindahKeluarga" onkeyup="cariWargaField('pindahKeluarga')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK yang pindah sekeluarga...">
+                            <div id="dropdownPindahKeluarga" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Anggota Keluarga 1</label>
+                            <input type="text" id="inputPindah1" onkeyup="cariWargaField('pindah1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK anggota 1...">
+                            <div id="dropdownPindah1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Anggota Keluarga 2</label>
+                            <input type="text" id="inputPindah2" onkeyup="cariWargaField('pindah2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK anggota 2...">
+                            <div id="dropdownPindah2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                        <div class="relative md:col-span-2">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Anggota Keluarga 3</label>
+                            <input type="text" id="inputPindah3" onkeyup="cariWargaField('pindah3')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK anggota 3...">
+                            <div id="dropdownPindah3" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>
+                    </div>
+                `;
             } else {
                 container.innerHTML = `
                     <div class="space-y-3 text-xs w-full">
@@ -1191,7 +1231,11 @@
                     if(fieldKey === 'anak') terpilihAnak = w;
                     if(fieldKey === 'anak1') terpilihAnak1 = w;
                     if(fieldKey === 'anak2') terpilihAnak2 = w;
-                    if(fieldKey === 'pasangan') terpilihSuami = w; // mapping ke suami/isteri dari
+                    if(fieldKey === 'pasangan') terpilihSuami = w;
+                    if(fieldKey === 'pindahKeluarga') terpilihPindahKeluarga = w;
+                    if(fieldKey === 'pindah1') terpilihPindah1 = w;
+                    if(fieldKey === 'pindah2') terpilihPindah2 = w;
+                    if(fieldKey === 'pindah3') terpilihPindah3 = w;
 
                     document.getElementById('input' + capitalizeFirst(fieldKey)).value = w.nama;
                     dropdown.classList.add('hidden');
@@ -1228,7 +1272,7 @@
             dropdown.classList.remove('hidden');
         }
 
-        // --- PRATINJAU FORMULIR KK & AKTA & SPTJM ---
+        // --- PRATINJAU FORMULIR KK & AKTA & SPTJM & PINDAH F-1.03 ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
@@ -1349,21 +1393,18 @@
                 judul.innerText = "PRATINJAU SPTJM KEBENARAN SEBAGAI PASANGAN SUAMI ISTERI";
                 panelTambahBaris.classList.add('hidden');
 
-                // 1. Yang Menyatakan
                 let p1Nama = terpilihPemohon ? terpilihPemohon.nama : "";
                 let p1Nik = terpilihPemohon ? terpilihPemohon.nik : "";
                 let p1Ttl = terpilihPemohon ? `${terpilihPemohon.tempatLahir}, ${parseExcelDate(terpilihPemohon.tanggalLahir)}` : "";
                 let p1Pekerjaan = terpilihPemohon ? terpilihPemohon.pekerjaan : "";
                 let p1Alamat = "A.YANI / PUGAAN / RT " + (terpilihPemohon ? terpilihPemohon.rt : "01") + " / PUGAAN";
 
-                // 2. Yang Dinyatakan
                 let p2Nama = terpilihAnak ? terpilihAnak.nama : "";
                 let p2Nik = terpilihAnak ? terpilihAnak.nik : "";
                 let p2Ttl = terpilihAnak ? `${terpilihAnak.tempatLahir}, ${parseExcelDate(terpilihAnak.tanggalLahir)}` : "";
                 let p2Pekerjaan = terpilihAnak ? terpilihAnak.pekerjaan : "";
                 let p2Alamat = "A.YANI / PUGAAN / RT " + (terpilihAnak ? terpilihAnak.rt : "01") + " / PUGAAN";
 
-                // 3. Suami/Isteri dari
                 let p3Nama = terpilihSuami ? terpilihSuami.nama : "";
                 let p3Nik = terpilihSuami ? terpilihSuami.nik : "";
                 let p3Ttl = terpilihSuami ? `${terpilihSuami.tempatLahir}, ${parseExcelDate(terpilihSuami.tanggalLahir)}` : "";
@@ -1431,6 +1472,96 @@
                                 <b>Saya yang menyatakan</b><br><br><br><br><br>
                                 <b>(<u>${p1Nama}</u>)</b><br>
                                 NIK. ${p1Nik}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('modalCetakFormulir').classList.remove('hidden');
+            } else if (jenis === 'pindah') {
+                judul.innerText = "PRATINJAU FORMULIR PERMOHONAN PENDAFTARAN PERPINDAHAN PENDUDUK (F-1.03)";
+                panelTambahBaris.classList.add('hidden');
+
+                let pPemohon = terpilihPemohon ? terpilihPemohon : (dataPenduduk[0] || {nama: "...", nik: "...", kk: "...", rt: "01"});
+                let pKel = terpilihPindahKeluarga ? terpilihPindahKeluarga : pPemohon;
+                let a1 = terpilihPindah1 ? terpilihPindah1 : {nik: "", nama: "", shdk: ""};
+                let a2 = terpilihPindah2 ? terpilihPindah2 : {nik: "", nama: "", shdk: ""};
+                let a3 = terpilihPindah3 ? terpilihPindah3 : {nik: "", nama: "", shdk: ""};
+
+                area.innerHTML = `
+                    <style>
+                        .f103-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 2px; }
+                        .f103-table td, .f103-table th { border: 1px solid #000; padding: 3px 5px; vertical-align: middle; }
+                        .f103-header-table td { border: none !important; padding: 2px 2px; }
+                    </style>
+                    <div contenteditable="true" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.3; padding: 4px; box-sizing: border-box; outline: none; background: white; width: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+                            <div>
+                                <div style="font-weight: bold; font-size: 11px;">Perhatian :</div>
+                                <div style="font-size: 10px;">Harap diisi dengan huruf cetak dan menggunakan tinta hitam</div>
+                            </div>
+                            <div style="border: 1px solid #000; padding: 2px 8px; font-weight: bold; font-size: 12px;">F-1.03</div>
+                        </div>
+
+                        <div style="text-align: center; font-weight: bold; font-size: 13px; background: #e2e8f0; border: 1px solid #000; padding: 4px; margin-bottom: 6px; text-transform: uppercase;">
+                            FORMULIR PENDAFTARAN PERPINDAHAN PENDUDUK
+                        </div>
+
+                        <table class="f103-table">
+                            <tr><td style="width: 30%;">1. No. KK</td><td style="font-weight: bold;">${pPemohon.kk || ''}</td></tr>
+                            <tr><td>2. Nama lengkap Pemohon</td><td style="font-weight: bold;">${pPemohon.nama || ''}</td></tr>
+                            <tr><td>3. NIK</td><td style="font-weight: bold;">${pPemohon.nik || ''}</td></tr>
+                            <tr><td>4. Jenis Permohonan</td><td>[✔] Surat Keterangan Pindah &nbsp;&nbsp; [ &nbsp; ] SKPLN &nbsp;&nbsp; [ &nbsp; ] SKTT</td></tr>
+                            <tr><td>5. Alamat Asal</td><td>Desa/Kel: PUGAAN &nbsp;&nbsp; RT: ${pPemohon.rt || '01'} &nbsp;&nbsp; Kec: PUGAAN &nbsp;&nbsp; Kab: TABALONG &nbsp;&nbsp; Prov: KALIMANTAN SELATAN</td></tr>
+                            <tr><td>6. Klasifikasi Kepindahan</td><td>[ &nbsp; ] Dalam Satu Desa &nbsp; [ &nbsp; ] Antar Desa &nbsp; [✔] Antar Kecamatan &nbsp; [ &nbsp; ] Antar Kab/Kota &nbsp; [ &nbsp; ] Antar Prov</td></tr>
+                            <tr><td>7. Alamat Pindah</td><td>Desa/Kel: ....................................... RT: ....... Kec: ....................................... Kab/Kota: ....................................... Prov: .......................................</td></tr>
+                            <tr><td>8. Alasan Pindah</td><td>[✔] Pekerjaan &nbsp;&nbsp; [ &nbsp; ] Pendidikan &nbsp;&nbsp; [ &nbsp; ] Keamanan &nbsp;&nbsp; [ &nbsp; ] Kesehatan &nbsp;&nbsp; [ &nbsp; ] Perumahan &nbsp;&nbsp; [ &nbsp; ] Keluarga &nbsp;&nbsp; [ &nbsp; ] Lainnya</td></tr>
+                            <tr><td>9. Jenis Kepindahan</td><td>[ &nbsp; ] Kepala Keluarga &nbsp;&nbsp; [✔] Kepala Keluarga dan Anggota &nbsp;&nbsp; [ &nbsp; ] Anggota Keluarga</td></tr>
+                        </table>
+
+                        <div style="font-weight: bold; font-size: 11px; margin-top: 6px; margin-bottom: 2px;">12. Daftar Anggota Keluarga yang Pindah</div>
+                        <table class="f103-table">
+                            <thead>
+                                <tr style="background: #f1f5f9; text-align: center;">
+                                    <th style="width: 35px;">NO</th>
+                                    <th>NIK</th>
+                                    <th>NAMA LENGKAP</th>
+                                    <th style="width: 80px;">SHDK</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;">1</td>
+                                    <td><b>${pKel.nik || ''}</b></td>
+                                    <td><b>${pKel.nama || ''} (Pemohon/Keluarga)</b></td>
+                                    <td>KEPALA KELUARGA</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">2</td>
+                                    <td>${a1.nik}</td>
+                                    <td><b>${a1.nama}</b></td>
+                                    <td>${a1.hubunganKK || 'ANGGOTA'}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">3</td>
+                                    <td>${a2.nik}</td>
+                                    <td><b>${a2.nama}</b></td>
+                                    <td>${a2.hubunganKK || 'ANGGOTA'}</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">4</td>
+                                    <td>${a3.nik}</td>
+                                    <td><b>${a3.nama}</b></td>
+                                    <td>${a3.hubunganKK || 'ANGGOTA'}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 12px;">
+                            <div style="text-align: center; width: 40%;">
+                                Mengetahui :<br>Kepala Desa Pugaan<br><br><br><br><b><u>SUPRATMAN</u></b>
+                            </div>
+                            <div style="text-align: center; width: 40%;">
+                                Pugaan, ${todayStr}<br>Pemohon<br><br><br><br><b>(<u>${pPemohon.nama || ''}</u>)</b>
                             </div>
                         </div>
                     </div>
