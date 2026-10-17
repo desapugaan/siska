@@ -17,32 +17,9 @@
         [contenteditable="true"]:hover { background-color: #fef08a; outline: 2px dashed #eab308; cursor: text; }
         [contenteditable="true"]:focus { background-color: #fefde8; outline: 2px solid #10b981; }
         
-        /* CSS Tabel Solid Anti Putus-putus */
-        #printableAreaSurat table.form-table { 
-            width: 100%; 
-            border-collapse: collapse !important; 
-            border-spacing: 0 !important; 
-            margin-top: 4px; 
-            margin-bottom: 4px; 
-            font-size: 10px; 
-            table-layout: fixed; 
-            border: 1.5px solid #000 !important; 
-        }
-        #printableAreaSurat table.form-table th, 
-        #printableAreaSurat table.form-table td { 
-            border: 1px solid #000 !important; 
-            padding: 3px 4px !important; 
-            text-align: left; 
-            overflow: hidden; 
-            word-wrap: break-word; 
-            position: relative; 
-            box-shadow: inset 0 0 0 1px #000 !important;
-        }
-        #printableAreaSurat table.form-table th { 
-            background-color: #f8fafc !important; 
-            text-align: center; 
-            font-weight: bold; 
-        }
+        #printableAreaSurat table.form-table { width: 100%; border-collapse: collapse !important; border-spacing: 0 !important; margin-top: 4px; margin-bottom: 4px; font-size: 10px; table-layout: fixed; }
+        #printableAreaSurat table.form-table th, #printableAreaSurat table.form-table td { border: 1px solid #000 !important; padding: 3px 4px !important; text-align: left; overflow: hidden; word-wrap: break-word; position: relative; }
+        #printableAreaSurat table.form-table th { background-color: #f8fafc !important; text-align: center; font-weight: bold; }
 
         /* Style untuk garis resize kolom */
         .resizer {
@@ -77,12 +54,9 @@
                 font-size: 10px !important;
                 box-shadow: none !important;
             }
-            #printableAreaSurat table.form-table, 
-            #printableAreaSurat table.form-table th, 
-            #printableAreaSurat table.form-table td {
+            #printableAreaSurat table.form-table, #printableAreaSurat table.form-table th, #printableAreaSurat table.form-table td {
                 border: 1px solid #000 !important;
                 border-collapse: collapse !important;
-                box-shadow: inset 0 0 0 1px #000 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
@@ -1039,11 +1013,12 @@
                         </div>
                     </div>
                 `;
-            } else if (jenis === 'akta_lahir') {
+            } else if (jenis === 'akta_lahir' || jenis === 'akta_mati') {
+                let isMati = jenis === 'akta_mati';
                 container.innerHTML = `
                     <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2 w-full">
-                        <p class="font-bold"><b>FORMULIR AKTA KELAHIRAN (F-2.01):</b></p>
-                        <p>Pilih Pelapor, Subjek Anak Kesatu, Subjek Anak Kedua, Saksi I, Saksi II, Ayah, dan Ibu dari database penduduk.</p>
+                        <p class="font-bold"><b>FORMULIR ${isMati ? 'AKTA KEMATIAN' : 'AKTA KELAHIRAN'} (F-2.01):</b></p>
+                        <p>Ketik nama warga untuk mencari dari database (Pelapor, Anak, Saksi, Orang Tua).</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs w-full">
                         <div class="relative">
@@ -1051,16 +1026,17 @@
                             <input type="text" id="inputPelapor" onkeyup="cariWargaField('pelapor')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK pelapor...">
                             <div id="dropdownPelapor" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
+                        ${isMati ? `
                         <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kesatu</label>
-                            <input type="text" id="inputAnak1" onkeyup="cariWargaField('anak1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-1...">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Almarhum / Jenazah</label>
+                            <input type="text" id="inputAlmarhum" onkeyup="cariWargaField('almarhum')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK almarhum...">
+                            <div id="dropdownAlmarhum" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
+                        </div>` : `
+                        <div class="relative">
+                            <label class="block font-bold text-slate-700 mb-1">Nama Bayi / Anak</label>
+                            <input type="text" id="inputAnak1" onkeyup="cariWargaField('anak1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK bayi...">
                             <div id="dropdownAnak1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
-                        <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kedua (Jika Ada)</label>
-                            <input type="text" id="inputAnak2" onkeyup="cariWargaField('anak2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-2...">
-                            <div id="dropdownAnak2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
+                        </div>`}
                         <div class="relative">
                             <label class="block font-bold text-slate-700 mb-1">Nama Saksi I</label>
                             <input type="text" id="inputSaksi1" onkeyup="cariWargaField('saksi1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK saksi 1...">
@@ -1071,6 +1047,7 @@
                             <input type="text" id="inputSaksi2" onkeyup="cariWargaField('saksi2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK saksi 2...">
                             <div id="dropdownSaksi2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
                         </div>
+                        ${!isMati ? `
                         <div class="relative">
                             <label class="block font-bold text-slate-700 mb-1">Nama Ayah</label>
                             <input type="text" id="inputAyah" onkeyup="cariWargaField('ayah')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK ayah...">
@@ -1080,46 +1057,7 @@
                             <label class="block font-bold text-slate-700 mb-1">Nama Ibu</label>
                             <input type="text" id="inputIbu" onkeyup="cariWargaField('ibu')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK ibu...">
                             <div id="dropdownIbu" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
-                    </div>
-                `;
-            } else if (jenis === 'akta_mati') {
-                container.innerHTML = `
-                    <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs font-medium space-y-2 w-full">
-                        <p class="font-bold"><b>FORMULIR AKTA KEMATIAN (F-2.01):</b></p>
-                        <p>Pilih Pelapor, Subjek Anak Kesatu, Subjek Anak Kedua, Saksi I, Saksi II, serta Almarhum/Jenazah dari database penduduk.</p>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs w-full">
-                        <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Pelapor</label>
-                            <input type="text" id="inputPelapor" onkeyup="cariWargaField('pelapor')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK pelapor...">
-                            <div id="dropdownPelapor" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
-                        <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kesatu</label>
-                            <input type="text" id="inputAnak1" onkeyup="cariWargaField('anak1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-1...">
-                            <div id="dropdownAnak1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
-                        <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Subjek Anak Kedua (Jika Ada)</label>
-                            <input type="text" id="inputAnak2" onkeyup="cariWargaField('anak2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK anak ke-2...">
-                            <div id="dropdownAnak2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
-                        <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Almarhum / Jenazah</label>
-                            <input type="text" id="inputAlmarhum" onkeyup="cariWargaField('almarhum')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama / NIK almarhum...">
-                            <div id="dropdownAlmarhum" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
-                        <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Saksi I</label>
-                            <input type="text" id="inputSaksi1" onkeyup="cariWargaField('saksi1')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK saksi 1...">
-                            <div id="dropdownSaksi1" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
-                        <div class="relative">
-                            <label class="block font-bold text-slate-700 mb-1">Nama Saksi II</label>
-                            <input type="text" id="inputSaksi2" onkeyup="cariWargaField('saksi2')" class="w-full px-4 py-3 border border-slate-200 rounded-2xl font-semibold bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Ketik nama/NIK saksi 2...">
-                            <div id="dropdownSaksi2" class="absolute z-20 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl max-h-48 overflow-y-auto hidden"></div>
-                        </div>
+                        </div>` : ''}
                     </div>
                 `;
             } else if (jenis === 'sptjm_lahir') {
@@ -1278,13 +1216,12 @@
             });
         }
 
-        // --- PRATINJAU FORMULIR KK & AKTA DENGAN FITUR TARIK GARIS TABEL & TITIK DUA RATA KIRI-KANAN ---
+        // --- PRATINJAU FORMULIR KK & AKTA ---
         function pratinjauDanCetakFormulir() {
             let jenis = document.getElementById('pilihJenisFormulir').value;
             let area = document.getElementById('printableAreaSurat');
             let judul = document.getElementById('modalJudulFormulir');
             let panelTambahBaris = document.getElementById('panelTambahBarisKK');
-            let todayStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
             
             let namaVal = document.getElementById('inputFormNama')?.value || (selectedWargaSurat ? selectedWargaSurat.nama : (terpilihPemohon ? terpilihPemohon.nama : "WARGA DESA PUGAAN"));
             let nikVal = document.getElementById('inputFormNik')?.value || (selectedWargaSurat ? selectedWargaSurat.nik : (terpilihPemohon ? terpilihPemohon.nik : "6309090101800001"));
@@ -1315,11 +1252,11 @@
                     let no = i + 1;
                     if (ang) {
                         let jkFull = (ang.jk === 'L' || ang.jk.toLowerCase().includes('laki')) ? 'LAKI-LAKI' : 'PEREMPUAN';
-                        rowsTable1 += `<tr><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.nama}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${jkFull}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.tempatLahir}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${parseExcelDate(ang.tanggalLahir)}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">-</td></tr>`;
-                        rowsTable2 += `<tr><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.hubunganKK}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.statusPerkawinan}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.agama}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.pendidikan}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.pekerjaan}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.ayah || '-'}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">${ang.ibu || '-'}</td></tr>`;
+                        rowsTable1 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true">${ang.nama}</td><td contenteditable="true">${jkFull}</td><td contenteditable="true">${ang.tempatLahir}</td><td contenteditable="true">${parseExcelDate(ang.tanggalLahir)}</td><td contenteditable="true">-</td></tr>`;
+                        rowsTable2 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true">${ang.hubunganKK}</td><td contenteditable="true">${ang.statusPerkawinan}</td><td contenteditable="true">${ang.agama}</td><td contenteditable="true">${ang.pendidikan}</td><td contenteditable="true">${ang.pekerjaan}</td><td contenteditable="true">${ang.ayah || '-'}</td><td contenteditable="true">${ang.ibu || '-'}</td></tr>`;
                     } else {
-                        rowsTable1 += `<tr><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td></tr>`;
-                        rowsTable2 += `<tr><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${no}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true"></td></tr>`;
+                        rowsTable1 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>`;
+                        rowsTable2 += `<tr><td style="text-align:center;">${no}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>`;
                     }
                 }
 
@@ -1336,12 +1273,12 @@
                         <table id="tabelKK1" class="form-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 30px; border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NO</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NAMA LENGKAP</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">JENIS KELAMIN</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">TEMPAT LAHIR</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">TANGGAL LAHIR</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">GOLONGAN DARAH</th>
+                                    <th style="width: 30px;">NO</th>
+                                    <th>NAMA LENGKAP</th>
+                                    <th>JENIS KELAMIN</th>
+                                    <th>TEMPAT LAHIR</th>
+                                    <th>TANGGAL LAHIR</th>
+                                    <th>GOLONGAN DARAH</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1352,14 +1289,14 @@
                         <table id="tabelKK2" class="form-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 30px; border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NO</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">STATUS HUBUNGAN DALAM KELUARGA</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">STATUS PERKAWINAN</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">AGAMA</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">PENDIDIKAN TERAKHIR</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">PEKERJAAN</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NAMA LENGKAP AYAH</th>
-                                    <th style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;">NAMA LENGKAP IBU</th>
+                                    <th style="width: 30px;">NO</th>
+                                    <th>STATUS HUBUNGAN DALAM KELUARGA</th>
+                                    <th>STATUS PERKAWINAN</th>
+                                    <th>AGAMA</th>
+                                    <th>PENDIDIKAN TERAKHIR</th>
+                                    <th>PEKERJAAN</th>
+                                    <th>NAMA LENGKAP AYAH</th>
+                                    <th>NAMA LENGKAP IBU</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1378,7 +1315,6 @@
                 `;
                 document.getElementById('modalCetakFormulir').classList.remove('hidden');
                 
-                // Aktifkan fitur geser garis tabel
                 setTimeout(() => {
                     const t1 = document.getElementById('tabelKK1');
                     const t2 = document.getElementById('tabelKK2');
@@ -1423,10 +1359,10 @@
                 let newNo = tbody1.rows.length + 1;
 
                 let newRow1 = tbody1.insertRow();
-                newRow1.innerHTML = `<td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${newNo}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BAYI BARU LAHIR</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">LAKI-LAKI</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">PUGAAN</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BARU SAJA</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">-</td>`;
+                newRow1.innerHTML = `<tr><td style="text-align:center;">${newNo}</td><td contenteditable="true">BAYI BARU LAHIR</td><td contenteditable="true">LAKI-LAKI</td><td contenteditable="true">PUGAAN</td><td contenteditable="true">BARU SAJA</td><td contenteditable="true">-</td></tr>`;
 
                 let newRow2 = tbody2.insertRow();
-                newRow2.innerHTML = `<td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important; text-align:center;">${newNo}</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">ANAK</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BELUM KAWIN</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">ISLAM</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BELUM SEKOLAH</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">BELUM/TIDAK BEKERJA</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">-</td><td style="border: 1px solid #000 !important; box-shadow: inset 0 0 0 1px #000 !important;" contenteditable="true">-</td>`;
+                newRow2.innerHTML = `<tr><td style="text-align:center;">${newNo}</td><td contenteditable="true">ANAK</td><td contenteditable="true">BELUM KAWIN</td><td contenteditable="true">ISLAM</td><td contenteditable="true">BELUM SEKOLAH</td><td contenteditable="true">BELUM/TIDAK BEKERJA</td><td contenteditable="true">-</td><td contenteditable="true">-</td></tr>`;
             }
         }
 
